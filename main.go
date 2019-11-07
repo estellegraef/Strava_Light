@@ -4,6 +4,8 @@
 
 package main
 
-func main() {
+import "./frontend"
 
+func main() {
+	frontend.CreateWebServer()
 }
