@@ -1,12 +1,14 @@
 package frontend
 
 import (
+	"./login"
 	"fmt"
 	"net/http"
 )
 
 func CreateWebServer() {
 	http.HandleFunc("/", index_handler)
+	http.HandleFunc("/login/", login.Login_Handler)
 	http.ListenAndServe(":8080", nil)
 }
 
