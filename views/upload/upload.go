@@ -5,14 +5,8 @@ import (
 	"net/http"
 )
 
-type Activity struct {
-	File    int
-	Type    string
-	Comment string
-}
-
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("frontend/upload/upload.html")
+	t, err := template.ParseFiles("views/templates/html/upload.html")
 
 	if err != nil {
 		//Add Logging

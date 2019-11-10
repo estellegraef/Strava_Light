@@ -1,4 +1,4 @@
-package activityDetail
+package activity
 
 import (
 	"strconv"
@@ -16,7 +16,7 @@ type ActivityDetail struct {
 	dateTime    time.Time
 }
 
-func New(id uint32, sportType string, comment string, length float64, waitingTime float64, avgSpeed float64, maxSpeed float64, dateTime time.Time) ActivityDetail {
+func NewDetail(id uint32, sportType string, comment string, length float64, waitingTime float64, avgSpeed float64, maxSpeed float64, dateTime time.Time) ActivityDetail {
 	return ActivityDetail{id: id, sportType: sportType, comment: comment, length: length, waitingTime: waitingTime, avgSpeed: avgSpeed, maxSpeed: maxSpeed, dateTime: dateTime}
 }
 
@@ -54,4 +54,8 @@ func (a ActivityDetail) GetMaxSpeed() float64 {
 
 func (a ActivityDetail) GetWaitingTime() float64 {
 	return a.waitingTime
+}
+
+func (a ActivityDetail) GetID() uint32 {
+	return a.id
 }
