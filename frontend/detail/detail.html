@@ -6,8 +6,19 @@
 </head>
 <body>
     <h2>{{ .Type }}</h2>
+    <h4>{{ .DateTime.Weekday }}, den {{ .DateTime.Day }}.{{ .DateTime.Month }}.{{ .DateTime.Year }}</h4>
     <div>
+        <p>Uhrzeit: {{ .DateTime.Hour }}:{{ .DateTime.Minute }}</p>
+        <p>Strecke: {{ .Length }}km</p>
+        <p>Durschn. Geschwindigkeit: {{ .AvgSpeed }}km/h</p>
+        <p>Max. Geschwindigkeit: {{ .MaxSpeed }}km/h</p>
+        <p>Standzeit: {{ .WaitingTime }}min</p>
         <p>Kommentar:  {{ .Comment }}</p>
+    </div>
+    <div>
+        <input type="button" value="&#x270e;">
+        <input type="button" value="&#x2193;">
+        <input type="button" value="&#x2716;">
     </div>
 </body>
 </html>
