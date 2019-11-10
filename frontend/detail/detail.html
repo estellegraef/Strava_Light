@@ -5,15 +5,15 @@
     <title>Strava</title>
 </head>
 <body>
-    <h2>{{ .Type }}</h2>
-    <h4>{{ .DateTime.Weekday }}, den {{ .DateTime.Day }}.{{ .DateTime.Month }}.{{ .DateTime.Year }}</h4>
+    <h2>{{ .GetSportType }}</h2>
+    <h4>{{ .GetWeekDay }}, den {{ .GetDate }}</h4>
     <div>
-        <p>Uhrzeit: {{ .DateTime.Hour }}:{{ .DateTime.Minute }}</p>
-        <p>Strecke: {{ .Length }}km</p>
-        <p>Durschn. Geschwindigkeit: {{ .AvgSpeed }}km/h</p>
-        <p>Max. Geschwindigkeit: {{ .MaxSpeed }}km/h</p>
-        <p>Standzeit: {{ .WaitingTime }}min</p>
-        <p>Kommentar:  {{ .Comment }}</p>
+        <p>Uhrzeit: {{ .GetTime }}</p>
+        <p>Strecke: {{ .GetLength }}km</p>
+        <p>Durschn. Geschwindigkeit: {{ .GetAvgSpeed }}km/h</p>
+        <p>Max. Geschwindigkeit: {{ .GetMaxSpeed }}km/h</p>
+        <p>Standzeit: {{ .GetWaitingTime }}min</p>
+        <p>Kommentar:  {{ .GetComment }}</p>
     </div>
     <div>
         <input type="button" value="&#x270e;">
