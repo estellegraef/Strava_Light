@@ -4,8 +4,8 @@
 
 package main
 
-import "./frontend"
+import "./views"
 
 func main() {
-	frontend.CreateWebServer()
+	views.CreateWebServer()
 }
