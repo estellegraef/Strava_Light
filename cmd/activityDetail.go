@@ -1,7 +1,6 @@
-package activity
+package cmd
 
 import (
-	"strconv"
 	"time"
 )
 
@@ -29,11 +28,11 @@ func (a ActivityDetail) GetWeekDay() time.Weekday {
 }
 
 func (a ActivityDetail) GetDate() string {
-	return strconv.Itoa(a.dateTime.Day()) + "." + a.dateTime.Month().String() + " " + strconv.Itoa(a.dateTime.Year())
+	return a.dateTime.Format("02.January 2006")
 }
 
 func (a ActivityDetail) GetTime() string {
-	return strconv.Itoa(a.dateTime.Hour()) + ":" + strconv.Itoa(a.dateTime.Minute())
+	return a.dateTime.Format("15:04")
 }
 
 func (a ActivityDetail) GetLength() float64 {

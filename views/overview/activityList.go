@@ -1,18 +1,13 @@
-package activityList
+package overview
 
 import (
-	"../../models/activity"
+	"../../cmd"
 	"html/template"
 	"net/http"
-	"time"
 )
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	list := make([]activity.ActivityListItem, 10)
-
-	for i := 0; i < 10; i++ {
-		list[i] = activity.NewListItem(uint32(i), "Radfahren", time.Now())
-	}
+	data := cmd.GetActivities()
 
 	t, err := template.ParseFiles("views/templates/html/index.html")
 
@@ -22,5 +17,5 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t.Execute(w, list)
+	t.Execute(w, data)
 }
