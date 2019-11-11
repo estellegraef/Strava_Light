@@ -5,20 +5,27 @@
     <title>Strava</title>
 </head>
 <body>
-    <h2>Anlegen einer Aktivität</h2>
-    <div>
-        <select>
-            <option>Laufen</option>
-            <option>Radfahren</option>
-        </select>
-    </div>
-    <div><p>Upload Area</p></div>
-    <div>
-        <p>Kommentar:</p>
-        <input type="text">
-    </div>
-    <div>
-        <input type="button" value="Anlegen">
-    </div>
+    {{if .Success }}
+        <h2>Nachricht erfolgreich angelegt</h2>
+        <button>Hinzufügen</button>
+        <button>Zurück</button>
+    {{else}}
+        <h2>Anlegen einer Aktivität</h2>
+        <form method="post" enctype="multipart/form-datas">
+            <label>Sportart:</label>
+            <select name="sportType">
+                <option>Laufen</option>
+                <option>Radfahren</option>
+            </select>
+            <br>
+            <input type="file" name="file"  accept=".gpx, .zip">
+            <br>
+            <label>Kommentar:</label>
+            <br>
+            <textarea name="comment"></textarea>
+            <br>
+            <input type="submit" value="Anlegen">
+        </form>
+    {{end}}
 </body>
 </html>
