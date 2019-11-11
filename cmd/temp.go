@@ -29,6 +29,6 @@ func GetActivity() ActivityDetail {
 		12.3, 5.2, 13.4, 17.8, time.Now())
 }
 
-func CreateActivity(sportType string, file multipart.File, comment string) bool {
+func CreateActivity(sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
 	return true
 }

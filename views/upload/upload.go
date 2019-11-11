@@ -2,7 +2,6 @@ package upload
 
 import (
 	"../../cmd"
-	"fmt"
 	"html/template"
 	"net/http"
 )
@@ -16,14 +15,11 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sportType := r.FormValue("sportType")
-	file, _, _ := r.FormFile("file")
+	file, fileHeader, _ := r.FormFile("file")
 	comment := r.FormValue("comment")
 
-	fmt.Println(sportType)
-	fmt.Println(file)
-	fmt.Println(comment)
 	//backend call
-	success := cmd.CreateActivity(sportType, file, comment)
+	success := cmd.CreateActivity(sportType, file, fileHeader, comment)
 
 	tmpl.Execute(w, struct{ Success bool }{success})
 }
