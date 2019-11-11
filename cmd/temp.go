@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"mime/multipart"
 	"time"
 )
 
@@ -26,4 +27,8 @@ func GetActivities() []ActivityDetail {
 func GetActivity() ActivityDetail {
 	return NewDetail(1, "Radfahren", "I am a useful comment",
 		12.3, 5.2, 13.4, 17.8, time.Now())
+}
+
+func CreateActivity(sportType string, file multipart.File, comment string) bool {
+	return true
 }
