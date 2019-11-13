@@ -6,8 +6,11 @@
 </head>
 <body>
     <div>
-        <button>&#43;</button>
-        <button>&#128269;</button>
+        <button style="float: left">&#43;</button>
+        <form method="post" style="float: right">
+            <input type="search" name="search">
+            <button type="submit">&#128269;</button>
+        </form>
     </div>
     <h2 style="text-align: center">Deine Aktivitäten</h2>
     {{range .}}

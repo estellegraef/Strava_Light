@@ -5,12 +5,14 @@ import (
 	"time"
 )
 
-//Creates mockup data
-func GetActivities() []ActivityDetail {
-	list := make([]ActivityDetail, 10)
+var list []Activity
 
-	for i := 0; i < 10; i++ {
-		list[i] = NewDetail(
+//Creates mockup data
+func GetActivities() []Activity {
+	list = make([]Activity, 10)
+
+	for i := 0; i < 5; i++ {
+		list[i] = Activity{
 			uint32(i),
 			"Radfahren",
 			"test",
@@ -18,14 +20,39 @@ func GetActivities() []ActivityDetail {
 			5.2,
 			12.6,
 			15.9,
-			time.Now())
+			time.Now(),
+		}
+		for i := 5; i < 10; i++ {
+			list[i] = Activity{
+				uint32(i),
+				"Radfahren",
+				"turbo",
+				12.3,
+				5.2,
+				12.6,
+				15.9,
+				time.Now().AddDate(0, 0, -2),
+			}
+		}
 	}
 
 	return list
 }
 
-func GetActivity() ActivityDetail {
-	return NewDetail(1, "Radfahren", "I am a useful comment",
+func SearchActivities(search string) []Activity {
+	result := make([]Activity, 0)
+
+	for _, elem := range list {
+		if elem.comment == search {
+			result = append(result, elem)
+		}
+	}
+
+	return result
+}
+
+func GetActivity() Activity {
+	return New(1, "Radfahren", "I am a useful comment",
 		12.3, 5.2, 13.4, 17.8, time.Now())
 }
 

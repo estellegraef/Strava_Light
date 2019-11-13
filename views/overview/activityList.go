@@ -7,15 +7,15 @@ import (
 )
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	data := cmd.GetActivities()
+	tmpl := template.Must(template.ParseFiles("views/templates/html/index.html"))
 
-	t, err := template.ParseFiles("views/templates/html/index.html")
-
-	if err != nil {
-		//Add Logging
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	var data []cmd.Activity
+	if r.Method != http.MethodPost {
+		data = cmd.GetActivities()
+	} else {
+		search := r.FormValue("search")
+		data = cmd.SearchActivities(search)
 	}
 
-	t.Execute(w, data)
+	tmpl.Execute(w, data)
 }
