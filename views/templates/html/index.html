@@ -4,20 +4,47 @@
     <meta charset="UTF-8">
     <title>Strava</title>
     <link href="../styles/index.css" rel="stylesheet">
+    <link href="../styles/bootstrap-4.3.1-dist/css/bootstrap-grid.css" rel="stylesheet">
 </head>
 <body>
-    <div>
-        <button style="float: left">&#43;</button>
-        <form method="post" style="float: right">
-            <input type="search" name="search">
-            <button type="submit">&#128269;</button>
-        </form>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <button>&#43;</button>
+            </div>
+            <div class="col">
+                <form method="post">
+                    <input type="search" name="search">
+                    <button type="submit">&#128269;</button>
+                </form>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4 centerText">
+                <h2>Deine Aktivitäten</h2>
+            </div>
+        </div>
+        {{range .}}
+            <div class="row justify-content-center">
+                <div class="col-5 item">
+                    <div class="row">
+                        <div class="col-1">
+                            {{if eq .GetSportType "Radfahren"}}
+                            <p>&#128690;</p>
+                            {{else}}
+                            <p>&#128694;</p>
+                            {{end}}
+                        </div>
+                        <div class="col-5">
+                            <p>{{ .GetSportType }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p>{{ .GetShortDate }} {{ .GetTime }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{end}}
     </div>
-    <h2 class="centerContent">Deine Aktivitäten</h2>
-    {{range .}}
-    <div style="border: black solid 1px; text-align: center">
-        <p>{{ .GetSportType }} - {{ .GetDate }} {{ .GetTime }}</p>
-    </div>
-    {{end}}
 </body>
 </html>

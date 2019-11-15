@@ -27,8 +27,12 @@ func (a Activity) GetWeekDay() time.Weekday {
 	return a.dateTime.Weekday()
 }
 
-func (a Activity) GetDate() string {
+func (a Activity) GetLongDate() string {
 	return a.dateTime.Format("02.January 2006")
+}
+
+func (a Activity) GetShortDate() string {
+	return a.dateTime.Format("02.01.2006")
 }
 
 func (a Activity) GetTime() string {

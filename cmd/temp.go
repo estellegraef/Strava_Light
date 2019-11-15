@@ -25,7 +25,7 @@ func GetActivities() []Activity {
 		for i := 5; i < 10; i++ {
 			list[i] = Activity{
 				uint32(i),
-				"Radfahren",
+				"Laufen",
 				"turbo",
 				12.3,
 				5.2,
