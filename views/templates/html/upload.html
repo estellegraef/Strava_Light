@@ -37,8 +37,10 @@
                     </div>
                 </form>
             </div>
-        {{if .Success }}
+        {{if  eq .Success true}}
             <script>alert("Nachricht erfolgreich angelegt")</script>
+        {{ else if eq .Success false}}
+            <script>alert("Nachricht konnte nich angelegt werden")</script>
         {{end}}
     </div>
 </body>

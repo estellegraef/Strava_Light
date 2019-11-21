@@ -57,5 +57,5 @@ func GetActivity() Activity {
 }
 
 func CreateActivity(sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
-	return true
+	return false
 }
