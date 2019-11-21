@@ -3,29 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Strava</title>
+    <link href="../assets/css/upload.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap-grid.min.css" rel="stylesheet">
+
 </head>
 <body>
-    {{if .Success }}
-        <h2>Nachricht erfolgreich angelegt</h2>
-        <button>Hinzufügen</button>
-        <button>Zurück</button>
-    {{else}}
-        <h2>Anlegen einer Aktivität</h2>
-        <form method="post" enctype="multipart/form-data">
-            <label for="sportType">Sportart:</label>
-            <select name="sportType">
-                <option>Laufen</option>
-                <option>Radfahren</option>
-            </select>
-            <br>
-            <input type="file" name="file"  accept=".gpx, .zip">
-            <br>
-            <label>Kommentar:</label>
-            <br>
-            <textarea name="comment"></textarea>
-            <br>
-            <input type="submit" value="Anlegen">
-        </form>
-    {{end}}
+    <div class="container">
+            <div class="row justify-content-center">
+                <h2>Anlegen einer Aktivität</h2>
+            </div>
+            <div class="row justify-content-center">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <label class="col">Sportart:</label>
+                        <select name="sportType" class="col">
+                            <option>Laufen</option>
+                            <option>Radfahren</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <input type="file" name="file"  accept=".gpx, .zip">
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Kommentar:</label>
+                        </div>
+                        <div class="col-12">
+                            <textarea name="comment"></textarea>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <input type="submit" value="Anlegen">
+                    </div>
+                </form>
+            </div>
+        {{if .Success }}
+            <script>alert("Nachricht erfolgreich angelegt")</script>
+        {{end}}
+    </div>
 </body>
 </html>
