@@ -4,6 +4,8 @@
 
 package main
 
-func main() {
+import "./views"
 
+func main() {
+	views.CreateWebServer()
 }
