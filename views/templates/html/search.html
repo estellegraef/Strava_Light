@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Suche - Strava</title>
+    <link href="../assets/css/search.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap-grid.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <h2>Suche</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <p>
+                    Gib ein Suchbegriff ein, um die Kommentare<br>
+                    deiner Aktivitäten zu durchsuchen
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-center marginBottom">
+            <form method="post">
+                <input type="search" name="search">
+                <button type="submit">Suchen</button>
+            </form>
+        </div>
+        {{ if eq .HasResults true }}
+            {{ range .Results }}
+                <div class="row justify-content-center">
+                    <div class="col-5 item">
+                        <div class="row">
+                            <div class="col-1">
+                                {{if eq .GetSportType "Radfahren"}}
+                                    <p>&#128690;</p>
+                                {{else if eq .GetSportType "Laufen"}}
+                                    <p>&#128694;</p>
+                                {{else}}
+                                    <p>?</p>
+                                {{end}}
+                            </div>
+                            <div class="col-5">
+                                <p>{{ .GetSportType }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p>{{ .GetShortDate }} {{ .GetTime }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{ end }}
+        {{ else if eq .HasResults false }}
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <p>Keine Ergebnisse gefunden!</p>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</body>
+</html>

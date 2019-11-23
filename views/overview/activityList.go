@@ -12,7 +12,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	var data []cmd.Activity
 	if r.Method == http.MethodPost {
-		search := r.FormValue("search")
+		search := r.FormValue("searchPart")
 		data = cmd.SearchActivities(search)
 	} else {
 		data = cmd.GetActivities()

@@ -41,6 +41,7 @@ func GetActivities() []Activity {
 
 func SearchActivities(search string) []Activity {
 	result := make([]Activity, 0)
+	_ = GetActivities()
 
 	for _, elem := range list {
 		if elem.comment == search {
