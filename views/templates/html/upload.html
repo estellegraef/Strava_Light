@@ -1,47 +1,35 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Strava</title>
-    <link href="../assets/css/upload.css" rel="stylesheet">
-    <link href="../assets/css/bootstrap-grid.min.css" rel="stylesheet">
-
-</head>
-<body>
-    <div class="container">
-            <div class="row justify-content-center">
-                <h2>Anlegen einer Aktivität</h2>
+{{ define "content" }}
+    <div class="row justify-content-center">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row marginBottom">
+                <div class="col-12">
+                    <label for="sportType">Sportart:</label>
+                    <select name="sportType" class="form-control-range">
+                        <option>Laufen</option>
+                        <option>Radfahren</option>
+                    </select>
+                </div>
             </div>
-            <div class="row justify-content-center">
-                <form method="post" enctype="multipart/form-data">
-                    <div class="row">
-                        <label class="col">Sportart:</label>
-                        <select name="sportType" class="col">
-                            <option>Laufen</option>
-                            <option>Radfahren</option>
-                        </select>
-                    </div>
-                    <div class="row">
-                        <input type="file" name="file"  accept=".gpx, .zip">
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <label>Kommentar:</label>
-                        </div>
-                        <div class="col-12">
-                            <textarea name="comment"></textarea>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <input type="submit" value="Anlegen">
-                    </div>
-                </form>
+            <div class="row marginBottom">
+                <div class="col-12">
+                    <label for="file">Datei auswählen:</label>
+                    <input type="file" name="file" class="form-control-file" accept=".gpx, .zip">
+                </div>
             </div>
-        {{if  eq .Success true}}
-            <script>alert("Nachricht erfolgreich angelegt")</script>
-        {{ else if eq .Success false}}
-            <script>alert("Nachricht konnte nich angelegt werden")</script>
-        {{end}}
+            <div class="row marginBottom">
+                <div class="col-12">
+                    <label for="comment">Kommentar:</label>
+                    <textarea name="comment" class="form-control" rows="3" placeholder="Beschreibe deine Aktivität ..."></textarea>
+                </div>
+            </div>
+            <div class="row justify-content-center marginBottom">
+                <button type="submit" class="btn btn-dark">Anlegen</button>
+            </div>
+        </form>
     </div>
-</body>
-</html>
+    {{if  eq . 1 }}
+        <script>alert("Nachricht erfolgreich angelegt")</script>
+    {{ else if eq . 2 }}
+        <script>alert("Nachricht konnte nich angelegt werden")</script>
+    {{end}}
+{{ end }}

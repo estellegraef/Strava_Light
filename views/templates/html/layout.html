@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Page.GetTitle }}</title>
+    <link href="../assets/css/base.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    {{ if .Page.HasCustomStyleSheet }}
+        <link href="{{ .Page.GetCustomStyleSheet }}" rel="stylesheet">
+    {{ end }}
+</head>
+<body>
+    {{ template "menu" }}
+    <div class="bg-Image">
+        <div class="container">
+            <div class="row justify-content-center marginBottom">
+                <div class="col-6 justify-content-center">
+                    <h2>{{ .Page.GetHeadline }}</h2>
+                </div>
+            </div>
+            {{ template "content" .Content }}
+        </div>
+    </div>
+    {{ template  "footer"}}
+</body>
+</html>
+
+{{ define "menu" }}
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand text-light">Strava</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Suche</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="upload.html">Hinzufügen</a>
+        </li>
+    </ul>
+</nav>
+{{ end }}
+
+{{ define "footer" }}
+<footer class="footer">
+    <p class="m-0">Copyright 2019</p>
+</footer>
+{{ end }}

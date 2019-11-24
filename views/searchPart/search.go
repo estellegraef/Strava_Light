@@ -2,27 +2,26 @@ package searchPart
 
 import (
 	"../../cmd"
+	"../pages"
 	"html/template"
 	"net/http"
 )
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	temp := template.Must(template.ParseFiles("views/templates/html/search.html"))
+	temp := template.Must(template.ParseFiles("views/templates/html/layout.html", "views/templates/html/search.html", "views/templates/html/items.html"))
 
-	if r.Method != http.MethodPost {
-		_ = temp.Execute(w, nil)
-		return
+	var data = struct {
+		Page    pages.Page
+		Content []cmd.Activity
+	}{
+		Page: pages.NewSearch(),
 	}
 
-	search := r.FormValue("search")
-	results := cmd.SearchActivities(search)
-
-	data := struct {
-		HasResults bool
-		Results    []cmd.Activity
-	}{
-		HasResults: len(results) != 0,
-		Results:    results,
+	if r.Method != http.MethodPost {
+		data.Content = nil
+	} else {
+		search := r.FormValue("search")
+		data.Content = cmd.SearchActivities(search)
 	}
 
 	_ = temp.Execute(w, data)
