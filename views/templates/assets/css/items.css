@@ -1,0 +1,21 @@
+.item {
+    background-color: white;
+    border: black solid 1px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.spaceAround {
+    margin-bottom: 7%;
+    margin-top: 7%;
+}
+
+.textToRight {
+    text-align: right;
+}
+
+.textToLeft {
+    text-align: left;
+}
+

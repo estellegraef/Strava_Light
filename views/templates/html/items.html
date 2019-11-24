@@ -1,0 +1,16 @@
+{{ define "items" }}
+    {{ range . }}
+        <div class="row justify-content-center">
+            <div class="col-5 item">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="spaceAround textToLeft">{{ .GetSportType }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="spaceAround textToRight">{{ .GetShortDate }} {{ .GetTime }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ end }}
+{{ end }}

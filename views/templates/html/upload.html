@@ -1,31 +1,35 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Strava</title>
-</head>
-<body>
-    {{if .Success }}
-        <h2>Nachricht erfolgreich angelegt</h2>
-        <button>Hinzufügen</button>
-        <button>Zurück</button>
-    {{else}}
-        <h2>Anlegen einer Aktivität</h2>
+{{ define "content" }}
+    <div class="row justify-content-center">
         <form method="post" enctype="multipart/form-data">
-            <label for="sportType">Sportart:</label>
-            <select name="sportType">
-                <option>Laufen</option>
-                <option>Radfahren</option>
-            </select>
-            <br>
-            <input type="file" name="file"  accept=".gpx, .zip">
-            <br>
-            <label>Kommentar:</label>
-            <br>
-            <textarea name="comment"></textarea>
-            <br>
-            <input type="submit" value="Anlegen">
+            <div class="row marginBottom">
+                <div class="col-12">
+                    <label for="sportType">Sportart:</label>
+                    <select name="sportType" class="form-control-range">
+                        <option>Laufen</option>
+                        <option>Radfahren</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row marginBottom">
+                <div class="col-12">
+                    <label for="file">Datei auswählen:</label>
+                    <input type="file" name="file" class="form-control-file" accept=".gpx, .zip">
+                </div>
+            </div>
+            <div class="row marginBottom">
+                <div class="col-12">
+                    <label for="comment">Kommentar:</label>
+                    <textarea name="comment" class="form-control" rows="3" placeholder="Beschreibe deine Aktivität ..."></textarea>
+                </div>
+            </div>
+            <div class="row justify-content-center marginBottom">
+                <button type="submit" class="btn btn-dark">Anlegen</button>
+            </div>
         </form>
+    </div>
+    {{if  eq . 1 }}
+        <script>alert("Nachricht erfolgreich angelegt")</script>
+    {{ else if eq . 2 }}
+        <script>alert("Nachricht konnte nich angelegt werden")</script>
     {{end}}
-</body>
-</html>
+{{ end }}

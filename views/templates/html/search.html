@@ -1,0 +1,24 @@
+{{ define "content" }}
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <p>
+                Gib ein Suchbegriff ein, um die Kommentare deiner Aktivitäten zu durchsuchen
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center marginBottom">
+        <form method="post">
+            <input type="search" name="search">
+            <button class="btn btn-dark" type="submit">Suchen</button>
+        </form>
+    </div>
+    {{ if ne (len .) 0 }}
+        {{ template "items" . }}
+    {{ else }}
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <p>Keine Ergebnisse gefunden!</p>
+            </div>
+        </div>
+    {{ end }}
+{{end}}

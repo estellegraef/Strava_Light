@@ -41,6 +41,7 @@ func GetActivities() []Activity {
 
 func SearchActivities(search string) []Activity {
 	result := make([]Activity, 0)
+	_ = GetActivities()
 
 	for _, elem := range list {
 		if elem.comment == search {
@@ -57,5 +58,5 @@ func GetActivity() Activity {
 }
 
 func CreateActivity(sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
-	return true
+	return false
 }
