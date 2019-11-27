@@ -30,10 +30,8 @@ func basicAuth(hf http.HandlerFunc) http.HandlerFunc {
 			w.Header().Add("WWW-Authenticate", "Basic Realm=\"Strava\"")
 			w.WriteHeader(401)
 		} else {
-			w.WriteHeader(200)
+			hf(w, r)
 		}
-
-		hf(w, r)
 	}
 }
 
