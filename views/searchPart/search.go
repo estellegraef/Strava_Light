@@ -7,9 +7,12 @@ import (
 	"net/http"
 )
 
-func NewHandler(w http.ResponseWriter, r *http.Request) {
-	temp := template.Must(template.ParseFiles("views/templates/html/layout.html", "views/templates/html/search.html", "views/templates/html/items.html"))
+var tmpl = template.Must(template.ParseFiles(
+	"views/templates/html/layout.html",
+	"views/templates/html/search.html",
+	"views/templates/html/items.html"))
 
+func NewHandler(w http.ResponseWriter, r *http.Request) {
 	var data = struct {
 		Page    pages.Page
 		Content []cmd.Activity
@@ -24,5 +27,5 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		data.Content = cmd.SearchActivities(search)
 	}
 
-	_ = temp.Execute(w, data)
+	_ = tmpl.Execute(w, data)
 }

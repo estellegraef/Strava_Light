@@ -8,9 +8,12 @@ import (
 	"net/http"
 )
 
-func NewHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("views/templates/html/layout.html", "views/templates/html/index.html", "views/templates/html/items.html"))
+var tmpl = template.Must(template.ParseFiles(
+	"views/templates/html/layout.html",
+	"views/templates/html/index.html",
+	"views/templates/html/items.html"))
 
+func NewHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Page    pages.Page
 		Content []cmd.Activity

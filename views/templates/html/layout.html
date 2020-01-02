@@ -8,6 +8,9 @@
     {{ if .Page.HasCustomStyleSheet }}
         <link href="{{ .Page.GetCustomStyleSheet }}" rel="stylesheet">
     {{ end }}
+    {{ if .Page.HasJsFile }}
+        <link href="{{ .Page.GetJsFile }}" rel="script">
+    {{ end }}
 </head>
 <body>
     {{ template "menu" }}
@@ -33,7 +36,7 @@
             <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/search" >Suche</a>
+            <a class="nav-link" href="/search">Suche</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/upload">Hinzufügen</a>
@@ -44,6 +47,6 @@
 
 {{ define "footer" }}
 <footer class="footer">
-    <p class="m-0">Copyright 2019</p>
+    <p class="m-0">Copyright 2020</p>
 </footer>
 {{ end }}
