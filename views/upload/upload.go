@@ -7,9 +7,11 @@ import (
 	"net/http"
 )
 
-func NewHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("views/templates/html/layout.html", "views/templates/html/upload.html"))
+var tmpl = template.Must(template.ParseFiles(
+	"views/templates/html/layout.html",
+	"views/templates/html/upload.html"))
 
+func NewHandler(w http.ResponseWriter, r *http.Request) {
 	var data = struct {
 		Page    pages.Page
 		Content uint8
