@@ -11,7 +11,7 @@ func NewIndex() Page {
 	return Page{
 		title:            "Strava",
 		customStyleSheet: "../assets/css/items.css",
-		jsFile:           "../assets/js/items.js",
+		jsFile:           "../assets/js/iteyms.js",
 		headLine:         "Deine Aktivitäten",
 	}
 }

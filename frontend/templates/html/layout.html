@@ -9,7 +9,7 @@
         <link href="{{ .Page.GetCustomStyleSheet }}" rel="stylesheet">
     {{ end }}
     {{ if .Page.HasJsFile }}
-        <link href="{{ .Page.GetJsFile }}" rel="script">
+        <script src="{{ .Page.GetJsFile }}"></script>
     {{ end }}
 </head>
 <body>

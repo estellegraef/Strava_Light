@@ -5,6 +5,7 @@ import (
 	"../../templates/pages"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 var tmpl = template.Must(template.ParseFiles(
@@ -17,7 +18,9 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		Content cmd.Activity
 	}{}
 
-	data.Content = cmd.GetActivity()
+	urlValue := r.URL.Query().Get("id")
+	id, _ := strconv.ParseUint(urlValue, 32, 32)
+	data.Content = cmd.GetActivity(uint32(id))
 	data.Page = pages.NewDetail(data.Content.GetSportType())
 
 	_ = tmpl.Execute(w, data)
