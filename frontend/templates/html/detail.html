@@ -1,7 +1,7 @@
 {{ define "content" }}
     <div class="row justify-content-center">
-        <div class="col-5">
-            <div class="row">
+        <div class="col-5 itemCard marginBottom">
+            <div class="row ">
                 <p>Tag: {{ .GetWeekDay }}, den {{ .GetLongDate }}</p>
             </div>
             <div class="row">
@@ -20,13 +20,15 @@
                 <p>Standzeit: {{ .GetWaitingTime }} min</p>
             </div>
             <div class="row">
-                <p>Kommentar: {{ .GetComment }}</p>
+                <p class="comment">Kommentar: {{ .GetComment }}</p>
             </div>
-            <div class="row justify-content-center marginBottom">
-                <input type="button" value="&#x270e;">
-                <input type="button" value="&#x2193;">
-                <input type="button" value="&#x2716;">
-            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-4 centerContent marginBottom">
+            <a href="/edit"><input type="button" value="&#x270e;"></a>
+            <input type="button" value="&#x2193;">
+            <input type="button" value="&#x2716;">
         </div>
     </div>
 {{ end }}

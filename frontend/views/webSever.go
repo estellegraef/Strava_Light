@@ -2,8 +2,9 @@ package views
 
 import (
 	"./detail"
+	"./editing"
 	"./overview"
-	"./searchPart"
+	"./searching"
 	"./upload"
 	"fmt"
 	"net/http"
@@ -15,8 +16,9 @@ func CreateWebServer() {
 	http.HandleFunc("/", basicAuth(overview.NewHandler))
 	http.HandleFunc("/upload/", basicAuth(upload.NewHandler))
 	http.HandleFunc("/detail/", basicAuth(detail.NewHandler))
-	http.HandleFunc("/search/", basicAuth(searchPart.NewHandler))
-	http.Handle("/assets/", http.StripPrefix(strings.TrimRight("/assets/", "/"), http.FileServer(http.Dir("views/templates/assets"))))
+	http.HandleFunc("/search/", basicAuth(searching.NewHandler))
+	http.HandleFunc("/edit/", basicAuth(editing.NewHandler))
+	http.Handle("/assets/", http.StripPrefix(strings.TrimRight("/assets/", "/"), http.FileServer(http.Dir("frontend/templates/assets"))))
 	http.Handle("/images/", http.StripPrefix(strings.TrimRight("/images/", "/"), http.FileServer(http.Dir("resources/img"))))
 	fmt.Println(http.ListenAndServe(":8080", nil))
 }

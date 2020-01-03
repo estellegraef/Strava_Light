@@ -34,8 +34,16 @@ func NewUpload() Page {
 
 func NewDetail(heading string) Page {
 	return Page{
-		title:    "Detail",
-		headLine: heading,
+		title:            "Detail",
+		customStyleSheet: "../assets/css/detail.css",
+		headLine:         heading,
+	}
+}
+
+func NewEdit() Page {
+	return Page{
+		title:    "Bearbeiten",
+		headLine: "Bearbeiten einer Aktivität",
 	}
 }
 
