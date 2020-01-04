@@ -13,6 +13,11 @@ var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/edit.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
+	username, ok := r.Context().Value("username").(string)
+
+	if !ok {
+		username = "unknown"
+	}
 
 	var data = struct {
 		Page    pages.Page
@@ -28,7 +33,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	urlValue := r.URL.Query().Get("id")
 	id, _ := strconv.ParseUint(urlValue, 32, 32)
-	var activity = cmd.GetActivity(uint32(id))
+	var activity = cmd.GetActivity(username, uint32(id))
 	data.Content.ID = activity.GetID()
 	data.Content.IsWalking = activity.GetSportType() == "Laufen"
 	data.Content.IsBiking = !data.Content.IsWalking

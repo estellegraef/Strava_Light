@@ -14,12 +14,18 @@ var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/items.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
+	username, ok := r.Context().Value("username").(string)
+
+	if !ok {
+		username = "unknown"
+	}
+
 	data := struct {
 		Page    pages.Page
 		Content []cmd.Activity
 	}{
 		Page:    pages.NewIndex(),
-		Content: cmd.GetActivities(),
+		Content: cmd.GetActivities(username),
 	}
 
 	err := tmpl.Execute(w, data)

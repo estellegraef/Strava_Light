@@ -12,6 +12,12 @@ var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/upload.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
+	username, ok := r.Context().Value("username").(string)
+
+	if !ok {
+		username = "unknown"
+	}
+
 	var data = struct {
 		Page    pages.Page
 		Content uint8
@@ -27,7 +33,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		comment := r.FormValue("comment")
 
 		//backend call
-		success := cmd.CreateActivity(sportType, file, fileHeader, comment)
+		success := cmd.CreateActivity(username, sportType, file, fileHeader, comment)
 
 		if success {
 			data.Content = 1
