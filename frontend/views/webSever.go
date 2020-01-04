@@ -1,7 +1,7 @@
 package views
 
 import (
-	"../cmd"
+	"../../cmd"
 	"./detail"
 	"./editing"
 	"./overview"
@@ -27,7 +27,7 @@ func CreateWebServer() {
 
 	// Command-line-flag
 	// the default value is 8081
-	portPtr := flag.Int("port", 8080, "Webserver Port")
+	portPtr := flag.Int("port", 8081, "Webserver Port")
 	flag.Parse()
 	fmt.Println("Start Server on Port: ", *portPtr)
 
@@ -54,7 +54,7 @@ func authenticate(username, password string) bool {
 	//user2: user2Password
 	var users []cmd.User
 	//if users ==  {
-	users = cmd.GetUserFromFile()
+	users = cmd.GetUsersFromFile()
 	//}
 	for _, user := range users {
 		if user.GetUserName() == username {

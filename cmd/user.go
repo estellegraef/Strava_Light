@@ -1,6 +1,7 @@
 /**
 *2848869
 *8089098
+*3861852
  */
 
 package cmd
@@ -21,7 +22,7 @@ func NewUser(name string, password string, salt string) User {
 	return User{name, password, salt}
 }
 
-func GetUserFromFile() []User {
+func GetUsersFromFile() []User {
 	data, err := ioutil.ReadFile("./resources/user_credentials/users.txt")
 	if err != nil {
 		fmt.Println("File reading error", err)
