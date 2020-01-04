@@ -13,7 +13,7 @@ import (
 
 const saltSize = 8
 
-func generateSalt(secret []byte) []byte {
+func GenerateSalt(secret []byte) []byte {
 	buf := make([]byte, saltSize, saltSize+sha512.Size)
 	_, err := io.ReadFull(rand.Reader, buf)
 
@@ -28,7 +28,7 @@ func generateSalt(secret []byte) []byte {
 	return hash.Sum(buf)
 }
 
-func generatePasswordAndSaltHash(salt, password []byte) []byte { // generate password + salt hash to store into the file
+func GeneratePasswordAndSaltHash(salt, password []byte) []byte { // generate password + salt hash to store into the file
 	combination := string(salt) + string(password)
 	passwordHash := sha512.New()
 	_, err := io.WriteString(passwordHash, combination)
@@ -38,6 +38,6 @@ func generatePasswordAndSaltHash(salt, password []byte) []byte { // generate pas
 	return passwordHash.Sum(nil)
 }
 
-func match(enteredPassword, hashedPassword, salt []byte) bool {
-	return bytes.Equal(generatePasswordAndSaltHash(salt, enteredPassword), hashedPassword)
+func Match(enteredPassword, hashedPassword, salt []byte) bool {
+	return bytes.Equal(GeneratePasswordAndSaltHash(salt, enteredPassword), hashedPassword)
 }

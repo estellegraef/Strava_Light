@@ -12,17 +12,17 @@ import (
 )
 
 type User struct {
-	UserName string
-	Password string
-	Salt     string
+	userName string
+	password string
+	salt     string
 }
 
-func newUser(name string, password string, salt string) User {
+func NewUser(name string, password string, salt string) User {
 	return User{name, password, salt}
 }
 
-func getUserfromFile() []User {
-	data, err := ioutil.ReadFile("../resources/user_credentials/users.txt")
+func GetUserFromFile() []User {
+	data, err := ioutil.ReadFile("./resources/user_credentials/users.txt")
 	if err != nil {
 		fmt.Println("File reading error", err)
 		return nil
@@ -38,13 +38,13 @@ func getUserfromFile() []User {
 }
 
 func (u User) GetUserName() string {
-	return u.UserName
+	return u.userName
 }
 
 func (u User) GetPassword() string {
-	return u.Password
+	return u.password
 }
 
 func (u User) GetSalt() string {
-	return u.Salt
+	return u.salt
 }
