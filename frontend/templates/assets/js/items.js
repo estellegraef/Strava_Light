@@ -1,3 +1,4 @@
 function callDetail(id) {
-    window.location = "/detail?id=" + id;
+    let address = "/detail?id=" + id;
+    window.location = encodeURI(address);
 }
