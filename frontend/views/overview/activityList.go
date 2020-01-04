@@ -1,17 +1,17 @@
 package overview
 
 import (
-	"../../cmd"
-	"../pages"
+	"../../../cmd"
+	"../../templates/pages"
 	"fmt"
 	"html/template"
 	"net/http"
 )
 
 var tmpl = template.Must(template.ParseFiles(
-	"views/templates/html/layout.html",
-	"views/templates/html/index.html",
-	"views/templates/html/items.html"))
+	"frontend/templates/html/layout.html",
+	"frontend/templates/html/index.html",
+	"frontend/templates/html/items.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {

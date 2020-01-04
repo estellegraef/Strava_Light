@@ -1,0 +1,15 @@
+.itemCard {
+    background-color: rgba(255, 255, 255, 0.75);
+    border: black solid 1px;
+    border-radius: 5px;
+    padding: 15px 30px 0;
+}
+
+.centerContent {
+    text-align: center;
+}
+
+.comment {
+    overflow-x: auto;
+    text-align: left;
+}

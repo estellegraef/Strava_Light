@@ -1,0 +1,31 @@
+{{ define "content" }}
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <form method="post">
+                <div class="row marginBottom">
+                    <div class="col-3">
+                        <label>Sportart:</label>
+                    </div>
+                    <div class="col-9">
+                        <select name="sportType" class="form-control-range">
+                            <option {{if .IsWalking }} selected {{end}}>Laufen</option>
+                            <option {{if .IsBiking }} selected {{end}}>Radfahren</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row marginBottom">
+                    <div class="col-12">
+                        <label for="comment">Kommentar:</label>
+                        <textarea name="comment" class="form-control" rows="3">{{ .Comment }}</textarea>
+                    </div>
+                </div>
+                <div class="row justify-content-center marginBottom">
+                    <input type="submit" value="Speichern">
+                    <a href="/detail?id={{.ID}}">
+                        <input type="button" value="Abbruch">
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{{ end }}
