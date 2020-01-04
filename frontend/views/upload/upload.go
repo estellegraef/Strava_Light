@@ -1,15 +1,15 @@
 package upload
 
 import (
-	"../../cmd"
-	"../pages"
+	"../../../cmd"
+	"../../templates/pages"
 	"html/template"
 	"net/http"
 )
 
 var tmpl = template.Must(template.ParseFiles(
-	"views/templates/html/layout.html",
-	"views/templates/html/upload.html"))
+	"frontend/templates/html/layout.html",
+	"frontend/templates/html/upload.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	var data = struct {

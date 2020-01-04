@@ -52,9 +52,13 @@ func SearchActivities(search string) []Activity {
 	return result
 }
 
-func GetActivity() Activity {
-	return New(1, "Radfahren", "I am a useful comment",
-		12.3, 5.2, 13.4, 17.8, time.Now())
+func GetActivity(id uint32) Activity {
+	for _, elem := range list {
+		if elem.id == id {
+			return elem
+		}
+	}
+	return Activity{}
 }
 
 func CreateActivity(sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
