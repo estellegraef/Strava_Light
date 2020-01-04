@@ -1,7 +1,13 @@
+/*
+ * 2848869
+ * 8089098
+ * 3861852
+ */
+
 package overview
 
 import (
-	"../../../cmd"
+	"../../../cmd/activity"
 	"../../templates/pages"
 	"fmt"
 	"html/template"
@@ -16,10 +22,10 @@ var tmpl = template.Must(template.ParseFiles(
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Page    pages.Page
-		Content []cmd.Activity
+		Content []activity.Activity
 	}{
 		Page:    pages.NewIndex(),
-		Content: cmd.GetActivities(),
+		Content: activity.GetActivities(),
 	}
 
 	err := tmpl.Execute(w, data)

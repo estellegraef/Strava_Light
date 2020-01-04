@@ -1,7 +1,13 @@
+/*
+ * 2848869
+ * 8089098
+ * 3861852
+ */
+
 package upload
 
 import (
-	"../../../cmd"
+	"../../../cmd/activity"
 	"../../templates/pages"
 	"html/template"
 	"net/http"
@@ -27,7 +33,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		comment := r.FormValue("comment")
 
 		//backend call
-		success := cmd.CreateActivity(sportType, file, fileHeader, comment)
+		success := activity.CreateActivity(sportType, file, fileHeader, comment)
 
 		if success {
 			data.Content = 1

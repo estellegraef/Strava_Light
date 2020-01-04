@@ -1,7 +1,13 @@
+/*
+ * 2848869
+ * 8089098
+ * 3861852
+ */
+
 package editing
 
 import (
-	"../../../cmd"
+	"../../../cmd/activity"
 	"../../templates/pages"
 	"html/template"
 	"net/http"
@@ -28,7 +34,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	urlValue := r.URL.Query().Get("id")
 	id, _ := strconv.ParseUint(urlValue, 32, 32)
-	var activity = cmd.GetActivity(uint32(id))
+	var activity = activity.GetActivity(uint32(id))
 	data.Content.ID = activity.GetID()
 	data.Content.IsWalking = activity.GetSportType() == "Laufen"
 	data.Content.IsBiking = !data.Content.IsWalking
