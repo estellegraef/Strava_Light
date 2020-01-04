@@ -13,6 +13,12 @@ var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/items.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
+	username, ok := r.Context().Value("username").(string)
+
+	if !ok {
+		username = "unknown"
+	}
+
 	var data = struct {
 		Page    pages.Page
 		Content []cmd.Activity
@@ -24,7 +30,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		data.Content = nil
 	} else {
 		search := r.FormValue("search")
-		data.Content = cmd.SearchActivities(search)
+		data.Content = cmd.SearchActivities(username, search)
 	}
 
 	_ = tmpl.Execute(w, data)
