@@ -16,7 +16,8 @@ func TestParseXml(t *testing.T) {
 
 	//generate expected object
 	var meta = gpx_info.NewMeta(time.Date(2019, 9, 14, 13, 14, 17,94000000, time.UTC))
-	var point = gpx_info.NewTrackPoint(49.3547198, 0, time.Date(2019, 9, 14, 13, 14, 0, 0, time.UTC), 0)
+	var ext = gpx_info.NewExtension(gpx_info.NewTrackPointExtension(5.54))
+	var point = gpx_info.NewTrackPoint(49.3549890600, 9.1519649400, time.Date(2019, 9, 14, 13, 14, 30, 276000000, time.UTC), ext)
 	var points []gpx_info.TrackPoint
 	points = append(points, point)
 	var segment = gpx_info.NewTrackSegment(points)
@@ -28,7 +29,7 @@ func TestParseXml(t *testing.T) {
 	var expectedFile = gpx_info.NewGpx("Urban Biker", meta, tracks)
 
 	//extract same TrackPoint
-	var actualTrackSegment = actualFile.GetTracks()[0].GetTrackSegments()[1].GetTrackPoints()[0]
+	var actualTrackSegment = actualFile.GetTracks()[0].GetTrackSegments()[1].GetTrackPoints()[4]
 	var expectedTrackSegment = expectedFile.GetTracks()[0].GetTrackSegments()[0].GetTrackPoints()[0]
 
 	//check similarity
@@ -37,5 +38,5 @@ func TestParseXml(t *testing.T) {
 	assert.Equal(t, actualTrackSegment.Longitude, expectedTrackSegment.Longitude)
 	assert.Equal(t, actualTrackSegment.Latitude, expectedTrackSegment.Latitude)
 	assert.Equal(t, actualTrackSegment.DateTime, expectedTrackSegment.DateTime)
-	assert.Equal(t, actualTrackSegment.Speed, expectedTrackSegment.Speed)
+	assert.Equal(t, actualTrackSegment.GetExtension().GetTrackPointExtension().GetSpeed(), expectedTrackSegment.GetExtension().GetTrackPointExtension().GetSpeed())
 }

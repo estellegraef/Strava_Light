@@ -24,8 +24,16 @@ type TrackSegment struct{
 
 type TrackPoint struct {
 	Latitude float64 `xml:"lat,attr"`
-	Longitude float64 `xml:"long,attr"`
+	Longitude float64 `xml:"lon,attr"`
 	DateTime time.Time `xml:"time"`
+	Extensions Extension `xml:"extensions"`
+}
+
+type Extension struct {
+	TrackPointExtensions TrackPointExtension `xml:"TrackPointExtension"`
+}
+
+type TrackPointExtension struct {
 	Speed float64 `xml:"speed"`
 }
 
@@ -45,8 +53,16 @@ func NewTrackSegment(points []TrackPoint) TrackSegment {
 	return TrackSegment{TrackPoints:points}
 }
 
-func NewTrackPoint(lat float64, long float64, dateTime time.Time, speed float64) TrackPoint{
-	return TrackPoint{Latitude:lat, Longitude:long, DateTime:dateTime, Speed:speed}
+func NewTrackPoint(lat float64, long float64, dateTime time.Time, extension Extension) TrackPoint{
+	return TrackPoint{Latitude:lat, Longitude:long, DateTime:dateTime, Extensions:extension}
+}
+
+func NewExtension(trckptext TrackPointExtension) Extension {
+	return Extension{TrackPointExtensions:trckptext}
+}
+
+func NewTrackPointExtension(speed float64) TrackPointExtension {
+	return TrackPointExtension{Speed:speed}
 }
 
 func (g GpxFile) GetCreator() string {
@@ -85,6 +101,14 @@ func (t TrackPoint) GetDateTime() time.Time {
 	return t.DateTime
 }
 
-func (t TrackPoint) GetSpeed() float64 {
+func (t TrackPoint) GetExtension() Extension {
+	return t.Extensions
+}
+
+func(e Extension) GetTrackPointExtension() TrackPointExtension {
+	return e.TrackPointExtensions
+}
+
+func (t TrackPointExtension) GetSpeed() float64 {
 	return t.Speed
 }
