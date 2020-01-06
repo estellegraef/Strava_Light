@@ -3,6 +3,7 @@ package overview
 import (
 	"../../cmd"
 	"../pages"
+	"Strava_Light/cmd/gpx/activity"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -13,7 +14,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Page    pages.Page
-		Content []cmd.Activity
+		Content []activity.Activity
 	}{
 		Page:    pages.NewIndex(),
 		Content: cmd.GetActivities(),
