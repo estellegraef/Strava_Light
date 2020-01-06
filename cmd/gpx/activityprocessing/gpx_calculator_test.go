@@ -2,6 +2,7 @@ package activityprocessing
 
 import (
 	"Strava_Light/cmd/gpx/fileTools"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -51,4 +52,12 @@ func TestCorrectSpeed(t *testing.T) {
 	var avgSpeed = 3.4
 	var correctedSpeed = CorrectSpeed(speed, avgSpeed)
 	assert.Equal(t, correctedSpeed, avgSpeed)
+}
+
+//TODO verify coorectness
+func TestCalculateStandbyTimeInSec(t *testing.T) {
+	var file = fileTools.ParseXml(testPath)
+	var actualTrackPoints = GetAllTrackPoints(file)
+	var totalStandbyTime = CalculateStandbyTimeInSec(actualTrackPoints)
+	fmt.Print(totalStandbyTime)
 }

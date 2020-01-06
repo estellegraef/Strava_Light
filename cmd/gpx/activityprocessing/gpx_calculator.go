@@ -6,6 +6,7 @@ package activityprocessing
 import (
 	"Strava_Light/cmd/gpx/gpx_info"
 	"math"
+	"time"
 )
 
 func GetAllTrackPoints(file gpx_info.GpxFile) []gpx_info.TrackPoint {
@@ -32,7 +33,10 @@ func GetMaxSpeed(points []gpx_info.TrackPoint) float64 {
 func GetAvgSpeed(points []gpx_info.TrackPoint) float64 {
 	var speedSum float64 = 0
 	for _, point := range points{
-		speedSum = speedSum + point.GetExtension().GetTrackPointExtension().GetSpeed()
+		var currentSpeed = point.GetExtension().GetTrackPointExtension().GetSpeed()
+		if currentSpeed != 0 {
+			speedSum = speedSum + currentSpeed
+		}
 	}
 	return speedSum / float64(len(points))
 }
@@ -83,4 +87,23 @@ func CorrectSpeed(speed, avgspeed float64) float64{
 		correctSpeed = avgspeed
 	}
 	return correctSpeed
+}
+
+func CalculateStandbyTimeInSec(points []gpx_info.TrackPoint) float64 {
+	var standbyTimeInSec float64
+	var previousTrkPt gpx_info.TrackPoint
+	for index, point := range points{
+		var currentSpeed = point.GetExtension().GetTrackPointExtension().GetSpeed()
+		if index == 0 {
+			previousTrkPt = point
+		} else {
+			var previousSpeed = previousTrkPt.GetExtension().GetTrackPointExtension().GetSpeed()
+			if previousSpeed == 0 && currentSpeed == 0 {
+				var timeDifference = time.Time.Sub(point.GetDateTime(), previousTrkPt.GetDateTime()).Seconds()
+				standbyTimeInSec = standbyTimeInSec + timeDifference
+				previousTrkPt = point
+			}
+		}
+	}
+	return standbyTimeInSec
 }
