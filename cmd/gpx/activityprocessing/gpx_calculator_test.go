@@ -45,3 +45,10 @@ func TestCalculateDistanceInKilometers(t *testing.T) {
 	//TODO check w/website: here 24.28 km, there 24.71 km
 	assert.Equal(t, 24.28255382563406, distance)
 }
+
+func TestCorrectSpeed(t *testing.T) {
+	var speed = 11.0
+	var avgSpeed = 3.4
+	var correctedSpeed = CorrectSpeed(speed, avgSpeed)
+	assert.Equal(t, correctedSpeed, avgSpeed)
+}

@@ -8,14 +8,6 @@ import (
 	"math"
 )
 
-/*important:
-- Strecke in km
-- wenn Zeitstempel, dann Durchschnittsgeschwindigkeit (ohne Standzeit) und Maximalgeschwindigkeit
-- Standzeit (Zeit in der sich nicht bewegt wurde)
-- Eingabefehler anhand der Durchschnittsgeschwindigkeit korrigieren
-- Datum
- */
-
 func GetAllTrackPoints(file gpx_info.GpxFile) []gpx_info.TrackPoint {
 	var allTrackPoints []gpx_info.TrackPoint
 	for _, track := range file.GetTracks(){
@@ -80,6 +72,15 @@ func CalculateDistance2Points(lat1, lon1, lat2, lon2 float64) float64 {
 	return distanceInKm
 }
 
-func CalculateRadiant(val float64) float64{
+func CalculateRadiant(val float64) float64 {
 	return val*math.Pi/180
+}
+
+//return correct speed according to average speed
+func CorrectSpeed(speed, avgspeed float64) float64{
+	var correctSpeed = speed
+	if speed > (avgspeed + avgspeed/2) {
+		correctSpeed = avgspeed
+	}
+	return correctSpeed
 }
