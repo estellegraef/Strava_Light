@@ -3,7 +3,7 @@ package searchPart
 import (
 	"../../cmd"
 	"../pages"
-	"Strava_Light/cmd/gpx/activity"
+	cmd2 "Strava_Light/cmd"
 	"html/template"
 	"net/http"
 )
@@ -13,7 +13,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	var data = struct {
 		Page    pages.Page
-		Content []activity.Activity
+		Content []cmd2.Activity
 	}{
 		Page: pages.NewSearch(),
 	}

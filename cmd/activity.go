@@ -1,4 +1,4 @@
-package activity
+package cmd
 
 import (
 	"time"

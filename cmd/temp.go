@@ -1,19 +1,18 @@
 package cmd
 
 import (
-	"Strava_Light/cmd/gpx/activity"
 	"mime/multipart"
 	"time"
 )
 
-var list []activity.Activity
+var list []Activity
 
 //Creates mockup data
-func GetActivities() []activity.Activity {
-	list = make([]activity.Activity, 10)
+func GetActivities() []Activity {
+	list = make([]Activity, 10)
 
 	for i := 0; i < 5; i++ {
-		list[i] = activity.Activity{
+		list[i] = Activity{
 			uint32(i),
 			"Radfahren",
 			"test",
@@ -24,7 +23,7 @@ func GetActivities() []activity.Activity {
 			time.Now(),
 		}
 		for i := 5; i < 10; i++ {
-			list[i] = activity.Activity{
+			list[i] = Activity{
 				uint32(i),
 				"Laufen",
 				"turbo",
@@ -40,8 +39,8 @@ func GetActivities() []activity.Activity {
 	return list
 }
 
-func SearchActivities(search string) []activity.Activity {
-	result := make([]activity.Activity, 0)
+func SearchActivities(search string) []Activity {
+	result := make([]Activity, 0)
 	_ = GetActivities()
 
 	for _, elem := range list {
@@ -53,8 +52,8 @@ func SearchActivities(search string) []activity.Activity {
 	return result
 }
 
-func GetActivity() activity.Activity {
-	return activity.New(1, "Radfahren", "I am a useful comment",
+func GetActivity() Activity {
+	return New(1, "Radfahren", "I am a useful comment",
 		12.3, 5.2, 13.4, 17.8, time.Now())
 }
 
