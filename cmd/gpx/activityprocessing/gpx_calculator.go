@@ -4,15 +4,15 @@
 package activityprocessing
 
 import (
-	"Strava_Light/cmd/gpx/gpx_info"
+	"../../gpx/gpx_info"
 	"math"
 	"time"
 )
 
 func GetAllTrackPoints(file gpx_info.GpxFile) []gpx_info.TrackPoint {
 	var allTrackPoints []gpx_info.TrackPoint
-	for _, track := range file.GetTracks(){
-		for _, segment := range track.GetTrackSegments(){
+	for _, track := range file.GetTracks() {
+		for _, segment := range track.GetTrackSegments() {
 			allTrackPoints = append(allTrackPoints, segment.GetTrackPoints()...)
 		}
 	}
@@ -32,7 +32,7 @@ func GetMaxSpeed(points []gpx_info.TrackPoint) float64 {
 
 func GetAvgSpeed(points []gpx_info.TrackPoint) float64 {
 	var speedSum float64 = 0
-	for _, point := range points{
+	for _, point := range points {
 		var currentSpeed = point.GetExtension().GetTrackPointExtension().GetSpeed()
 		if currentSpeed != 0 {
 			speedSum = speedSum + currentSpeed
@@ -77,11 +77,11 @@ func CalculateDistance2Points(lat1, lon1, lat2, lon2 float64) float64 {
 }
 
 func CalculateRadiant(val float64) float64 {
-	return val*math.Pi/180
+	return val * math.Pi / 180
 }
 
 //return correct speed according to average speed
-func CorrectSpeed(speed, avgSpeed float64) float64{
+func CorrectSpeed(speed, avgSpeed float64) float64 {
 	var correctSpeed = speed
 	if speed > (avgSpeed + avgSpeed/2) {
 		correctSpeed = avgSpeed
@@ -92,7 +92,7 @@ func CorrectSpeed(speed, avgSpeed float64) float64{
 func CalculateStandbyTimeInSec(points []gpx_info.TrackPoint) float64 {
 	var standbyTimeInSec float64
 	var previousTrkPt gpx_info.TrackPoint
-	for index, point := range points{
+	for index, point := range points {
 		var currentSpeed = point.GetExtension().GetTrackPointExtension().GetSpeed()
 		if index == 0 {
 			previousTrkPt = point
