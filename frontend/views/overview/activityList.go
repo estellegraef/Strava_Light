@@ -1,14 +1,8 @@
 package overview
 
 import (
-<<<<<<< HEAD:views/overview/activityList.go
-	"../../cmd"
-	"../pages"
-	cmd2 "Strava_Light/cmd"
-=======
 	"../../../cmd"
 	"../../templates/pages"
->>>>>>> master:frontend/views/overview/activityList.go
 	"fmt"
 	"html/template"
 	"net/http"
@@ -28,7 +22,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Page    pages.Page
-		Content []cmd2.Activity
+		Content []cmd.Activity
 	}{
 		Page:    pages.NewIndex(),
 		Content: cmd.GetActivities(username),
