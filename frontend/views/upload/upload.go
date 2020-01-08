@@ -1,14 +1,22 @@
 package upload
 
 import (
-	"../../cmd"
-	"../pages"
+	"../../../cmd"
+	"../../templates/pages"
 	"html/template"
 	"net/http"
 )
 
+var tmpl = template.Must(template.ParseFiles(
+	"frontend/templates/html/layout.html",
+	"frontend/templates/html/upload.html"))
+
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("views/templates/html/layout.html", "views/templates/html/upload.html"))
+	username, ok := r.Context().Value("username").(string)
+
+	if !ok {
+		username = "unknown"
+	}
 
 	var data = struct {
 		Page    pages.Page
@@ -25,7 +33,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		comment := r.FormValue("comment")
 
 		//backend call
-		success := cmd.CreateActivity(sportType, file, fileHeader, comment)
+		success := cmd.CreateActivity(username, sportType, file, fileHeader, comment)
 
 		if success {
 			data.Content = 1

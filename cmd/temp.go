@@ -8,7 +8,7 @@ import (
 var list []Activity
 
 //Creates mockup data
-func GetActivities() []Activity {
+func GetActivities(username string) []Activity {
 	list = make([]Activity, 10)
 
 	for i := 0; i < 5; i++ {
@@ -39,9 +39,8 @@ func GetActivities() []Activity {
 	return list
 }
 
-func SearchActivities(search string) []Activity {
+func SearchActivities(username string, search string) []Activity {
 	result := make([]Activity, 0)
-	_ = GetActivities()
 
 	for _, elem := range list {
 		if elem.comment == search {
@@ -52,11 +51,15 @@ func SearchActivities(search string) []Activity {
 	return result
 }
 
-func GetActivity() Activity {
-	return New(1, "Radfahren", "I am a useful comment",
-		12.3, 5.2, 13.4, 17.8, time.Now())
+func GetActivity(username string, id uint32) Activity {
+	for _, elem := range list {
+		if elem.id == id {
+			return elem
+		}
+	}
+	return Activity{}
 }
 
-func CreateActivity(sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
-	return false
+func CreateActivity(username string, sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
+	return true
 }

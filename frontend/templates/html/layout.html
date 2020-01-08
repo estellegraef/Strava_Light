@@ -8,6 +8,9 @@
     {{ if .Page.HasCustomStyleSheet }}
         <link href="{{ .Page.GetCustomStyleSheet }}" rel="stylesheet">
     {{ end }}
+    {{ if .Page.HasJsFile }}
+        <script src="{{ .Page.GetJsFile }}"></script>
+    {{ end }}
 </head>
 <body>
     {{ template "menu" }}
@@ -30,13 +33,13 @@
     <a class="navbar-brand text-light">Strava</a>
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Suche</a>
+            <a class="nav-link" href="/search">Suche</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="upload.html">Hinzufügen</a>
+            <a class="nav-link" href="/upload">Hinzufügen</a>
         </li>
     </ul>
 </nav>
@@ -44,6 +47,6 @@
 
 {{ define "footer" }}
 <footer class="footer">
-    <p class="m-0">Copyright 2019</p>
+    <p class="m-0">Copyright 2020</p>
 </footer>
 {{ end }}
