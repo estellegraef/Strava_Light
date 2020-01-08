@@ -1,7 +1,7 @@
 package overview
 
 import (
-	"../../../cmd"
+	"../../../cmd/activity"
 	"../../templates/pages"
 	"fmt"
 	"html/template"
@@ -22,10 +22,10 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Page    pages.Page
-		Content []cmd.Activity
+		Content []activity.Activity
 	}{
 		Page:    pages.NewIndex(),
-		Content: cmd.GetActivities(username),
+		Content: activity.GetActivities(username),
 	}
 
 	err := tmpl.Execute(w, data)

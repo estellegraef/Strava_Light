@@ -1,7 +1,7 @@
 package fileTools
 
 import (
-	"Strava_Light/cmd/gpx/gpx_info"
+	"../../gpx/gpx_info"
 	"archive/zip"
 	"encoding/xml"
 	"fmt"
@@ -39,7 +39,7 @@ func ReadZip(fileName string) []gpx_info.GpxFile {
 
 	var containedFiles []gpx_info.GpxFile
 	//read and convert each file contained in the .zip file
-	for _, file := range read.File{
+	for _, file := range read.File {
 		content := ReadZipContent(file)
 		gpx := ParseByteXml(content)
 
@@ -84,7 +84,7 @@ func ParseByteXml(byteVal []byte) gpx_info.GpxFile {
 }
 
 //check if file is nonexistent based on OS status
-func CheckFileNonExistent(fileName string) bool{
+func CheckFileNonExistent(fileName string) bool {
 	var nonExistent = false
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		nonExistent = true
@@ -94,14 +94,14 @@ func CheckFileNonExistent(fileName string) bool{
 }
 
 //check if any type of closer throws an error
-func checkCloser(closer Closer){
+func checkCloser(closer Closer) {
 	err := closer.Close()
 	checkError(err)
 }
 
 //print error
-func checkError(err error){
-	if err != nil{
+func checkError(err error) {
+	if err != nil {
 		fmt.Errorf("Fehler: %v ", err)
 	}
 }

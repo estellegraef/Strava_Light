@@ -1,7 +1,7 @@
 package searching
 
 import (
-	"../../../cmd"
+	"../../../cmd/activity"
 	"../../templates/pages"
 	"html/template"
 	"net/http"
@@ -21,7 +21,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 	var data = struct {
 		Page    pages.Page
-		Content []cmd.Activity
+		Content []activity.Activity
 	}{
 		Page: pages.NewSearch(),
 	}
@@ -30,7 +30,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		data.Content = nil
 	} else {
 		search := r.FormValue("search")
-		data.Content = cmd.SearchActivities(username, search)
+		data.Content = activity.SearchActivities(username, search)
 	}
 
 	_ = tmpl.Execute(w, data)
