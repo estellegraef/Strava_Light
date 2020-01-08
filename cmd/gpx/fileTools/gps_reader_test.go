@@ -1,20 +1,16 @@
 package fileTools
 
 import (
+	"Strava_Light/cmd/gpx"
 	"Strava_Light/cmd/gpx/gpx_info"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
 
-//TODO convert to relative path
-const testZip= "F:\\DHBW\\Semester 5\\Programmieren II\\Go Projects\\src\\Strava_Light\\resources\\gpx\\2019-09-14_15-14.gpx.zip"
-const testPath = "F:\\DHBW\\Semester 5\\Programmieren II\\Go Projects\\src\\Strava_Light\\resources\\gpx\\2019-09-14_15-14.gpx"
-const invalidPath = "F:\\DHBW\\Semester 5\\Programmieren II\\Go Projects\\src\\Strava_Light\\resources\\gpx\\test.zip"
-
 func TestReadGpx(t *testing.T) {
 	//generate GpxFile object  from path
-	var actualFile = ReadGpx(testPath)
+	var actualFile = ReadGpx(gpx.GetTestGpxPath())
 
 	//generate expected object
 	var meta = gpx_info.NewMeta(time.Date(2019, 9, 14, 13, 14, 17,94000000, time.UTC))
@@ -44,32 +40,32 @@ func TestReadGpx(t *testing.T) {
 }
 
 func TestReadZip(t *testing.T) {
-	files := ReadZip(testZip)
+	files := ReadZip(gpx.GetTestZipPath())
 	assert.True(t, len(files) == 1)
 }
 
 func TestReadFileWithGpx(t *testing.T) {
-	files := ReadFile(testPath)
+	files := ReadFile(gpx.GetTestGpxPath())
 	assert.True(t, len(files) == 1)
 }
 
 func TestReadFileWithZip(t *testing.T) {
-	files := ReadFile(testZip)
+	files := ReadFile(gpx.GetTestZipPath())
 	assert.True(t, len(files) == 1)
 }
 
 func TestReadFileInvalidPath(t *testing.T) {
-	files := ReadFile(invalidPath)
+	files := ReadFile(gpx.GetTestInvalidPath())
 	assert.Equal(t, []gpx_info.GpxFile(nil), files)
 }
 
 func TestCheckFileNonExistentPositive(t *testing.T) {
-	nonExistent := CheckFileNonExistent(invalidPath)
+	nonExistent := CheckFileNonExistent(gpx.GetTestInvalidPath())
 	assert.True(t, nonExistent)
 }
 
 func TestCheckFileNonExistentNegative(t *testing.T) {
-	nonExistent := CheckFileNonExistent(testPath)
+	nonExistent := CheckFileNonExistent(gpx.GetTestGpxPath())
 	assert.False(t, nonExistent)
 }
 

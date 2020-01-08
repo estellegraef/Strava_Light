@@ -43,7 +43,7 @@ func ReadZip(fileName string) []gpx_info.GpxFile {
 		content := ReadZipContent(file)
 		gpx := ParseByteXml(content)
 
-		//put each filesin the .zip file into a list
+		//put each files in the .zip file into a list
 		containedFiles = append(containedFiles, gpx)
 	}
 	return containedFiles
@@ -85,12 +85,11 @@ func ParseByteXml(byteVal []byte) gpx_info.GpxFile {
 
 //check if file is nonexistent based on OS status
 func CheckFileNonExistent(fileName string) bool{
-	var nonExistent bool
+	var nonExistent = false
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		nonExistent = true
-	} else {
-		nonExistent = false
 	}
+
 	return nonExistent
 }
 

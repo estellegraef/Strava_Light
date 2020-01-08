@@ -81,10 +81,10 @@ func CalculateRadiant(val float64) float64 {
 }
 
 //return correct speed according to average speed
-func CorrectSpeed(speed, avgspeed float64) float64{
+func CorrectSpeed(speed, avgSpeed float64) float64{
 	var correctSpeed = speed
-	if speed > (avgspeed + avgspeed/2) {
-		correctSpeed = avgspeed
+	if speed > (avgSpeed + avgSpeed/2) {
+		correctSpeed = avgSpeed
 	}
 	return correctSpeed
 }
