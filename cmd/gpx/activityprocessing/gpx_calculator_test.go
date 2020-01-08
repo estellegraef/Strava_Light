@@ -10,28 +10,29 @@ import (
 func TestGetAllTrackPoints(t *testing.T) {
 	var file = fileTools.ReadGpx(gpx.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
-	assert.Equal(t, len(actualTrackPoints), 1755)
+	assert.Equal(t, 1755, len(actualTrackPoints))
 }
 
 func TestGetMaxSpeed(t *testing.T) {
 	var file = fileTools.ReadGpx(gpx.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	var maxSpeed = GetMaxSpeed(actualTrackPoints)
-	assert.Equal(t, maxSpeed, 14.65)
+	assert.Equal(t, 14.65, maxSpeed)
 }
 
 func TestGetAvgSpeed(t *testing.T) {
 	var file = fileTools.ReadGpx(gpx.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	var avgSpeed = GetAvgSpeed(actualTrackPoints)
-	assert.Equal(t, avgSpeed, 6.189253561253568)
+	assert.Equal(t, 6.189253561253568, avgSpeed)
 }
 
 //approximate result oriented on https://opensourceconnections.com/blog/uploads/2009/02/clientsidehaversinecalculation.html
 func TestCalculateDistance2Points(t *testing.T) {
 	var file = fileTools.ReadGpx(gpx.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
-	var distance = CalculateDistance2Points(actualTrackPoints[0].GetLatitude(), actualTrackPoints[0].GetLongitude(), actualTrackPoints[1].GetLatitude(), actualTrackPoints[1].GetLongitude())
+	var distance = CalculateDistance2Points(actualTrackPoints[0].GetLatitude(), actualTrackPoints[0].GetLongitude(),
+		actualTrackPoints[1].GetLatitude(), actualTrackPoints[1].GetLongitude())
 	//TODO check w/website: here 0.005045 there 0.005301 km
 	assert.Equal(t, 0.005045829921162091, distance)
 }
@@ -49,7 +50,7 @@ func TestCorrectSpeed(t *testing.T) {
 	var speed = 11.0
 	var avgSpeed = 3.4
 	var correctedSpeed = CorrectSpeed(speed, avgSpeed)
-	assert.Equal(t, correctedSpeed, avgSpeed)
+	assert.Equal(t, avgSpeed, correctedSpeed)
 }
 
 //TODO verify correctness

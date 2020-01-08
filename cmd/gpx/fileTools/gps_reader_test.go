@@ -8,35 +8,42 @@ import (
 	"time"
 )
 
+//TODO create own, smaller file with only one TP to get full coverage
 func TestReadGpx(t *testing.T) {
 	//generate GpxFile object  from path
 	var actualFile = ReadGpx(gpx.GetTestGpxPath())
 
-	//generate expected object
-	var meta = gpx_info.NewMeta(time.Date(2019, 9, 14, 13, 14, 17,94000000, time.UTC))
-	var ext = gpx_info.NewExtension(gpx_info.NewTrackPointExtension(5.54))
-	var point = gpx_info.NewTrackPoint(49.3549890600, 9.1519649400, time.Date(2019, 9, 14, 13, 14, 30, 276000000, time.UTC), ext)
-	var points []gpx_info.TrackPoint
-	points = append(points, point)
-	var segment = gpx_info.NewTrackSegment(points)
-	var segments []gpx_info.TrackSegment
-	segments = append(segments, segment)
-	var track = gpx_info.NewTrack(segments)
-	var tracks []gpx_info.Track
-	tracks = append(tracks, track)
-	var expectedFile = gpx_info.NewGpx("Urban Biker", meta, tracks)
-
+	//create expected file
+	expectedFile := gpx_info.GpxFile{
+		Creator: "Urban Biker",
+		Meta: gpx_info.Metadata{
+			Time: time.Date(2019, 9, 14, 13, 14, 17, 94000000, time.UTC),
+		},
+		Tracks: []gpx_info.Track{
+			{	TrackSegments: []gpx_info.TrackSegment{
+				{	TrackPoints: []gpx_info.TrackPoint{
+					{	Latitude: 49.3549890600,
+						Longitude: 9.1519649400,
+						DateTime: time.Date(2019, 9, 14, 13, 14, 30, 276000000, time.UTC),
+						Extensions: gpx_info.Extension{
+						TrackPointExtensions: gpx_info.TrackPointExtension{
+							Speed:5.54,
+						},
+						},
+					},
+				},
+				},
+			},
+			},
+		},
+	}
 	//extract same TrackPoint
 	var actualTrackSegment = actualFile.GetTracks()[0].GetTrackSegments()[1].GetTrackPoints()[4]
 	var expectedTrackSegment = expectedFile.GetTracks()[0].GetTrackSegments()[0].GetTrackPoints()[0]
 
-	//checkError similarity
-	assert.Equal(t, actualFile.GetCreator(), expectedFile.GetCreator())
-	assert.Equal(t, actualFile.GetMeta().GetTime(), expectedFile.GetMeta().GetTime())
-	assert.Equal(t, actualTrackSegment.Longitude, expectedTrackSegment.Longitude)
-	assert.Equal(t, actualTrackSegment.Latitude, expectedTrackSegment.Latitude)
-	assert.Equal(t, actualTrackSegment.DateTime, expectedTrackSegment.DateTime)
-	assert.Equal(t, actualTrackSegment.GetExtension().GetTrackPointExtension().GetSpeed(), expectedTrackSegment.GetExtension().GetTrackPointExtension().GetSpeed())
+	assert.Equal(t, expectedFile.GetCreator(), actualFile.GetCreator())
+	assert.Equal(t, expectedFile.GetMeta(), actualFile.GetMeta())
+	assert.Equal(t, expectedTrackSegment, actualTrackSegment)
 }
 
 func TestReadZip(t *testing.T) {
@@ -55,8 +62,10 @@ func TestReadFileWithZip(t *testing.T) {
 }
 
 func TestReadFileInvalidPath(t *testing.T) {
-	files := ReadFile(gpx.GetTestInvalidPath())
-	assert.Equal(t, []gpx_info.GpxFile(nil), files)
+	actualFiles := ReadFile(gpx.GetTestInvalidPath())
+	//since the path is invalid, a empty object is expected
+	expectedFiles := []gpx_info.GpxFile(nil)
+	assert.Equal(t, expectedFiles, actualFiles)
 }
 
 func TestCheckFileNonExistentPositive(t *testing.T) {
