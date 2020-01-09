@@ -4,7 +4,7 @@
  * 3861852
  */
 
-package searching
+package search
 
 import (
 	"github.com/estellegraef/Strava_Light/cmd/activity"
