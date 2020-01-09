@@ -13,9 +13,16 @@ import (
 	"testing"
 )
 
-/* Teste die Funktion GeneratePasswordAndSaltHash
-- es soll das Passwort nicht im den sha512(password) sein
-- und auch nicht im Klartext
+/*
+Test the GeneratePasswordAndSaltHash function
+- The password should not be in the sha512-hash for the given password => Rainbow-Table
+- and also not in plain text
+
+Test the generateSalt function
+- the salt should be different every time
+- a salt should be generated that is not nil
+
+Test the match function
 */
 
 func getSalt(pwd []byte) []byte {
@@ -60,4 +67,11 @@ func TestMatchWithWrongPwd(t *testing.T) {
 
 func TestGenerateSaltIsNotNil(t *testing.T) {
 	assert.NotEqual(t, nil, GenerateSalt([]byte("testPassword")))
+}
+
+func TestGenerateSalt(t *testing.T) {
+	salt1 := getSalt([]byte("test"))
+	salt2 := getSalt([]byte("test"))
+
+	assert.NotEqual(t, salt1, salt2, "Salt is equal!")
 }

@@ -7,6 +7,7 @@
 package user
 
 import (
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -14,11 +15,11 @@ import (
 
 type User struct {
 	userName string
-	password string
-	salt     string
+	password []byte
+	salt     []byte
 }
 
-func NewUser(name string, password string, salt string) User {
+func NewUser(name string, password []byte, salt []byte) User {
 	return User{name, password, salt}
 }
 
@@ -33,7 +34,17 @@ func GetUsersFromFile() []User {
 	users := make([]User, 0)
 	for _, user := range s {
 		userSplit := strings.Split(user, ";")
-		users = append(users, User{userSplit[0], userSplit[1], userSplit[2]})
+
+		passwordDecode, err1 := base64.StdEncoding.DecodeString(userSplit[1])
+		if err1 != nil {
+			fmt.Println("Base64 Decoding error", err1)
+		}
+		saltDecode, err2 := base64.StdEncoding.DecodeString(userSplit[2])
+		if err2 != nil {
+			fmt.Println("Base64 Decoding error", err2)
+		}
+
+		users = append(users, User{userSplit[0], passwordDecode, saltDecode})
 	}
 	return users
 }
@@ -42,10 +53,10 @@ func (u User) GetUserName() string {
 	return u.userName
 }
 
-func (u User) GetPassword() string {
+func (u User) GetPassword() []byte {
 	return u.password
 }
 
-func (u User) GetSalt() string {
+func (u User) GetSalt() []byte {
 	return u.salt
 }
