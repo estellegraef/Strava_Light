@@ -37,34 +37,6 @@ type TrackPointExtension struct {
 	Speed float64 `xml:"speed"`
 }
 
-func NewGpx(creator string, metaData Metadata, tracks []Track) GpxFile {
-	return GpxFile{Creator: creator, Meta: metaData, Tracks: tracks}
-}
-
-func NewMeta(time time.Time) Metadata {
-	return Metadata{Time: time}
-}
-
-func NewTrack(segments []TrackSegment) Track {
-	return Track{TrackSegments: segments}
-}
-
-func NewTrackSegment(points []TrackPoint) TrackSegment {
-	return TrackSegment{TrackPoints: points}
-}
-
-func NewTrackPoint(lat float64, long float64, dateTime time.Time, extension Extension) TrackPoint {
-	return TrackPoint{Latitude: lat, Longitude: long, DateTime: dateTime, Extensions: extension}
-}
-
-func NewExtension(trckptext TrackPointExtension) Extension {
-	return Extension{TrackPointExtensions: trckptext}
-}
-
-func NewTrackPointExtension(speed float64) TrackPointExtension {
-	return TrackPointExtension{Speed: speed}
-}
-
 func (g GpxFile) GetCreator() string {
 	return g.Creator
 }

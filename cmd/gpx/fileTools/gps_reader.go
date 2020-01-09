@@ -14,6 +14,9 @@ type Closer interface {
 	Close() error
 }
 
+func wot() string{
+	return "fuck"
+}
 //read any filepath and return contained files converted to GpxFiles in a list
 func ReadFile(fileName string) []gpx_info.GpxFile {
 	var files []gpx_info.GpxFile
@@ -89,7 +92,7 @@ func CheckFileNonExistent(fileName string) bool {
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		nonExistent = true
 	}
-
+	fmt.Print(nonExistent)
 	return nonExistent
 }
 

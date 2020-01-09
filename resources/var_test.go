@@ -1,4 +1,4 @@
-package gpx
+package resources
 
 import (
 	"fmt"
