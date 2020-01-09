@@ -7,14 +7,15 @@
 package cmd
 
 import (
-	"../frontend/views/detail"
-	"../frontend/views/editing"
-	"../frontend/views/overview"
-	"../frontend/views/searching"
-	"../frontend/views/upload"
+
 	"context"
 	"flag"
 	"fmt"
+	"github.com/estellegraef/Strava_Light/frontend/views/detail"
+	"github.com/estellegraef/Strava_Light/frontend/views/editing"
+	"github.com/estellegraef/Strava_Light/frontend/views/overview"
+	"github.com/estellegraef/Strava_Light/frontend/views/searching"
+	"github.com/estellegraef/Strava_Light/frontend/views/upload"
 	"log"
 	"net/http"
 	"strconv"

@@ -1,8 +1,8 @@
 package activityprocessing
 
 import (
-	"../../gpx"
-	"../../gpx/fileTools"
+	"github.com/estellegraef/Strava_Light/cmd/gpx"
+	"github.com/estellegraef/Strava_Light/cmd/gpx/fileTools"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

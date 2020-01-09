@@ -4,7 +4,7 @@
 package activityprocessing
 
 import (
-	"../../gpx/gpx_info"
+	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
 	"math"
 	"time"
 )

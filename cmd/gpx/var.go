@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 )
 
-func GetBasePath()  string {
+func GetBasePath() string {
 	return filepath.Join(os.Getenv("GOPATH"), "\\src\\Strava_Light")
 }
 

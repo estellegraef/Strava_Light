@@ -6,7 +6,7 @@
 
 package main
 
-import "./cmd"
+import "github.com/estellegraef/Strava_Light/cmd"
 
 func main() {
 	cmd.CreateWebServer()

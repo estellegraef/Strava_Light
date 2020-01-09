@@ -1,8 +1,8 @@
 package upload
 
 import (
-	"../../../cmd/activity"
-	"../../templates/pages"
+	"github.com/estellegraef/Strava_Light/cmd/activity"
+	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
 	"net/http"
 )

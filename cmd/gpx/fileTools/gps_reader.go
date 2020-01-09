@@ -1,10 +1,10 @@
 package fileTools
 
 import (
-	"../../gpx/gpx_info"
 	"archive/zip"
 	"encoding/xml"
 	"fmt"
+	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
 	"io/ioutil"
 	"os"
 	"path/filepath"

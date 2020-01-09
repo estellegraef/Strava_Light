@@ -4,28 +4,28 @@ import (
 	"time"
 )
 
-type GpxFile struct{
-	Creator string `xml:"creator,attr"`
-	Meta Metadata `xml:"metadata"`
-	Tracks []Track `xml:"trk"`
+type GpxFile struct {
+	Creator string   `xml:"creator,attr"`
+	Meta    Metadata `xml:"metadata"`
+	Tracks  []Track  `xml:"trk"`
 }
 
 type Metadata struct {
 	Time time.Time `xml:"time"`
 }
 
-type Track struct{
+type Track struct {
 	TrackSegments []TrackSegment `xml:"trkseg"`
 }
 
-type TrackSegment struct{
+type TrackSegment struct {
 	TrackPoints []TrackPoint `xml:"trkpt"`
 }
 
 type TrackPoint struct {
-	Latitude float64 `xml:"lat,attr"`
-	Longitude float64 `xml:"lon,attr"`
-	DateTime time.Time `xml:"time"`
+	Latitude   float64   `xml:"lat,attr"`
+	Longitude  float64   `xml:"lon,attr"`
+	DateTime   time.Time `xml:"time"`
 	Extensions Extension `xml:"extensions"`
 }
 
@@ -38,31 +38,31 @@ type TrackPointExtension struct {
 }
 
 func NewGpx(creator string, metaData Metadata, tracks []Track) GpxFile {
-	return GpxFile{Creator:creator, Meta:metaData, Tracks:tracks}
+	return GpxFile{Creator: creator, Meta: metaData, Tracks: tracks}
 }
 
 func NewMeta(time time.Time) Metadata {
-	return Metadata{Time:time}
+	return Metadata{Time: time}
 }
 
 func NewTrack(segments []TrackSegment) Track {
-	return Track{TrackSegments:segments}
+	return Track{TrackSegments: segments}
 }
 
 func NewTrackSegment(points []TrackPoint) TrackSegment {
-	return TrackSegment{TrackPoints:points}
+	return TrackSegment{TrackPoints: points}
 }
 
-func NewTrackPoint(lat float64, long float64, dateTime time.Time, extension Extension) TrackPoint{
-	return TrackPoint{Latitude:lat, Longitude:long, DateTime:dateTime, Extensions:extension}
+func NewTrackPoint(lat float64, long float64, dateTime time.Time, extension Extension) TrackPoint {
+	return TrackPoint{Latitude: lat, Longitude: long, DateTime: dateTime, Extensions: extension}
 }
 
 func NewExtension(trckptext TrackPointExtension) Extension {
-	return Extension{TrackPointExtensions:trckptext}
+	return Extension{TrackPointExtensions: trckptext}
 }
 
 func NewTrackPointExtension(speed float64) TrackPointExtension {
-	return TrackPointExtension{Speed:speed}
+	return TrackPointExtension{Speed: speed}
 }
 
 func (g GpxFile) GetCreator() string {
@@ -105,7 +105,7 @@ func (t TrackPoint) GetExtension() Extension {
 	return t.Extensions
 }
 
-func(e Extension) GetTrackPointExtension() TrackPointExtension {
+func (e Extension) GetTrackPointExtension() TrackPointExtension {
 	return e.TrackPointExtensions
 }
 

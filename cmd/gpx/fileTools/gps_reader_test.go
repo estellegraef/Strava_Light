@@ -1,8 +1,8 @@
 package fileTools
 
 import (
-	"Strava_Light/cmd/gpx"
-	"Strava_Light/cmd/gpx/gpx_info"
+	"github.com/estellegraef/Strava_Light/cmd/gpx"
+	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -20,15 +20,15 @@ func TestReadGpx(t *testing.T) {
 			Time: time.Date(2019, 9, 14, 13, 14, 17, 94000000, time.UTC),
 		},
 		Tracks: []gpx_info.Track{
-			{	TrackSegments: []gpx_info.TrackSegment{
-				{	TrackPoints: []gpx_info.TrackPoint{
-					{	Latitude: 49.3549890600,
+			{TrackSegments: []gpx_info.TrackSegment{
+				{TrackPoints: []gpx_info.TrackPoint{
+					{Latitude: 49.3549890600,
 						Longitude: 9.1519649400,
-						DateTime: time.Date(2019, 9, 14, 13, 14, 30, 276000000, time.UTC),
+						DateTime:  time.Date(2019, 9, 14, 13, 14, 30, 276000000, time.UTC),
 						Extensions: gpx_info.Extension{
-						TrackPointExtensions: gpx_info.TrackPointExtension{
-							Speed:5.54,
-						},
+							TrackPointExtensions: gpx_info.TrackPointExtension{
+								Speed: 5.54,
+							},
 						},
 					},
 				},
@@ -77,5 +77,3 @@ func TestCheckFileNonExistentNegative(t *testing.T) {
 	nonExistent := CheckFileNonExistent(gpx.GetTestGpxPath())
 	assert.False(t, nonExistent)
 }
-
-
