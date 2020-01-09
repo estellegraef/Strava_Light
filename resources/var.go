@@ -1,3 +1,9 @@
+/*
+ * 2848869
+ * 8089098
+ * 3861852
+ */
+
 package resources
 
 import (
@@ -8,12 +14,12 @@ import (
 )
 
 func GetBasePath() string {
-		_, filename, _, ok := runtime.Caller(0)
-		if !ok {
-			panic("No caller information")
-		}
-		fmt.Printf("Filename : %q, Dir : %q\n", filename, path.Dir(filename))
-		return path.Dir(filename)
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		panic("No caller information")
+	}
+	fmt.Printf("Filename : %q, Dir : %q\n", filename, path.Dir(filename))
+	return path.Dir(filename)
 }
 
 func GetTestGpxPath() string {
