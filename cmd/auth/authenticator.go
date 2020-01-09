@@ -7,8 +7,6 @@
 package auth
 
 import (
-	"encoding/base64"
-	"fmt"
 	"github.com/estellegraef/Strava_Light/cmd/hashAndSalt"
 	"github.com/estellegraef/Strava_Light/cmd/user"
 )
@@ -18,6 +16,7 @@ type Authenticator interface {
 }
 
 type AuthenticatorFunc func(username, password string) bool
+type funcWrapper func() []user.User
 
 func (af AuthenticatorFunc) Authenticate(user, password string) bool {
 	return af(user, password)
@@ -27,23 +26,18 @@ func CheckUserIsValid(username, password string) bool {
 	//return username == "Rico" && password == "1234"
 	//user1: go!Project?2020
 	//user2: user2Password
+	return checkUserIsValidWrapper(username, password, user.GetUsersFromFile)
+}
+
+// Decouples the actual UserCred file from the simple check for better testing
+func checkUserIsValidWrapper(username, password string, getUsers funcWrapper) bool {
 	var users []user.User
 	//if users ==  {
-	users = user.GetUsersFromFile()
+	users = getUsers()
 	//}
 	for _, user := range users {
 		if user.GetUserName() == username {
-			passwordDecode, err1 := base64.StdEncoding.DecodeString(user.GetPassword())
-			if err1 != nil {
-				fmt.Println("Base64 Decoding error", err1)
-				return false
-			}
-			saltDecode, err2 := base64.StdEncoding.DecodeString(user.GetSalt())
-			if err2 != nil {
-				fmt.Println("Base64 Decoding error", err2)
-				return false
-			}
-			if hashAndSalt.Match([]byte(password), passwordDecode, saltDecode) {
+			if hashAndSalt.Match([]byte(password), user.GetPassword(), user.GetSalt()) {
 				return true
 			} else {
 				return false
