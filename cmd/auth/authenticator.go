@@ -4,11 +4,13 @@
  * 3861852
  */
 
-package cmd
+package auth
 
 import (
 	"encoding/base64"
 	"fmt"
+	"github.com/estellegraef/Strava_Light/cmd/hashAndSalt"
+	"github.com/estellegraef/Strava_Light/cmd/user"
 )
 
 type Authenticator interface {
@@ -25,9 +27,9 @@ func CheckUserIsValid(username, password string) bool {
 	//return username == "Rico" && password == "1234"
 	//user1: go!Project?2020
 	//user2: user2Password
-	var users []User
+	var users []user.User
 	//if users ==  {
-	users = GetUsersFromFile()
+	users = user.GetUsersFromFile()
 	//}
 	for _, user := range users {
 		if user.GetUserName() == username {
@@ -41,7 +43,7 @@ func CheckUserIsValid(username, password string) bool {
 				fmt.Println("Base64 Decoding error", err2)
 				return false
 			}
-			if Match([]byte(password), passwordDecode, saltDecode) {
+			if hashAndSalt.Match([]byte(password), passwordDecode, saltDecode) {
 				return true
 			} else {
 				return false
