@@ -32,9 +32,7 @@ func CheckUserIsValid(username, password string) bool {
 // Decouples the actual UserCred file from the simple check for better testing
 func checkUserIsValidWrapper(username, password string, getUsers funcWrapper) bool {
 	var users []user.User
-	//if users ==  {
 	users = getUsers()
-	//}
 	for _, user := range users {
 		if user.GetUserName() == username {
 			if hashAndSalt.Match([]byte(password), user.GetPassword(), user.GetSalt()) {

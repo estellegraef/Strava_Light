@@ -32,8 +32,8 @@ func CreateWebServer() {
 	http.Handle("/images/", http.StripPrefix(strings.TrimRight("/images/", "/"), http.FileServer(http.Dir("resources/img"))))
 
 	// Command-line-flag for port
-	// the default value is 443
-	portPtr := flag.Int("port", 443, "Webserver Port")
+	// the default value is 8081
+	portPtr := flag.Int("port", 8081, "Webserver Port")
 	flag.Parse()
 	fmt.Println("Start Server on Port: ", *portPtr)
 

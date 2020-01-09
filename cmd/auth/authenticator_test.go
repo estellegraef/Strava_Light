@@ -14,7 +14,7 @@ func TestCheckUserIsValidWrapperWithWrongPassword(t *testing.T) {
 	passwordRight := "password"
 	salt := hashAndSalt.GenerateSalt([]byte(passwordRight))
 
-	userCredRight := user.NewUser("user1", hashAndSalt.GeneratePasswordAndSaltHash(salt, []byte(passwordRight)), salt)
+	userCredRight := user.NewUser("user1", hashAndSalt.GeneratePasswordAndSaltHash(salt, []byte(passwordRight)), salt, "")
 
 	actualBool := checkUserIsValidWrapper(username, userPassword, func() []user.User {
 		return []user.User{userCredRight}
@@ -30,7 +30,7 @@ func TestCheckUserIsValidWithWrongUsername(t *testing.T) {
 	passwordRight := "password"
 	salt := hashAndSalt.GenerateSalt([]byte(passwordRight))
 
-	userCredRight := user.NewUser("user1", hashAndSalt.GeneratePasswordAndSaltHash(salt, []byte(passwordRight)), salt)
+	userCredRight := user.NewUser("user1", hashAndSalt.GeneratePasswordAndSaltHash(salt, []byte(passwordRight)), salt, "")
 
 	actualBool := checkUserIsValidWrapper(username, userPassword, func() []user.User {
 		return []user.User{userCredRight}
@@ -44,11 +44,11 @@ func TestCheckUserIsValidWithRightCredentials(t *testing.T) {
 
 	salt := hashAndSalt.GenerateSalt([]byte(passwordRight))
 
-	userCredRight := user.NewUser("user1", hashAndSalt.GeneratePasswordAndSaltHash(salt, []byte(passwordRight)), salt)
+	userCredRight := user.NewUser("user1", hashAndSalt.GeneratePasswordAndSaltHash(salt, []byte(passwordRight)), salt, "")
 
 	actualBool := checkUserIsValidWrapper(username, passwordRight, func() []user.User {
 		return []user.User{userCredRight}
 	})
-	assert.Equal(t, true, actualBool, "wrong credentials")
+	assert.Equal(t, true, actualBool)
 
 }

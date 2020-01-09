@@ -14,13 +14,14 @@ import (
 )
 
 type User struct {
-	userName string
-	password []byte
-	salt     []byte
+	userName    string
+	password    []byte
+	salt        []byte
+	storagePath string
 }
 
-func NewUser(name string, password []byte, salt []byte) User {
-	return User{name, password, salt}
+func NewUser(name string, password []byte, salt []byte, storagePath string) User {
+	return User{name, password, salt, storagePath}
 }
 
 func GetUsersFromFile() []User {
@@ -31,7 +32,7 @@ func GetUsersFromFile() []User {
 	}
 	dataString := string(data)
 	s := strings.Fields(dataString)
-	users := make([]User, 0)
+	var users []User
 	for _, user := range s {
 		userSplit := strings.Split(user, ";")
 
@@ -44,7 +45,7 @@ func GetUsersFromFile() []User {
 			fmt.Println("Base64 Decoding error", err2)
 		}
 
-		users = append(users, User{userSplit[0], passwordDecode, saltDecode})
+		users = append(users, User{userSplit[0], passwordDecode, saltDecode, ""})
 	}
 	return users
 }
@@ -59,4 +60,8 @@ func (u User) GetPassword() []byte {
 
 func (u User) GetSalt() []byte {
 	return u.salt
+}
+
+func (u User) GetStoragePath() string {
+	return u.storagePath
 }
