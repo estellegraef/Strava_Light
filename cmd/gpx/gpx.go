@@ -1,4 +1,4 @@
-package gpx_info
+package gpx
 
 import (
 	"time"

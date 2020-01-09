@@ -1,16 +1,15 @@
 /*
  * 2848869
  */
-package gpxprocessing
+package gpx
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
 	"math"
 	"time"
 )
 
-func GetAllTrackPoints(file gpx_info.GpxFile) []gpx_info.TrackPoint {
-	var allTrackPoints []gpx_info.TrackPoint
+func GetAllTrackPoints(file GpxFile) []TrackPoint {
+	var allTrackPoints []TrackPoint
 	for _, track := range file.GetTracks() {
 		for _, segment := range track.GetTrackSegments() {
 			allTrackPoints = append(allTrackPoints, segment.GetTrackPoints()...)
@@ -19,7 +18,7 @@ func GetAllTrackPoints(file gpx_info.GpxFile) []gpx_info.TrackPoint {
 	return allTrackPoints
 }
 
-func GetMaxSpeed(points []gpx_info.TrackPoint) float64 {
+func GetMaxSpeed(points []TrackPoint) float64 {
 	var maxSpeed float64 = 0
 	for _, point := range points {
 		var currentSpeed = point.GetExtension().GetTrackPointExtension().GetSpeed()
@@ -30,7 +29,7 @@ func GetMaxSpeed(points []gpx_info.TrackPoint) float64 {
 	return maxSpeed
 }
 
-func GetAvgSpeed(points []gpx_info.TrackPoint) float64 {
+func GetAvgSpeed(points []TrackPoint) float64 {
 	var speedSum float64 = 0
 	for _, point := range points {
 		var currentSpeed = point.GetExtension().GetTrackPointExtension().GetSpeed()
@@ -42,8 +41,8 @@ func GetAvgSpeed(points []gpx_info.TrackPoint) float64 {
 }
 
 //calculate total distance in km by adding up distance between previous trackpoint and current
-func CalculateDistanceInKilometers(points []gpx_info.TrackPoint) float64 {
-	var previousTrkPt gpx_info.TrackPoint
+func CalculateDistanceInKilometers(points []TrackPoint) float64 {
+	var previousTrkPt TrackPoint
 	var totalDistance float64
 	for index, point := range points {
 		if index == 0 {
@@ -80,25 +79,16 @@ func CalculateRadiant(val float64) float64 {
 	return val * math.Pi / 180
 }
 
-//return correct speed according to average speed
-func CorrectSpeed(speed, avgSpeed float64) float64 {
-	var correctSpeed = speed
-	if speed > (avgSpeed + avgSpeed/2) {
-		correctSpeed = avgSpeed
-	}
-	return correctSpeed
-}
-
-func CalculateStandbyTimeInSec(points []gpx_info.TrackPoint) float64 {
+func CalculateStandbyTimeInSec(points []TrackPoint) float64 {
 	var standbyTimeInSec float64
-	var previousTrkPt gpx_info.TrackPoint
+	var previousTrkPt TrackPoint
 	for index, point := range points {
 		var currentSpeed = point.GetExtension().GetTrackPointExtension().GetSpeed()
 		if index == 0 {
 			previousTrkPt = point
 		} else {
 			var previousSpeed = previousTrkPt.GetExtension().GetTrackPointExtension().GetSpeed()
-			if previousSpeed == 0 && currentSpeed == 0 {
+			if previousSpeed <= 1 && currentSpeed <= 1 {
 				var timeDifference = time.Time.Sub(point.GetDateTime(), previousTrkPt.GetDateTime()).Seconds()
 				standbyTimeInSec = standbyTimeInSec + timeDifference
 				previousTrkPt = point
@@ -106,4 +96,19 @@ func CalculateStandbyTimeInSec(points []gpx_info.TrackPoint) float64 {
 		}
 	}
 	return standbyTimeInSec
+}
+
+func VerifySportType(sportType string, avgSpeed float64) string {
+	var matchingSportType = sportType
+	switch sportType {
+	case "Laufen":
+		if avgSpeed > 16 {
+			matchingSportType = "Radfahren"
+		}
+	case "Radfahren":
+		if avgSpeed < 16 {
+			matchingSportType = "Laufen"
+		}
+	}
+	return matchingSportType
 }

@@ -30,7 +30,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		data.Content = nil
 	} else {
 		search := r.FormValue("search")
-		data.Content = activity.SearchActivities(username, search)
+		data.Content = activity.GetActivitiesByKeyword(username, search)
 	}
 
 	_ = tmpl.Execute(w, data)

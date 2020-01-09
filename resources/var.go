@@ -1,7 +1,6 @@
 package resources
 
 import (
-	"fmt"
 	"path"
 	"path/filepath"
 	"runtime"
@@ -12,7 +11,6 @@ func GetBasePath() string {
 		if !ok {
 			panic("No caller information")
 		}
-		fmt.Printf("Filename : %q, Dir : %q\n", filename, path.Dir(filename))
 		return path.Dir(filename)
 }
 
@@ -26,4 +24,12 @@ func GetTestZipPath() string {
 
 func GetTestInvalidPath() string {
 	return filepath.Join(GetBasePath(), "gpx\\test.zip")
+}
+
+func GetUserActivitiesPath() string {
+	return filepath.Join(GetBasePath(), "useractivities")
+}
+
+func GetUserDir(user string) string {
+	return filepath.Join(GetUserActivitiesPath(), user)
 }

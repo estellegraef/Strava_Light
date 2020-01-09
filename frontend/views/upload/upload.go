@@ -33,7 +33,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		comment := r.FormValue("comment")
 
 		//backend call
-		success := activity.CreateActivity(username, sportType, file, fileHeader, comment)
+		success := activity.AddActivity(username, sportType, file, fileHeader, comment)
 
 		if success {
 			data.Content = 1

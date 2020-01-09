@@ -26,7 +26,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		Content []activity.Activity
 	}{
 		Page:    pages.NewIndex(),
-		Content: activity.GetActivities(username),
+		Content: activity.GetActivitiesFromUser(username),
 	}
 
 	err := tmpl.Execute(w, data)

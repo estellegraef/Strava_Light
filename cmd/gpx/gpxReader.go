@@ -1,10 +1,9 @@
-package fileTools
+package gpx
 
 import (
 	"archive/zip"
 	"encoding/xml"
 	"fmt"
-	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -15,8 +14,8 @@ type Closer interface {
 }
 
 //read any filepath and return contained files converted to GpxFiles in a list
-func ReadFile(fileName string) []gpx_info.GpxFile {
-	var files []gpx_info.GpxFile
+func ReadFile(fileName string) []GpxFile {
+	var files []GpxFile
 	if CheckFileNonExistent(fileName) == false {
 		switch filepath.Ext(fileName) {
 		case ".zip":
@@ -31,17 +30,17 @@ func ReadFile(fileName string) []gpx_info.GpxFile {
 }
 
 //read .zip file
-func ReadZip(fileName string) []gpx_info.GpxFile {
+func ReadZip(fileName string) []GpxFile {
 	read, err := zip.OpenReader(fileName)
 	checkError(err)
 
 	defer checkCloser(read)
 
-	var containedFiles []gpx_info.GpxFile
+	var containedFiles []GpxFile
 	//read and convert each file contained in the .zip file
 	for _, file := range read.File {
 		content := ReadZipContent(file)
-		gpx := ParseByteXml(content)
+		gpx := UnmarshalXML(content)
 
 		//put each files in the .zip file into a list
 		containedFiles = append(containedFiles, gpx)
@@ -60,7 +59,7 @@ func ReadZipContent(file *zip.File) []byte {
 }
 
 //read a .gpx file and convert it to a GpxFile object
-func ReadGpx(filePath string) gpx_info.GpxFile {
+func ReadGpx(filePath string) GpxFile {
 	xmlFile, err := os.Open(filePath)
 	checkError(err)
 
@@ -68,14 +67,14 @@ func ReadGpx(filePath string) gpx_info.GpxFile {
 
 	byteValue, err := ioutil.ReadAll(xmlFile)
 	checkError(err)
-	file := ParseByteXml(byteValue)
+	file := UnmarshalXML(byteValue)
 
 	return file
 }
 
 //Convert a byte stream to a GpxFile
-func ParseByteXml(byteVal []byte) gpx_info.GpxFile {
-	var file gpx_info.GpxFile
+func UnmarshalXML(byteVal []byte) GpxFile {
+	var file GpxFile
 
 	err := xml.Unmarshal(byteVal, &file)
 	checkError(err)

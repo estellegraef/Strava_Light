@@ -1,7 +1,6 @@
-package fileTools
+package gpx
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
 	"github.com/estellegraef/Strava_Light/resources"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -14,19 +13,19 @@ func TestReadGpx(t *testing.T) {
 	var actualFile = ReadGpx(resources.GetTestGpxPath())
 
 	//create expected file
-	expectedFile := gpx_info.GpxFile{
+	expectedFile := GpxFile{
 		Creator: "Urban Biker",
-		Meta: gpx_info.Metadata{
+		Meta: Metadata{
 			Time: time.Date(2019, 9, 14, 13, 14, 17, 94000000, time.UTC),
 		},
-		Tracks: []gpx_info.Track{
-			{TrackSegments: []gpx_info.TrackSegment{
-				{TrackPoints: []gpx_info.TrackPoint{
+		Tracks: []Track{
+			{TrackSegments: []TrackSegment{
+				{TrackPoints: []TrackPoint{
 					{Latitude: 49.35498906,
 						Longitude: 9.15196494,
 						DateTime:  time.Date(2019, 9, 14, 13, 14, 30, 276000000, time.UTC),
-						Extensions: gpx_info.Extension{
-							TrackPointExtensions: gpx_info.TrackPointExtension{
+						Extensions: Extension{
+							TrackPointExtensions: TrackPointExtension{
 								Speed: 5.54,
 							},
 						},
@@ -64,7 +63,7 @@ func TestReadFileWithZip(t *testing.T) {
 func TestReadFileInvalidPath(t *testing.T) {
 	actualFiles := ReadFile(resources.GetTestInvalidPath())
 	//since the path is invalid, a empty object is expected
-	expectedFiles := []gpx_info.GpxFile(nil)
+	expectedFiles := []GpxFile(nil)
 	assert.Equal(t, expectedFiles, actualFiles)
 }
 
