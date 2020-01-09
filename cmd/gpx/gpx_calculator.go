@@ -1,7 +1,7 @@
 /*
  * 2848869
  */
-package activityprocessing
+package gpxprocessing
 
 import (
 	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
