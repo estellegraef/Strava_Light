@@ -4,7 +4,7 @@
  * 3861852
  */
 
-package editing
+package edit
 
 import (
 	"github.com/estellegraef/Strava_Light/cmd/activity"
