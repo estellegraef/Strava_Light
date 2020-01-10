@@ -9,61 +9,59 @@ package activity
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"github.com/estellegraef/Strava_Light/cmd/storageManagement"
+	"github.com/estellegraef/Strava_Light/resources"
 	"log"
-	"mime/multipart"
+	"path/filepath"
+	"strconv"
+	"strings"
 )
 
-func AddActivity(username string, sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
-	var success = true
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil{
-		log.Print(err)
-	}
-	fmt.Println(fileBytes)
-	fmt.Println(fileHeader.Filename)
-	//calc bytes
-	//obj
-	//write obj
-	//return success
-	return success
-}
+var list []Activity
+//TODO implement cache after tests
 
-/*func CreateActivity(){
-
-}
-
-//Get activity from json file
-func GetActivity(user string, id string) Activity {
+func GetActivities(user string) []Activity {
 	userDir := resources.GetUserDir(user)
-	files := filemanagement.GetAllFiles(userDir)
+	files := filemanagement.GetAllFilesFromDir(userDir)
+	var activities []Activity
+	for _, file := range files {
+		if filepath.Ext(file) == ".json" {
+			activities = append(activities, GetActivity(user, GetIdByName(file)))
+		}
+	}
+	return activities
+}
+
+//TODO request change to id string from uint32
+func GetActivity(user string, id uint32) Activity {
+	userDir := resources.GetUserDir(user)
+	files := filemanagement.GetAllFilesFromDir(userDir)
 	var activity Activity
 	for _, file := range files {
-		if file == id {
+		searchedFile := GetNameById(id)
+		if filepath.Base(file) == searchedFile {
 			content := filemanagement.ReadFileContent(file)
 			activity = UnmarshalJSON(content)
 		}
 	}
 	return activity
-}*/
-
-func GetActivitiesFromUser(user string) []Activity {
-	/*userDir := resources.GetUserDir(user)
-	files := filemanagement.GetAllFiles(userDir)
-	var activities []Activity
-	for _, file := range files {
-		activities = append(activities, GetActivity(user, file))
-	}*/
-	return []Activity{}
 }
 
-func GetActivitiesByKeyword(user string, keyword string) []Activity {
-	return []Activity{}
+func SearchActivities(username string, search string) []Activity {
+	result := make([]Activity, 0)
+
+	for _, elem := range list {
+		if elem.GetComment() == search {
+			result = append(result, elem)
+		}
+	}
+
+	return result
 }
 
 func EditActivity(user string, id uint32, sportType string, comment string) bool {
 	activity := GetActivity(user, id)
-	activity.sportType = sportType
+	activity.SportType = sportType
 	activity.Comment = comment
 	//save
 	return true
@@ -90,4 +88,14 @@ func UnmarshalJSON(data []byte) Activity {
 		log.Println(err)
 	}
 	return activity
+}
+
+func GetNameById(id uint32) string {
+	return fmt.Sprint(id) + ".json"
+}
+
+func GetIdByName(name string) uint32 {
+	filename := strings.TrimSuffix(filepath.Base(name), ".json")
+	val, _ := strconv.Atoi(filename)
+	return uint32(val)
 }

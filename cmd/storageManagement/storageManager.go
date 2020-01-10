@@ -11,14 +11,15 @@ import (
 	"log"
 	"mime/multipart"
 	"os"
+	"path/filepath"
 )
 
 type Closer interface {
 	Close() error
 }
 
-func ReadFileContent(file string) []byte {
-	xmlFile, err := os.Open(file)
+func ReadFileContent(filepath string) []byte {
+	xmlFile, err := os.Open(filepath)
 	checkError(err)
 
 	defer checkCloser(xmlFile)
@@ -40,14 +41,14 @@ func SaveFile(file string) bool {
 	return true
 }
 
-func GetAllFiles(path string) []string {
+func GetAllFilesFromDir(directory string) []string {
 	var dirNames []string
-	files, err := ioutil.ReadDir(path)
+	files, err := ioutil.ReadDir(directory)
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, dir := range files{
-		dirNames = append(dirNames, dir.Name())
+	for _, file := range files{
+		dirNames = append(dirNames, filepath.Join(directory, file.Name()))
 	}
 	return dirNames
 }

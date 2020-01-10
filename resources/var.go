@@ -13,25 +13,23 @@ import (
 )
 
 func GetBasePath() string {
-		_, filename, _, ok := runtime.Caller(0)
-		if !ok {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
 			panic("No caller information")
 		}
 		return path.Dir(filename)
-	_, filename, _, ok := runtime.Caller(0)
-	if !ok {
-		panic("No caller information")
-	}
-	fmt.Printf("Filename : %q, Dir : %q\n", filename, path.Dir(filename))
-	return path.Dir(filename)
+}
+
+func GetShortTestGpx() string {
+	return filepath.Join(GetBasePath(), "gpx\\short.gpx")
 }
 
 func GetTestGpxPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx")
+	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx.gpx")
 }
 
 func GetTestZipPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx.zip")
+	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx.gpx.zip")
 }
 
 func GetTestInvalidPath() string {

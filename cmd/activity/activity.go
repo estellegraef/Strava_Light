@@ -11,22 +11,27 @@ import (
 )
 
 type Activity struct {
+	Name		string
 	Id          uint32
-	sportType   string
+	SportType   string
 	Comment     string
-	length      float64
-	waitingTime float64
-	avgSpeed    float64
-	maxSpeed    float64
-	dateTime    time.Time
+	Length      float64
+	WaitingTime float64
+	AvgSpeed    float64
+	MaxSpeed    float64
+	DateTime    time.Time
 }
 
 func New(id uint32, sportType string, comment string, length float64, waitingTime float64, avgSpeed float64, maxSpeed float64, dateTime time.Time) Activity {
-	return Activity{Id: id, sportType: sportType, Comment: comment, length: length, waitingTime: waitingTime, avgSpeed: avgSpeed, maxSpeed: maxSpeed, dateTime: dateTime}
+	return Activity{Id: id, SportType: sportType, Comment: comment, Length: length, WaitingTime: waitingTime, AvgSpeed: avgSpeed, MaxSpeed: maxSpeed, DateTime: dateTime}
+}
+
+func (a Activity) GetName() string {
+	return a.GetName()
 }
 
 func (a Activity) GetSportType() string {
-	return a.sportType
+	return a.SportType
 }
 
 func (a Activity) GetComment() string {

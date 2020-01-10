@@ -31,7 +31,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		Content []activity.Activity
 	}{
 		Page:    pages.NewIndex(),
-		Content: activity.GetActivitiesFromUser(username),
+		Content: activity.GetActivities(username),
 	}
 
 	err := tmpl.Execute(w, data)

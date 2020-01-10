@@ -13,10 +13,9 @@ import (
 	"time"
 )
 
-//TODO create own, smaller file with only one TP to get full coverage
 func TestReadGpx(t *testing.T) {
 	//generate GpxFile object  from path
-	var actualFile = ReadGpx(resources.GetTestGpxPath())
+	var actualFile = ReadGpx(resources.GetShortTestGpx())
 
 	//create expected file
 	expectedFile := GpxFile{
@@ -42,13 +41,7 @@ func TestReadGpx(t *testing.T) {
 			},
 		},
 	}
-	//extract same TrackPoint
-	var actualTrackSegment = actualFile.GetTracks()[0].GetTrackSegments()[1].GetTrackPoints()[4]
-	var expectedTrackSegment = expectedFile.GetTracks()[0].GetTrackSegments()[0].GetTrackPoints()[0]
-
-	assert.Equal(t, expectedFile.GetCreator(), actualFile.GetCreator())
-	assert.Equal(t, expectedFile.GetMeta(), actualFile.GetMeta())
-	assert.Equal(t, expectedTrackSegment, actualTrackSegment)
+	assert.Equal(t, expectedFile, actualFile)
 }
 
 func TestReadZip(t *testing.T) {
@@ -68,7 +61,7 @@ func TestReadFileWithZip(t *testing.T) {
 
 func TestReadFileInvalidPath(t *testing.T) {
 	actualFiles := ReadFile(resources.GetTestInvalidPath())
-	//since the path is invalid, a empty object is expected
+	//since the path is invalid, an empty GpxFile array is expected
 	expectedFiles := []GpxFile(nil)
 	assert.Equal(t, expectedFiles, actualFiles)
 }
