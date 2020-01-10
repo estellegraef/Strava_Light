@@ -4,6 +4,6 @@
  * 3861852
  */
 
-package cmd
+package user
 
 //import "github.com/stretchr/testify/assert"

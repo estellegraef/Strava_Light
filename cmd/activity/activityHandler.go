@@ -3,8 +3,6 @@ package activity
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/estellegraef/Strava_Light/cmd/filemanagement"
-	"github.com/estellegraef/Strava_Light/resources"
 	"io/ioutil"
 	"log"
 	"mime/multipart"
@@ -25,7 +23,7 @@ func AddActivity(username string, sportType string, file multipart.File, fileHea
 	return success
 }
 
-func CreateActivity(){
+/*func CreateActivity(){
 
 }
 
@@ -41,23 +39,23 @@ func GetActivity(user string, id string) Activity {
 		}
 	}
 	return activity
-}
+}*/
 
 func GetActivitiesFromUser(user string) []Activity {
-	userDir := resources.GetUserDir(user)
+	/*userDir := resources.GetUserDir(user)
 	files := filemanagement.GetAllFiles(userDir)
 	var activities []Activity
 	for _, file := range files {
 		activities = append(activities, GetActivity(user, file))
-	}
-	return activities
+	}*/
+	return []Activity{}
 }
 
 func GetActivitiesByKeyword(user string, keyword string) []Activity {
 	return []Activity{}
 }
 
-func EditActivity(user string, id string, sportType string, comment string) bool {
+func EditActivity(user string, id uint32, sportType string, comment string) bool {
 	activity := GetActivity(user, id)
 	activity.sportType = sportType
 	activity.Comment = comment

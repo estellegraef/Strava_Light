@@ -4,7 +4,7 @@
  * 3861852
  */
 
-package cmd
+package hashAndSalt
 
 import (
 	"bytes"

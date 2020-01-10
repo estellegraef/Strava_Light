@@ -1,4 +1,10 @@
-package gpx
+/*
+ * 2848869
+ * 8089098
+ * 3861852
+ */
+
+package gpxProcessing
 
 import (
 	"github.com/estellegraef/Strava_Light/resources"
