@@ -10,7 +10,7 @@ import (
 	"fmt"
 )
 
-const SIZE = 5 // size of cache
+const SIZE = 10 // size of cache
 
 //Node contains a activity and neighbor nodes
 type Node struct {

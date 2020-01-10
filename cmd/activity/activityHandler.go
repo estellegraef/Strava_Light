@@ -12,12 +12,15 @@ import (
 	"github.com/estellegraef/Strava_Light/cmd/storageManagement"
 	"github.com/estellegraef/Strava_Light/resources"
 	"log"
+	"mime/multipart"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 )
 
 var list []Activity
+
 //TODO implement cache after tests
 
 func GetActivities(user string) []Activity {
@@ -29,9 +32,15 @@ func GetActivities(user string) []Activity {
 			activities = append(activities, GetActivity(user, GetIdByName(file)))
 		}
 	}
-	return activities
+	return SortActivities(activities)
 }
 
+func SortActivities(activities []Activity) []Activity{
+	sort.Slice(activities, func(i, j int) bool {
+		return activities[i].DateTime.Before(activities[j].DateTime)
+	})
+	return activities
+}
 //TODO request change to id string from uint32
 func GetActivity(user string, id uint32) Activity {
 	userDir := resources.GetUserDir(user)
@@ -40,7 +49,7 @@ func GetActivity(user string, id uint32) Activity {
 	for _, file := range files {
 		searchedFile := GetNameById(id)
 		if filepath.Base(file) == searchedFile {
-			content := filemanagement.ReadFileContent(file)
+			content := filemanagement.ReadFile(file)
 			activity = UnmarshalJSON(content)
 		}
 	}
@@ -59,7 +68,16 @@ func SearchActivities(username string, search string) []Activity {
 	return result
 }
 
-func EditActivity(user string, id uint32, sportType string, comment string) bool {
+func AddActivity(username string, sportType string, file multipart.File, header *multipart.FileHeader, comment string) bool {
+	//generate uuid
+	//read + eval multipart file -> GPX info
+		//read bytes -> save + read with gpxprocessing or readbytes and generate gpx without saving
+	//new Activity object -> createActivity
+	//save to usr if not already saved
+	return true
+}
+
+func UpdateActivity(user string, id uint32, sportType string, comment string) bool {
 	activity := GetActivity(user, id)
 	activity.SportType = sportType
 	activity.Comment = comment
@@ -69,7 +87,8 @@ func EditActivity(user string, id uint32, sportType string, comment string) bool
 
 func DeleteActivity(user string, id string) bool {
 	//activity := GetActivity(user, id)
-	//delete
+	//delete from cache
+	//delete json + gpx/zip file from directory
 	return true
 }
 

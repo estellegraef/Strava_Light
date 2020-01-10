@@ -25,11 +25,11 @@ func GetShortTestGpx() string {
 }
 
 func GetTestGpxPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx.gpx")
+	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx")
 }
 
 func GetTestZipPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx.gpx.zip")
+	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx.zip")
 }
 
 func GetTestInvalidPath() string {

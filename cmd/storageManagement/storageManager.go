@@ -18,23 +18,34 @@ type Closer interface {
 	Close() error
 }
 
-func ReadFileContent(filepath string) []byte {
+func ReadFile(filepath string) []byte {
 	xmlFile, err := os.Open(filepath)
-	checkError(err)
+	CheckError(err)
 
-	defer checkCloser(xmlFile)
+	defer CheckCloser(xmlFile)
 
 	byteValue, err := ioutil.ReadAll(xmlFile)
-	checkError(err)
+	CheckError(err)
 	return byteValue
 }
 
 func ReadReceiveFile(file multipart.File, header multipart.FileHeader) []byte {
- return nil
+	//TODO check if header is needed
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+ 	return fileBytes
 }
 
 func DeleteFile(file string) bool {
-	return true
+	var success = true
+	err := os.Remove(file)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	return success
 }
 
 func SaveFile(file string) bool {
@@ -58,13 +69,12 @@ func GenerateId() uint32 {
 	return 1
 }
 
-func checkError(err error) {
+func CheckCloser(closer Closer) {
+	err := closer.Close()
+	CheckError(err)
+}
+func CheckError(err error) {
 	if err != nil {
 		fmt.Errorf("Fehler: %v ", err)
 	}
-}
-
-func checkCloser(closer Closer) {
-	err := closer.Close()
-	checkError(err)
 }

@@ -23,6 +23,6 @@ func TestGetAllFiles(t *testing.T) {
 
 func TestReadFileContent(t *testing.T) {
 	gpxFile := resources.GetShortTestGpx()
-	ReadFileContent(gpxFile)
+	ReadFile(gpxFile)
 	//TODO test byte result
 }
