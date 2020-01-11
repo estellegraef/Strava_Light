@@ -95,8 +95,12 @@ func CreateStorageForUsers(basePath string) {
 			err := os.MkdirAll(path, os.ModePerm)
 			if err != nil {
 				fmt.Println("Error creating user directory: ", err)
+			} else {
+				(*userSlice)[i].ChangeStoragePath(path)
 			}
+		} else {
+			(*userSlice)[i].ChangeStoragePath(path)
 		}
-		(*userSlice)[i].ChangeStoragePath(path)
+
 	}
 }
