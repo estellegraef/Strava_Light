@@ -20,6 +20,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	osUser "os/user"
 	"strconv"
 	"strings"
 )
@@ -34,8 +35,8 @@ func CreateWebServer() {
 	http.Handle("/images/", http.StripPrefix(strings.TrimRight("/images/", "/"), http.FileServer(http.Dir("resources/img"))))
 
 	// Command-line-flag for port
-	// the default value is 8081
-	portPtr := flag.Int("port", 8081, "Webserver Port")
+	// the default value is 443
+	portPtr := flag.Int("port", 443, "Webserver Port")
 	handleStorage()
 	//flag.Parse()
 	fmt.Println("Start Server on Port: ", *portPtr)
@@ -59,7 +60,11 @@ func basicAuth(authenticator auth.Authenticator, hf http.HandlerFunc) http.Handl
 }
 
 func handleStorage() {
-	defaultDir := "./storage"
+	u, err := osUser.Current()
+	if err != nil {
+		log.Println("Can't find current user directory", err)
+	}
+	defaultDir := u.HomeDir
 	baseDir := flag.String("basedir", defaultDir, "base storage location for the web server")
 	flag.Parse()
 	if *baseDir != defaultDir {
