@@ -7,7 +7,6 @@
 package webserver
 
 import (
-	"bytes"
 	"crypto/tls"
 	"fmt"
 	"github.com/estellegraef/Strava_Light/backend/auth"
@@ -112,7 +111,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func buildSecureUrl(path string) string {
-	return urlFor("http", httpsPort, path)
+	return urlFor("https", httpsPort, path)
 }
 
 func urlFor(scheme string, serverPort string, path string) string {
@@ -132,24 +131,16 @@ func TestHTTPSServer(t *testing.T) {
 	client := &http.Client{Transport: tr}
 	res, err := client.Get(buildSecureUrl("/"))
 
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	defer res.Body.Close()
 
-	if res.StatusCode != http.StatusOK {
-		t.Errorf("Response code was %v; want 200", res.StatusCode)
-	}
+	assert.Equal(t, http.StatusOK, res.StatusCode, "Response is not 200")
 
 	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	expected := []byte("Hello World")
 
-	if bytes.Compare(expected, body) != 0 {
-		t.Errorf("Response body was '%v'; want '%v'", expected, body)
-	}
+	assert.Equal(t, expected, body)
 }
