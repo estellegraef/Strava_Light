@@ -26,3 +26,31 @@ func TestReadFileContent(t *testing.T) {
 	ReadFile(gpxFile)
 	//TODO test byte result
 }
+
+func TestCreateFile(t *testing.T) {
+	dir := resources.GetUserDir("user1")
+	fileName := "TestCreateFile.txt"
+	content := []byte("Hello")
+	isCreated := CreateFile(dir, fileName, content)
+	assert.True(t, isCreated)
+}
+
+func TestDeleteFile(t *testing.T) {
+	dir := resources.GetUserDir("user1")
+	fileName := "TestCreateFile.txt"
+	content := []byte("TestDelete")
+	CreateFile(dir, fileName, content)
+	isDeleted := DeleteFile(dir, fileName)
+	assert.True(t, isDeleted)
+}
+
+func TestSaveFile(t *testing.T) {
+	dir := resources.GetUserDir("user1")
+	fileName := "TestCreateFile.txt"
+	content := []byte("Hello")
+	newContent := []byte("Goodbye")
+	isCreated := CreateFile(dir, fileName, content)
+	assert.True(t, isCreated)
+	isUpdated := SaveFile(dir, fileName, newContent)
+	assert.True(t, isUpdated)
+}

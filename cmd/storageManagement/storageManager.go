@@ -6,7 +6,6 @@
 package filemanagement
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"mime/multipart"
@@ -20,43 +19,70 @@ type Closer interface {
 
 func ReadFile(filepath string) []byte {
 	xmlFile, err := os.Open(filepath)
-	CheckError(err)
+	if err != nil {
+		log.Println(err)
+	}
 
 	defer CheckCloser(xmlFile)
 
 	byteValue, err := ioutil.ReadAll(xmlFile)
-	CheckError(err)
+	if err != nil {
+		log.Println(err)
+	}
 	return byteValue
 }
 
-func ReadReceiveFile(file multipart.File, header multipart.FileHeader) []byte {
-	//TODO check if header is needed
+func ReadReceiveFile(file multipart.File) []byte {
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
  	return fileBytes
 }
 
-func DeleteFile(file string) bool {
+func CreateFile(dir string, filename string, content []byte) bool {
 	var success = true
-	err := os.Remove(file)
+	err := ioutil.WriteFile(filepath.Join(dir, filename), content, 0755)
 	if err != nil {
-		log.Fatal(err)
-		return false
+		success = false
+		log.Println(err)
 	}
 	return success
 }
 
-func SaveFile(file string) bool {
-	return true
+func DeleteFile(dir string, filename string) bool {
+	var success = true
+	err := os.Remove(filepath.Join(dir, filename))
+	if err != nil {
+		success = false
+		log.Println(err)
+	}
+	return success
+}
+
+func SaveFile(dir string, filename string, newcontent[]byte) bool {
+	var success = true
+	file, err := os.OpenFile(filepath.Join(dir, filename), os.O_RDWR, 0644)
+
+	if err != nil {
+		success = false
+		log.Println(err)
+	}
+	defer CheckCloser(file)
+
+	_, err = file.Write(newcontent) // Write at 0 beginning
+	if err != nil {
+		success = false
+		log.Println(err)
+	}
+	return success
 }
 
 func GetAllFilesFromDir(directory string) []string {
 	var dirNames []string
 	files, err := ioutil.ReadDir(directory)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	for _, file := range files{
 		dirNames = append(dirNames, filepath.Join(directory, file.Name()))
@@ -71,10 +97,7 @@ func GenerateId() uint32 {
 
 func CheckCloser(closer Closer) {
 	err := closer.Close()
-	CheckError(err)
-}
-func CheckError(err error) {
 	if err != nil {
-		fmt.Errorf("Fehler: %v ", err)
+		log.Println(err)
 	}
 }

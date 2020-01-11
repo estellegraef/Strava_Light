@@ -69,6 +69,9 @@ func SearchActivities(username string, search string) []Activity {
 }
 
 func AddActivity(username string, sportType string, file multipart.File, header *multipart.FileHeader, comment string) bool {
+	content := filemanagement.ReadReceiveFile(file)
+	filename := header.Filename
+
 	//generate uuid
 	//read + eval multipart file -> GPX info
 		//read bytes -> save + read with gpxprocessing or readbytes and generate gpx without saving

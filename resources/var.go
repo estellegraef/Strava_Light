@@ -17,7 +17,7 @@ func GetBasePath() string {
 	if !ok {
 			panic("No caller information")
 		}
-		return path.Dir(filename)
+	return path.Dir(filename)
 }
 
 func GetShortTestGpx() string {

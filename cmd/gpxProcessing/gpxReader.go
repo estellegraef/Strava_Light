@@ -9,8 +9,8 @@ package gpxProcessing
 import (
 	"archive/zip"
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -29,7 +29,7 @@ func ReadFile(fileName string) []GpxFile {
 		case ".gpx":
 			files = append(files, ReadGpx(fileName))
 		default:
-			fmt.Errorf("Invalid file extension: " + filepath.Ext(fileName))
+			log.Println("Invalid file extension: " + filepath.Ext(fileName))
 		}
 	}
 	return files
@@ -38,7 +38,9 @@ func ReadFile(fileName string) []GpxFile {
 //read .zip file
 func ReadZip(fileName string) []GpxFile {
 	read, err := zip.OpenReader(fileName)
-	checkError(err)
+	if err != nil{
+		log.Println(err)
+	}
 
 	defer checkCloser(read)
 
@@ -57,22 +59,33 @@ func ReadZip(fileName string) []GpxFile {
 //read a single file contained in a .zip file and return its byte value
 func ReadZipContent(file *zip.File) []byte {
 	read, err := file.Open()
-	checkError(err)
+	if err != nil{
+		log.Println(err)
+	}
+
 	defer checkCloser(read)
 	content, err := ioutil.ReadAll(read)
-	checkError(err)
+	if err != nil{
+		log.Println(err)
+	}
+
 	return content
 }
 
 //read a .gpx file and convert it to a GpxFile object
 func ReadGpx(filePath string) GpxFile {
 	xmlFile, err := os.Open(filePath)
-	checkError(err)
+	if err != nil{
+		log.Println(err)
+	}
 
 	defer checkCloser(xmlFile)
 
 	byteValue, err := ioutil.ReadAll(xmlFile)
-	checkError(err)
+	if err != nil{
+		log.Println(err)
+	}
+
 	file := UnmarshalXML(byteValue)
 
 	return file
@@ -83,7 +96,9 @@ func UnmarshalXML(byteVal []byte) GpxFile {
 	var file GpxFile
 
 	err := xml.Unmarshal(byteVal, &file)
-	checkError(err)
+	if err != nil{
+		log.Println(err)
+	}
 
 	return file
 }
@@ -100,12 +115,7 @@ func CheckFileNonExistent(fileName string) bool {
 //check if any type of closer throws an error
 func checkCloser(closer Closer) {
 	err := closer.Close()
-	checkError(err)
-}
-
-//print error
-func checkError(err error) {
-	if err != nil {
-		fmt.Errorf("Fehler: %v ", err)
+	if err != nil{
+		log.Println(err)
 	}
 }
