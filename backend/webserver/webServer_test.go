@@ -7,13 +7,21 @@
 package webserver
 
 import (
+	"bytes"
+	"crypto/tls"
 	"fmt"
-	"github.com/estellegraef/Strava_Light/cmd/auth"
+	"github.com/estellegraef/Strava_Light/backend/auth"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
+)
+
+var (
+	port      = "8080"
+	httpsPort = "443"
 )
 
 func createServer(auth auth.Authenticator) *httptest.Server {
@@ -84,4 +92,64 @@ func TestWithCorrectPW(t *testing.T) {
 	body, err := ioutil.ReadAll(res.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, "Hello client\n", string(body), "wrong message")
+}
+
+// aus: https://blog.dnsimple.com/2017/08/how-to-test-golang-https-services/
+func NewServer(port string) *http.Server {
+	addr := fmt.Sprintf(":%s", port)
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", handler)
+
+	return &http.Server{
+		Addr:    addr,
+		Handler: mux,
+	}
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello World")
+}
+
+func buildSecureUrl(path string) string {
+	return urlFor("http", httpsPort, path)
+}
+
+func urlFor(scheme string, serverPort string, path string) string {
+	return scheme + "://localhost:" + serverPort + path
+}
+
+func TestHTTPSServer(t *testing.T) {
+	srv := NewServer(httpsPort)
+	go srv.ListenAndServeTLS("resources/cert.pem", "resources/key.pem")
+	defer srv.Close()
+	time.Sleep(100 * time.Millisecond)
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	client := &http.Client{Transport: tr}
+	res, err := client.Get(buildSecureUrl("/"))
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		t.Errorf("Response code was %v; want 200", res.StatusCode)
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := []byte("Hello World")
+
+	if bytes.Compare(expected, body) != 0 {
+		t.Errorf("Response body was '%v'; want '%v'", expected, body)
+	}
 }

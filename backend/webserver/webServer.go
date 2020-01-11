@@ -10,7 +10,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/estellegraef/Strava_Light/cmd/auth"
+	"github.com/estellegraef/Strava_Light/backend/auth"
+	"github.com/estellegraef/Strava_Light/backend/user"
 	"github.com/estellegraef/Strava_Light/frontend/views/detail"
 	"github.com/estellegraef/Strava_Light/frontend/views/edit"
 	"github.com/estellegraef/Strava_Light/frontend/views/overview"
@@ -18,6 +19,7 @@ import (
 	"github.com/estellegraef/Strava_Light/frontend/views/upload"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -32,11 +34,11 @@ func CreateWebServer() {
 	http.Handle("/images/", http.StripPrefix(strings.TrimRight("/images/", "/"), http.FileServer(http.Dir("resources/img"))))
 
 	// Command-line-flag for port
-	// the default value is 443
-	portPtr := flag.Int("port", 443, "Webserver Port")
-	flag.Parse()
+	// the default value is 8081
+	portPtr := flag.Int("port", 8081, "Webserver Port")
+	handleStorage()
+	//flag.Parse()
 	fmt.Println("Start Server on Port: ", *portPtr)
-
 	//fmt.Println(http.ListenAndServe(":"+strconv.Itoa(*portPtr), nil))
 	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*portPtr), "./resources/cert.pem", "./resources/key.pem", nil))
 }
@@ -47,11 +49,24 @@ func basicAuth(authenticator auth.Authenticator, hf http.HandlerFunc) http.Handl
 		isValid := authenticator.Authenticate(user, pwd)
 
 		if !ok || !isValid {
-			w.Header().Add("WWW-Authenticate", "Basic Realm=\"Strava Login\"")
-			w.WriteHeader(http.StatusUnauthorized)
+			w.Header().Set("WWW-Authenticate", "Basic Realm=\"Strava Login\"")
+			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 		} else {
 			ctx := context.WithValue(r.Context(), "username", user)
 			hf(w, r.WithContext(ctx))
 		}
 	}
+}
+
+func handleStorage() {
+	defaultDir := "./storage"
+	baseDir := flag.String("basedir", defaultDir, "base storage location for the web server")
+	flag.Parse()
+	if *baseDir != defaultDir {
+		if _, err := os.Stat(*baseDir); os.IsNotExist(err) {
+			log.Printf("The specified path does not exist. The storage location is moved to: %s", defaultDir)
+			*baseDir = defaultDir
+		}
+	}
+	user.CreateStorageForUsers(*baseDir)
 }

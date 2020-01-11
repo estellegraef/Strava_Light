@@ -7,7 +7,7 @@
 package activityprocessing
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/gpx/fileTools"
+	"github.com/estellegraef/Strava_Light/backend/gpx/fileTools"
 	"github.com/estellegraef/Strava_Light/resources"
 	"github.com/stretchr/testify/assert"
 	"testing"

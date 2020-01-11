@@ -26,3 +26,7 @@ func TestGetTestZipPath(t *testing.T) {
 func TestGetTestInvalidPath(t *testing.T) {
 	fmt.Printf(GetTestInvalidPath())
 }
+
+func TestGetUserCredsPath(t *testing.T) {
+	fmt.Println(GetUserCredsPath())
+}
