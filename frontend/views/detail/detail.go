@@ -7,7 +7,7 @@
 package detail
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/activity"
+	"github.com/estellegraef/Strava_Light/backend/activity"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
 	"net/http"
@@ -16,7 +16,7 @@ import (
 
 var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/layout.html",
-	"frontend/templates/html/detail.html"))
+	"frontend/templates/html/edit.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username, ok := r.Context().Value("username").(string)
