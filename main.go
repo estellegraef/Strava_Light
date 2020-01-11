@@ -12,4 +12,5 @@ import (
 
 func main() {
 	webserver.CreateWebServer()
+	//activity.Setup()
 }

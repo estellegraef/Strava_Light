@@ -60,7 +60,7 @@ func DeleteFile(dir string, filename string) bool {
 	return success
 }
 
-func SaveFile(dir string, filename string, newcontent[]byte) bool {
+func UpdateFile(dir string, filename string, newContent []byte) bool {
 	var success = true
 	file, err := os.OpenFile(filepath.Join(dir, filename), os.O_RDWR, 0644)
 
@@ -70,7 +70,7 @@ func SaveFile(dir string, filename string, newcontent[]byte) bool {
 	}
 	defer CheckCloser(file)
 
-	_, err = file.Write(newcontent) // Write at 0 beginning
+	_, err = file.Write(newContent) // Write at 0 beginning
 	if err != nil {
 		success = false
 		log.Println(err)

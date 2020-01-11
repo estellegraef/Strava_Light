@@ -55,6 +55,10 @@ func (g GpxFile) GetTracks() []Track {
 	return g.Tracks
 }
 
+func (g GpxFile) GetTrackPoints() []TrackPoint {
+	return GetAllTrackPoints(g)
+}
+
 func (m Metadata) GetTime() time.Time {
 	return m.Time
 }
@@ -89,4 +93,20 @@ func (e Extension) GetTrackPointExtension() TrackPointExtension {
 
 func (t TrackPointExtension) GetSpeed() float64 {
 	return t.Speed
+}
+
+func (g GpxFile) GetDistanceInKilometers() float64 {
+	return CalculateDistanceInKilometers(g.GetTrackPoints())
+}
+
+func (g GpxFile) GetWaitingTime() float64 {
+	return CalculateStandbyTimeInSec(g.GetTrackPoints())
+}
+
+func (g GpxFile) GetAvgSpeed() float64 {
+	return GetAvgSpeed(g.GetTrackPoints())
+}
+
+func (g GpxFile) GetMaxSpeed() float64 {
+	return GetMaxSpeed(g.GetTrackPoints())
 }

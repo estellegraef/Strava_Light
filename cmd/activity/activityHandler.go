@@ -9,6 +9,7 @@ package activity
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/estellegraef/Strava_Light/cmd/gpxProcessing"
 	"github.com/estellegraef/Strava_Light/cmd/storageManagement"
 	"github.com/estellegraef/Strava_Light/resources"
 	"log"
@@ -20,8 +21,12 @@ import (
 )
 
 var list []Activity
-
+var cache Cache
 //TODO implement cache after tests
+
+func Setup(){
+	cache = NewCache()
+}
 
 func GetActivities(user string) []Activity {
 	userDir := resources.GetUserDir(user)
@@ -69,15 +74,18 @@ func SearchActivities(username string, search string) []Activity {
 }
 
 func AddActivity(username string, sportType string, file multipart.File, header *multipart.FileHeader, comment string) bool {
+	var success = true
 	content := filemanagement.ReadReceiveFile(file)
 	filename := header.Filename
-
-	//generate uuid
-	//read + eval multipart file -> GPX info
-		//read bytes -> save + read with gpxprocessing or readbytes and generate gpx without saving
-	//new Activity object -> createActivity
-	//save to usr if not already saved
-	return true
+	//TODO read bytes -> save + read with gpxprocessing or readbytes and generate gpx without saving
+	gpxFiles := gpxProcessing.GenerateGpx(filename, content)
+	for _, file := range gpxFiles{
+		id := filemanagement.GenerateId()
+		activity := New(string(id), id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
+		content := MarshalJSON(activity)
+		success = filemanagement.CreateFile(resources.GetUserDir(username), filename, content)
+	}
+	return success
 }
 
 func UpdateActivity(user string, id uint32, sportType string, comment string) bool {
@@ -89,10 +97,11 @@ func UpdateActivity(user string, id uint32, sportType string, comment string) bo
 }
 
 func DeleteActivity(user string, id string) bool {
+	var success = true
+	//TODO delete from cache
 	//activity := GetActivity(user, id)
-	//delete from cache
-	//delete json + gpx/zip file from directory
-	return true
+	success = DeleteActivity(user, id)
+	return success
 }
 
 func MarshalJSON(activity Activity) []byte {

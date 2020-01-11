@@ -19,6 +19,39 @@ type Closer interface {
 	Close() error
 }
 
+func GenerateGpx(fileName string, content []byte) []GpxFile {
+	var files []GpxFile
+	switch filepath.Ext(fileName) {
+	case ".zip":
+		files = ReadZip(fileName)
+	case ".gpx":
+		files = append(files, ReadGpx(fileName))
+	default:
+		log.Println("Invalid file extension: " + filepath.Ext(fileName))
+	}
+	return files
+}
+
+func ReadZip(fileName string) []GpxFile {
+	read, err := zip.OpenReader(fileName)
+	if err != nil{
+		log.Println(err)
+	}
+
+	defer checkCloser(read)
+
+	var containedFiles []GpxFile
+	//read and convert each file contained in the .zip file
+	for _, file := range read.File {
+		content := ReadZipContent(file)
+		gpx := UnmarshalXML(content)
+
+		//put each files in the .zip file into a list
+		containedFiles = append(containedFiles, gpx)
+	}
+	return containedFiles
+}
+
 //read any filepath and return contained files converted to GpxFiles in a list
 func ReadFile(fileName string) []GpxFile {
 	var files []GpxFile

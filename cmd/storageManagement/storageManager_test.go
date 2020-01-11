@@ -44,13 +44,13 @@ func TestDeleteFile(t *testing.T) {
 	assert.True(t, isDeleted)
 }
 
-func TestSaveFile(t *testing.T) {
+func TestUpdateFile(t *testing.T) {
 	dir := resources.GetUserDir("user1")
 	fileName := "TestCreateFile.txt"
 	content := []byte("Hello")
 	newContent := []byte("Goodbye")
 	isCreated := CreateFile(dir, fileName, content)
 	assert.True(t, isCreated)
-	isUpdated := SaveFile(dir, fileName, newContent)
+	isUpdated := UpdateFile(dir, fileName, newContent)
 	assert.True(t, isUpdated)
 }
