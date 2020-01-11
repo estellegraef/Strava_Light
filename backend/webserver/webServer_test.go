@@ -135,7 +135,7 @@ func TestHTTPSServer(t *testing.T) {
 
 	defer res.Body.Close()
 
-	assert.Equal(t, http.StatusOK, res.StatusCode, "Response is not 200")
+	assert.Equal(t, http.StatusOK, res.StatusCode, "Response StatusCode is not 200")
 
 	body, err := ioutil.ReadAll(res.Body)
 	assert.NoError(t, err)
