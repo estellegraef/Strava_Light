@@ -8,7 +8,7 @@ package webserver
 
 import (
 	"fmt"
-	"github.com/estellegraef/Strava_Light/cmd/auth"
+	"github.com/estellegraef/Strava_Light/backend/auth"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
