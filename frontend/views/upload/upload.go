@@ -7,7 +7,6 @@
 package upload
 
 import (
-	"fmt"
 	"github.com/estellegraef/Strava_Light/cmd/activity"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
