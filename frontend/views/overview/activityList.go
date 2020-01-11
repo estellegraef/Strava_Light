@@ -7,10 +7,10 @@
 package overview
 
 import (
-	"fmt"
 	"github.com/estellegraef/Strava_Light/cmd/activity"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -37,6 +37,6 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 	err := tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		_ = fmt.Errorf("Template execution failed! \n %w", err)
+		log.Fatalf("Template execution failed! \n %w", err)
 	}
 }

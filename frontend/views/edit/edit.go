@@ -10,6 +10,7 @@ import (
 	"github.com/estellegraef/Strava_Light/cmd/activity"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -45,5 +46,9 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 	data.Content.IsBiking = !data.Content.IsWalking
 	data.Content.Comment = activity.GetComment()
 
-	_ = tmpl.Execute(w, data)
+	err := tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		log.Fatalf("Template execution failed! \n %w", err)
+	}
 }
