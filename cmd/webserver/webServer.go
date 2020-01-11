@@ -12,9 +12,9 @@ import (
 	"fmt"
 	"github.com/estellegraef/Strava_Light/cmd/auth"
 	"github.com/estellegraef/Strava_Light/frontend/views/detail"
-	"github.com/estellegraef/Strava_Light/frontend/views/editing"
+	"github.com/estellegraef/Strava_Light/frontend/views/edit"
 	"github.com/estellegraef/Strava_Light/frontend/views/overview"
-	"github.com/estellegraef/Strava_Light/frontend/views/searching"
+	"github.com/estellegraef/Strava_Light/frontend/views/search"
 	"github.com/estellegraef/Strava_Light/frontend/views/upload"
 	"log"
 	"net/http"
@@ -26,8 +26,8 @@ func CreateWebServer() {
 	http.HandleFunc("/", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), overview.NewHandler))
 	http.HandleFunc("/upload/", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), upload.NewHandler))
 	http.HandleFunc("/detail", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), detail.NewHandler))
-	http.HandleFunc("/search/", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), searching.NewHandler))
-	http.HandleFunc("/edit", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), editing.NewHandler))
+	http.HandleFunc("/search/", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), search.NewHandler))
+	http.HandleFunc("/edit", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), edit.NewHandler))
 	http.Handle("/assets/", http.StripPrefix(strings.TrimRight("/assets/", "/"), http.FileServer(http.Dir("frontend/templates/assets"))))
 	http.Handle("/images/", http.StripPrefix(strings.TrimRight("/images/", "/"), http.FileServer(http.Dir("resources/img"))))
 
