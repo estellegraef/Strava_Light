@@ -61,29 +61,36 @@ func GetActivity(user string, id uint32) Activity {
 	return activity
 }
 
-func SearchActivities(username string, search string) []Activity {
-	result := make([]Activity, 0)
-
-	for _, elem := range list {
-		if elem.GetComment() == search {
-			result = append(result, elem)
+func SearchActivities(username string, keyword string) []Activity {
+	userActivities := GetActivities(username)
+	var matchingActivities []Activity
+	for _, activity := range userActivities{
+		if strings.Contains(activity.Comment, keyword) {
+			matchingActivities = append(matchingActivities, activity)
 		}
 	}
-
-	return result
+	return matchingActivities
 }
 
 func AddActivity(username string, sportType string, file multipart.File, header *multipart.FileHeader, comment string) bool {
-	var success = true
+	var success = false
 	content := filemanagement.ReadReceiveFile(file)
 	filename := header.Filename
-	//TODO read bytes -> save + read with gpxprocessing or readbytes and generate gpx without saving
-	gpxFiles := gpxProcessing.GenerateGpx(filename, content)
-	for _, file := range gpxFiles{
-		id := filemanagement.GenerateId()
-		activity := New(string(id), id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
-		content := MarshalJSON(activity)
-		success = filemanagement.CreateFile(resources.GetUserDir(username), filename, content)
+	baseIsCreated, createdFile := filemanagement.CreateFile(resources.GetUserDir(username), filename, content)
+	if baseIsCreated {
+		gpxFiles := gpxProcessing.ReadFile(createdFile)
+		for _, file := range gpxFiles {
+			id := filemanagement.GenerateId()
+			activity := New(string(id), id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
+			content := MarshalJSON(activity)
+			//TODO create File with ending json
+			jsonTitle := filename + ".json"
+			activityIsCreated, _ := filemanagement.CreateFile(resources.GetUserDir(username), jsonTitle, content)
+			if activityIsCreated {
+				cache.Check(activity)
+				success = true
+			}
+		}
 	}
 	return success
 }
@@ -92,15 +99,21 @@ func UpdateActivity(user string, id uint32, sportType string, comment string) bo
 	activity := GetActivity(user, id)
 	activity.SportType = sportType
 	activity.Comment = comment
-	//save
-	return true
+	content := MarshalJSON(activity)
+	dir := resources.GetUserDir(user)
+	isUpdated := filemanagement.UpdateFile(dir, GetNameById(id), content)
+	return isUpdated
 }
 
 func DeleteActivity(user string, id string) bool {
 	var success = true
 	//TODO delete from cache
 	//activity := GetActivity(user, id)
-	success = DeleteActivity(user, id)
+	dir := resources.GetUserDir(user)
+	jsonFile := id + ".json"
+	originalFile := id + ".zip"
+	success = filemanagement.DeleteFile(dir, jsonFile)
+	success = filemanagement.DeleteFile(dir, originalFile)
 	return success
 }
 

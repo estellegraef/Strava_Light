@@ -26,8 +26,8 @@ func New(name string, id uint32, sportType string, comment string, length float6
 	return Activity{Name:name, Id: id, SportType: sportType, Comment: comment, Length: length, WaitingTime: waitingTime, AvgSpeed: avgSpeed, MaxSpeed: maxSpeed, DateTime: dateTime}
 }
 
-func (a Activity) GetName() string {
-	return a.GetName()
+func (a Activity) GetID() uint32 {
+	return a.Id
 }
 
 func (a Activity) GetSportType() string {
@@ -36,8 +36,4 @@ func (a Activity) GetSportType() string {
 
 func (a Activity) GetComment() string {
 	return a.Comment
-}
-
-func (a Activity) GetID() uint32 {
-	return a.Id
 }

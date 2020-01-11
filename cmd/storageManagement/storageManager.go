@@ -40,14 +40,16 @@ func ReadReceiveFile(file multipart.File) []byte {
  	return fileBytes
 }
 
-func CreateFile(dir string, filename string, content []byte) bool {
+func CreateFile(dir string, filename string, content []byte) (isCreated bool, file string) {
 	var success = true
-	err := ioutil.WriteFile(filepath.Join(dir, filename), content, 0755)
+	var createdFilepath = filepath.Join(dir, filename)
+	err := ioutil.WriteFile(createdFilepath, content, 0755)
 	if err != nil {
 		success = false
+		createdFilepath = ""
 		log.Println(err)
 	}
-	return success
+	return success, createdFilepath
 }
 
 func DeleteFile(dir string, filename string) bool {

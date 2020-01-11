@@ -43,10 +43,6 @@ type TrackPointExtension struct {
 	Speed float64 `xml:"speed"`
 }
 
-func (g GpxFile) GetCreator() string {
-	return g.Creator
-}
-
 func (g GpxFile) GetMeta() Metadata {
 	return g.Meta
 }
