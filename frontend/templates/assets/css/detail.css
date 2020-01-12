@@ -13,3 +13,7 @@
     overflow-x: auto;
     text-align: left;
 }
+
+.buttonInline {
+    display: inline;
+}
