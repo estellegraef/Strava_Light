@@ -21,6 +21,7 @@ func GetAllTrackPoints(file GpxFile) []TrackPoint {
 	return allTrackPoints
 }
 
+//get the maximum speed
 func GetMaxSpeed(points []TrackPoint) float64 {
 	var maxSpeed float64 = 0
 	for _, point := range points {
@@ -32,6 +33,7 @@ func GetMaxSpeed(points []TrackPoint) float64 {
 	return maxSpeed
 }
 
+//calculate the average speed
 func GetAvgSpeed(points []TrackPoint) float64 {
 	var speedSum float64 = 0
 	for _, point := range points {
@@ -82,6 +84,7 @@ func CalculateRadiant(val float64) float64 {
 	return val * math.Pi / 180
 }
 
+//get the standby time, in which the user did not move
 func CalculateStandbyTimeInMins(points []TrackPoint) float64 {
 	var standbyTimeInSec float64
 	var previousTrkPt TrackPoint
@@ -91,6 +94,7 @@ func CalculateStandbyTimeInMins(points []TrackPoint) float64 {
 			previousTrkPt = point
 		} else {
 			var previousSpeed = previousTrkPt.GetExtension().GetTrackPointExtension().GetSpeed()
+			//if the user was slower than 1 kmh, it was taken as an "immovable point"
 			if previousSpeed <= 1 && currentSpeed <= 1 {
 				var timeDifference = time.Time.Sub(point.GetDateTime(), previousTrkPt.GetDateTime()).Seconds()
 				standbyTimeInSec = standbyTimeInSec + timeDifference
@@ -100,11 +104,14 @@ func CalculateStandbyTimeInMins(points []TrackPoint) float64 {
 	}
 	return SecondsToMinutes(standbyTimeInSec)
 }
+
+//convert seconds to minutes
 func SecondsToMinutes(seconds float64) float64 {
 	mins := seconds / 60
 	return math.Round(mins*100) / 100
 }
 
+//verify if the sporttype matches the average speed
 func VerifySportType(sportType string, avgSpeed float64) string {
 	var matchingSportType = sportType
 	switch sportType {

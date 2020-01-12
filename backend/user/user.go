@@ -88,7 +88,6 @@ func GetUsers() *[]User {
 func CreateStorageForUsers(basePath string) {
 	userSlice := GetUsers()
 	actualBasePath := filepath.Join(basePath, "storage")
-	resources.SetBasePathStorage(actualBasePath)
 	absPath, err := filepath.Abs(actualBasePath)
 	if err != nil {
 		fmt.Println("Can't get absolute Path: ", err)
@@ -101,9 +100,11 @@ func CreateStorageForUsers(basePath string) {
 				fmt.Println("Error creating user directory: ", err)
 			} else {
 				(*userSlice)[i].ChangeStoragePath(path)
+				resources.SetBasePathStorage(actualBasePath)
 			}
 		} else {
 			(*userSlice)[i].ChangeStoragePath(path)
+			resources.SetBasePathStorage(actualBasePath)
 		}
 	}
 }
