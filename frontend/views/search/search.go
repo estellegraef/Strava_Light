@@ -21,6 +21,8 @@ var tmpl = template.Must(template.ParseFiles(
 	html.GetSearchPath(),
 	html.GetItemsPath()))
 
+//Search Handler
+//User can enter a search term and gets the results displayed
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username := parameter.GetUser(r)
 
@@ -31,6 +33,8 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		Page: pages.NewSearch(),
 	}
 
+	//if request method is post, the activities with the given search term are queried and displayed afterwatds
+	//else the user gets the search bar and no results
 	if r.Method != http.MethodPost {
 		data.Content = nil
 	} else {

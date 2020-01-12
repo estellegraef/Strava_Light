@@ -22,6 +22,8 @@ var tmpl = template.Must(template.ParseFiles(
 	html.GetItemsPath(),
 ))
 
+//Home Handler
+//Provides an overview of all uploaded activities from the given user
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username := parameter.GetUser(r)
 
