@@ -52,28 +52,28 @@ var bytes = []byte {60, 63, 120, 109, 108, 32, 118, 101, 114, 115, 105, 111, 110
 	116, 114, 107, 112, 116, 62, 13, 10, 60, 47, 116, 114, 107, 115, 101, 103, 62, 13, 10, 60, 47, 116, 114, 107, 62, 13, 10, 60, 47, 103, 112, 120, 62, 13, 10}
 
 func TestGetAllFiles(t *testing.T) {
-	actualDirs := GetAllFilesFromDir(resources.GetUserActivitiesPath())
+	actualDirs := GetAllFilesFromDir(resources.GetTestUserActivitiesPath())
 	expectedDirs := []string{
-		filepath.Join(resources.GetUserActivitiesPath(), "user1"),
-		filepath.Join(resources.GetUserActivitiesPath(), "user2"),
+		filepath.Join(resources.GetTestUserActivitiesPath(), "user1"),
+		filepath.Join(resources.GetTestUserActivitiesPath(), "user2"),
 	}
 	assert.Equal(t, expectedDirs, actualDirs)
 }
 
 func TestGetSingleFileFromDir(t *testing.T) {
-	actualDir := resources.GetUserDir("user1")
+	actualDir := resources.GetTestUserDir("user1")
 	expected := GetSingleFileFromDir(actualDir, "1", ".json")
 	fmt.Print(expected)
 }
 
 func TestReadFileContent(t *testing.T) {
-	gpxFile := resources.GetShortTestGpx()
+	gpxFile := resources.GetTestShortGpx()
 	actualBytes, _ := ReadFile(gpxFile)
 	assert.Equal(t, bytes, actualBytes)
 }
 
 func TestCreateFile(t *testing.T) {
-	dir := resources.GetUserDir("user1")
+	dir := resources.GetTestUserDir("user1")
 	fileName := "TestCreateFile.txt"
 	content := []byte("Hello")
 	isCreated, createdFile := CreateFile(dir, fileName, content)
@@ -82,7 +82,7 @@ func TestCreateFile(t *testing.T) {
 }
 
 func TestDeleteFile(t *testing.T) {
-	dir := resources.GetUserDir("user1")
+	dir := resources.GetTestUserDir("user1")
 	fileName := "TestCreateFile.txt"
 	content := []byte("TestDelete")
 	CreateFile(dir, fileName, content)
@@ -91,7 +91,7 @@ func TestDeleteFile(t *testing.T) {
 }
 
 func TestUpdateFile(t *testing.T) {
-	dir := resources.GetUserDir("user1")
+	dir := resources.GetTestUserDir("user1")
 	fileName := "TestCreateFile.txt"
 	content := []byte("Hello")
 	newContent := []byte("Goodbye")
@@ -103,7 +103,7 @@ func TestUpdateFile(t *testing.T) {
 }
 
 func TestGetAllFilesFromDir(t *testing.T) {
-	dir := resources.GetUserDir("user2")
+	dir := resources.GetTestUserDir("user2")
 	actual := GetAllFilesFromDir(dir)
 	expected := []string {filepath.Join(dir, ".gpx"), filepath.Join(dir, "3.json")}
 	assert.Equal(t, expected, actual)

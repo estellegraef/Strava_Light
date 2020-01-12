@@ -26,8 +26,7 @@ func New(id string, sportType string, comment string, length float64, waitingTim
 	roundedLength := RoundToNearest(length)
 	roundedAvg := RoundToNearest(avgSpeed)
 	roundedMax := RoundToNearest(maxSpeed)
-	roundedWaitingTime := SecondsToMinutes(waitingTime)
-	return Activity{Id: id, SportType: sportType, Comment: comment, Length: roundedLength, WaitingTime: roundedWaitingTime, AvgSpeed: roundedAvg, MaxSpeed: roundedMax, DateTime: dateTime}
+	return Activity{Id: id, SportType: sportType, Comment: comment, Length: roundedLength, WaitingTime: waitingTime, AvgSpeed: roundedAvg, MaxSpeed: roundedMax, DateTime: dateTime}
 }
 
 func (a Activity) GetSportType() string {
@@ -77,9 +76,4 @@ func (a Activity) GetID() string {
 //from: https://yourbasic.org/golang/round-float-2-decimal-places/
 func RoundToNearest(value float64) float64 {
 	return math.Round(value*100) / 100
-}
-
-func SecondsToMinutes(seconds float64) float64 {
-	mins := seconds / 60
-	return RoundToNearest(mins)
 }

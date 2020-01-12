@@ -15,7 +15,7 @@ import (
 
 func TestReadGpx(t *testing.T) {
 	//generate GpxFile object  from path
-	var actualFile = ReadGpx(resources.GetShortTestGpx())
+	var actualFile = ReadGpx(resources.GetTestShortGpx())
 
 	//create expected file
 	expectedFile := GpxFile{

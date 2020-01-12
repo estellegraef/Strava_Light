@@ -82,7 +82,7 @@ func CalculateRadiant(val float64) float64 {
 	return val * math.Pi / 180
 }
 
-func CalculateStandbyTimeInSec(points []TrackPoint) float64 {
+func CalculateStandbyTimeInMins(points []TrackPoint) float64 {
 	var standbyTimeInSec float64
 	var previousTrkPt TrackPoint
 	for index, point := range points {
@@ -98,7 +98,11 @@ func CalculateStandbyTimeInSec(points []TrackPoint) float64 {
 			}
 		}
 	}
-	return standbyTimeInSec
+	return SecondsToMinutes(standbyTimeInSec)
+}
+func SecondsToMinutes(seconds float64) float64 {
+	mins := seconds / 60
+	return math.Round(mins*100) / 100
 }
 
 func VerifySportType(sportType string, avgSpeed float64) string {
