@@ -9,7 +9,6 @@ package user
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/estellegraef/Strava_Light/resources"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -50,10 +49,10 @@ func (u *User) ChangeStoragePath(path string) {
 }
 
 func getUsersFromFile() {
-	//data, err := ioutil.ReadFile("./resources/user_credentials/users.txt")
-	data, err := ioutil.ReadFile(resources.GetUserCredsPath())
+	data, err := ioutil.ReadFile("resources/user_credentials/users.txt")
+	//data, err := ioutil.ReadFile(resources.GetUserCredsPath())
 	if err != nil {
-		fmt.Println("File reading error", err)
+		fmt.Println("File reading error: ", err)
 	}
 	dataString := string(data)
 	s := strings.Fields(dataString)
@@ -63,11 +62,11 @@ func getUsersFromFile() {
 
 		passwordDecode, err1 := base64.StdEncoding.DecodeString(userSplit[1])
 		if err1 != nil {
-			fmt.Println("Base64 Decoding error", err1)
+			fmt.Println("Base64 Decoding error: ", err1)
 		}
 		saltDecode, err2 := base64.StdEncoding.DecodeString(userSplit[2])
 		if err2 != nil {
-			fmt.Println("Base64 Decoding error", err2)
+			fmt.Println("Base64 Decoding error: ", err2)
 		}
 
 		users = append(users, User{userSplit[0], passwordDecode, saltDecode, ""})

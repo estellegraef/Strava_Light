@@ -19,7 +19,6 @@ import (
 )
 
 var (
-	port      = "8080"
 	httpsPort = "443"
 )
 

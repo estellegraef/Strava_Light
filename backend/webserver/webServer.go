@@ -38,7 +38,6 @@ func CreateWebServer() {
 	// the default value is 443
 	portPtr := flag.Int("port", 443, "Webserver Port")
 	handleStorage()
-	//flag.Parse()
 	fmt.Println("Start Server on Port: ", *portPtr)
 	//fmt.Println(http.ListenAndServe(":"+strconv.Itoa(*portPtr), nil))
 	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*portPtr), "./resources/cert.pem", "./resources/key.pem", nil))

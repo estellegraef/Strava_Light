@@ -9,6 +9,8 @@ package user
 import (
 	"encoding/base64"
 	"github.com/stretchr/testify/assert"
+	"os"
+	"path/filepath"
 	"testing"
 )
 
@@ -82,6 +84,28 @@ func TestGetUsersFromFile(t *testing.T) {
 	assert.Equal(t, user1, (*users)[0])
 }
 
-func TestCreateStorageForUsers(t *testing.T) {
+func TestCreateStorageForUsersFilePathNotExists(t *testing.T) {
+	path, err := os.Getwd()
+	assert.NoError(t, err)
+	CreateStorageForUsers(path)
+	users := GetUsers()
+	expectedPath := filepath.Join(path, "storage", "user1")
+	assert.Equal(t, expectedPath, (*users)[0].GetStoragePath())
+}
 
+func TestCreateStorageForUsersFilePathExists(t *testing.T) {
+	path, err1 := os.Getwd()
+	assert.NoError(t, err1)
+
+	existingPath := filepath.Join(path, "test", "storage", "user1")
+
+	err2 := os.MkdirAll(existingPath, os.ModePerm)
+	assert.NoError(t, err2)
+
+	path = filepath.Join(path, "test")
+
+	CreateStorageForUsers(path)
+	users := GetUsers()
+
+	assert.Equal(t, existingPath, (*users)[0].GetStoragePath())
 }
