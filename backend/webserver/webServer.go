@@ -29,6 +29,7 @@ import (
 
 var (
 	defaultPort = 443
+	basePath    string
 )
 
 func CreateWebServer() {

@@ -12,11 +12,11 @@ import (
 	"github.com/estellegraef/Strava_Light/backend/auth"
 	"github.com/estellegraef/Strava_Light/backend/user"
 	"github.com/estellegraef/Strava_Light/resources"
+	"github.com/estellegraef/Strava_Light/testStorage"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -96,7 +96,7 @@ func TestWithCorrectPW(t *testing.T) {
 	assert.Equal(t, "Hello client\n", string(body), "wrong message")
 }
 
-// aus: https://blog.dnsimple.com/2017/08/how-to-test-golang-https-services/
+// inspired by: https://blog.dnsimple.com/2017/08/how-to-test-golang-https-services/
 func NewServer(port string) *http.Server {
 	addr := fmt.Sprintf(":%s", port)
 
@@ -149,8 +149,7 @@ func TestHTTPSServer(t *testing.T) {
 }
 
 func TestCheckAndHandleStoragePathWithNonExistPath(t *testing.T) {
-	defaultDir, err := os.Getwd()
-	assert.NoError(t, err)
+	defaultDir := testStorage.GetBasePathTestStorage()
 
 	baseDir := filepath.Join(defaultDir, "test1") // <- Path does not exist
 
@@ -164,8 +163,7 @@ func TestCheckAndHandleStoragePathWithNonExistPath(t *testing.T) {
 }
 
 func TestCheckAndHandleStoragePathWithExistPath(t *testing.T) {
-	defaultDir, err := os.Getwd()
-	assert.NoError(t, err)
+	defaultDir := testStorage.GetBasePathTestStorage()
 
 	checkAndHandleStoragePath(defaultDir, defaultDir)
 
