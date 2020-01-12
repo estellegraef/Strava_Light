@@ -7,6 +7,7 @@
 package activity
 
 import (
+	"fmt"
 	"mime/multipart"
 	"time"
 )
@@ -72,4 +73,8 @@ func CreateActivity(username string, sportType string, file multipart.File, file
 
 func GetFile(username string, id string) (fileBytes []byte, fileName string) {
 	return nil, "2019-09-14_15-14.gpx"
+}
+
+func DeleteActivity(username string, id string) {
+	fmt.Println("File deleted")
 }
