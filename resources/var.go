@@ -23,7 +23,7 @@ func GetBasePathStorage() string {
 }
 
 func GetUserDir(user string) string {
-	return filepath.Join(GetUserActivitiesPath(), user)
+	return filepath.Join(GetBasePathStorage(), user)
 }
 
 func GetResourcesPath() string {
@@ -54,7 +54,7 @@ func GetUserCredsPath() string {
 	return filepath.Join(GetResourcesPath(), "user_credentials", "users.txt")
 }
 
-func GetUserActivitiesPath() string {
+func GetTestUserActivitiesPath() string {
 	return filepath.Join(GetBasePathStorage(), "useractivities")
 }
 
