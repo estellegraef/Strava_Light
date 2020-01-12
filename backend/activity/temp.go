@@ -78,3 +78,7 @@ func GetFile(username string, id string) (fileBytes []byte, fileName string) {
 func DeleteActivity(username string, id string) {
 	fmt.Println("File deleted")
 }
+
+func EditActivity(username string, id string, sportType string, comment string) {
+	fmt.Println("Activity edited")
+}

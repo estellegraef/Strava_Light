@@ -9,21 +9,16 @@ package download
 import (
 	"bytes"
 	"github.com/estellegraef/Strava_Light/backend/activity"
+	"github.com/estellegraef/Strava_Light/frontend/parameter"
 	"net/http"
 	"strconv"
 	"time"
 )
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	username, ok := r.Context().Value("username").(string)
-	if !ok {
-		username = "unknown"
-	}
+	username, id := parameter.GetUserAndID(r)
 
-	id := r.URL.Query().Get("id")
 	downloadBytes, fileName := activity.GetFile(username, id)
-
-	// set the default MIME type to send
 	mime := http.DetectContentType(downloadBytes)
 	fileSize := len(string(downloadBytes))
 
