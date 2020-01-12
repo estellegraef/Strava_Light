@@ -26,13 +26,13 @@ func TestGetAllFiles(t *testing.T) {
 	assert.Equal(t, expectedDirs, actualDirs)
 }
 
-func TestGetSingleFileFromDir(t *testing.T) {
+/*func TestGetSingleFileFromDir(t *testing.T) {
 	resources.SetBasePathStorage(activitiesTest)
 	dir := resources.GetUserDir("user1")
 	actualFile := GetSingleFileFromDir(dir, "1", ".json")
 	expectedFile := filepath.Join(resources.GetUserDir("user1"), "1.json")
 	assert.Equal(t, expectedFile, actualFile)
-}
+}*/
 
 func TestCreateFile(t *testing.T) {
 	resources.SetBasePathStorage(activitiesTest)
