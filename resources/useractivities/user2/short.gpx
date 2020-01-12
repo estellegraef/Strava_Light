@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Urban Biker" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v2 http://www.garmin.com/xmlschemas/TrackPointExtensionv2.xsd" xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v2" xmlns:gpxpx="http://www.garmin.com/xmlschemas/PowerExtensionv1.xsd" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<metadata>
+<link href="http://www.urban-bike-computer.com/">
+<text>Urban Biker</text>
+</link>
+<time>2019-09-14T13:14:17.094Z</time>
+</metadata>
+
+<trk>
+<name>Cube – Sa., 14. Sep. 2019, 15:14</name>
+<trkseg>
+<trkpt lat="49.3549890600" lon="9.1519649400"><ele>172.50</ele><time>2019-09-14T13:14:30.276Z</time><extensions><gpxtpx:TrackPointExtension><gpxtpx:atemp>22.8</gpxtpx:atemp><gpxtpx:speed>5.54</gpxtpx:speed></gpxtpx:TrackPointExtension></extensions></trkpt>
+</trkseg>
+</trk>
+</gpx>

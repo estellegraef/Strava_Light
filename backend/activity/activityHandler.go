@@ -125,16 +125,18 @@ func DeleteActivity(user string, id string) bool {
 	return success
 }
 
-func ReturnFileForDownload(userName string, id string) (content []byte, fileName string){
-	var file string
-	gpxSearch := filemanagement.GetSingleFileFromDir(resources.GetUserDir(userName), id, ".gpx")
-	zipSearch := filemanagement.GetSingleFileFromDir(resources.GetUserDir(userName), id, ".zip")
-	if gpxSearch == "" {
-		file = zipSearch
-	} else {
-		file = gpxSearch
+func ReturnFileForDownload(userName string, id string) (content []byte, name string){
+	dir := resources.GetUserDir(userName)
+	originalName := filemanagement.GetOriginal(id)
+	var fileContent []byte
+	var fileBase string
+
+	files := filemanagement.GetAllFilesFromDir(dir)
+	for _, file := range files {
+		if strings.Contains(file, originalName) && filepath.Ext(file) != ".json" {
+			fileContent, fileBase = filemanagement.ReadFile(file)
+		}
 	}
-	fileContent, fileBase := filemanagement.ReadFile(file)
 	return fileContent, fileBase
 }
 
