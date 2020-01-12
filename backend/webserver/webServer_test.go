@@ -42,6 +42,7 @@ func doRequestWithPassword(t *testing.T, url string) *http.Response {
 	return res
 }
 
+// Test without Password
 func TestWithoutPW(t *testing.T) {
 	ts := createServer(auth.AuthenticatorFunc(func(name, pwd string) bool { return true }))
 	defer ts.Close()
@@ -55,6 +56,7 @@ func TestWithoutPW(t *testing.T) {
 	assert.Equal(t, http.StatusText(http.StatusUnauthorized)+"\n", string(body), "wrong message")
 }
 
+// Test with wrong password
 func TestWithWrongPW(t *testing.T) {
 	var receivedName, receivedPwd string
 	ts := createServer(auth.AuthenticatorFunc(func(name, pwd string) bool {
@@ -76,6 +78,7 @@ func TestWithWrongPW(t *testing.T) {
 		string(body), "wrong message")
 }
 
+// Test with correct password
 func TestWithCorrectPW(t *testing.T) {
 	var receivedName, receivedPwd string
 	ts := createServer(auth.AuthenticatorFunc(func(name, pwd string) bool {
@@ -121,6 +124,7 @@ func urlFor(scheme string, serverPort string, path string) string {
 	return scheme + "://localhost:" + serverPort + path
 }
 
+// test the https-Cert and private Key
 func TestHTTPSServer(t *testing.T) {
 	srv := NewServer(httpsPort)
 	go srv.ListenAndServeTLS(resources.GetCertPath(), resources.GetKeyPath())
@@ -148,6 +152,7 @@ func TestHTTPSServer(t *testing.T) {
 	assert.Equal(t, expected, body)
 }
 
+// test the function CheckAndHandleStoragePath with a path that does not exist
 func TestCheckAndHandleStoragePathWithNonExistPath(t *testing.T) {
 	defaultDir, err := os.Getwd()
 	assert.NoError(t, err)
@@ -166,6 +171,7 @@ func TestCheckAndHandleStoragePathWithNonExistPath(t *testing.T) {
 	assert.Equal(t, expectedPath, (*users)[0].GetStoragePath())
 }
 
+// test the function CheckAndHandleStoragePath with a path that exists
 func TestCheckAndHandleStoragePathWithExistPath(t *testing.T) {
 	defaultDir, err := os.Getwd()
 	assert.NoError(t, err)
