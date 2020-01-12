@@ -19,8 +19,8 @@ type Closer interface {
 	Close() error
 }
 
-func ReadFile(filepath string) []byte {
-	xmlFile, err := os.Open(filepath)
+func ReadFile(filePath string) (content []byte, fileName string) {
+	xmlFile, err := os.Open(filePath)
 	if err != nil {
 		log.Println(err)
 	}
@@ -31,7 +31,7 @@ func ReadFile(filepath string) []byte {
 	if err != nil {
 		log.Println(err)
 	}
-	return byteValue
+	return byteValue, filepath.Base(filePath)
 }
 
 func ReadReceiveFile(file multipart.File) []byte {
@@ -80,6 +80,17 @@ func UpdateFile(dir string, filename string, newContent []byte) bool {
 		log.Println(err)
 	}
 	return success
+}
+func GetSingleFileFromDir(directory string, fileName string, extension string) string {
+	files := GetAllFilesFromDir(directory)
+	var searchedFile = ""
+	for _, file := range files {
+		if strings.TrimSuffix(filepath.Base(file), extension) == fileName {
+			searchedFile =  file
+			break
+		}
+	}
+	return searchedFile
 }
 
 func GetAllFilesFromDir(directory string) []string {

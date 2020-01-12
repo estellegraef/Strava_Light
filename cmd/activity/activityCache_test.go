@@ -8,13 +8,14 @@ package activity
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
 
 var activities = []Activity{
 	{
-		Id:          "2",
+		Id:          "1",
 		SportType:   "Laufen",
 		Comment:     "Let's go for a run!",
 		Length:      24.6,
@@ -47,11 +48,36 @@ var activities = []Activity{
 
 //TODO test cache
 func TestNewCache(t *testing.T) {
-	fmt.Println("START CACHE")
 	cache := NewCache()
 
 	for _, word := range activities{
 		cache.Check(word.Id, word)
-		cache.Display()
 	}
+	isInCache, activity := cache.GetActivity("1")
+	assert.Equal(t, true, isInCache)
+	assert.Equal(t, activities[0], activity)
 }
+
+func TestCache_GetNodeTrue(t *testing.T) {
+	cache := NewCache()
+
+	cache.Check(activities[1].Id, activities[1])
+	cache.Check(activities[2].Id, activities[2])
+
+	isInCache, cacheActivity := cache.GetActivity("2")
+	assert.True(t, isInCache)
+	assert.Equal(t, activities[1], cacheActivity)
+}
+
+func TestCache_GetNodeFalse(t *testing.T) {
+	cache := NewCache()
+
+	cache.Check(activities[0].Id, activities[0])
+	cache.Check(activities[1].Id, activities[1])
+
+	isInCache, cacheActivity := cache.GetActivity("3")
+	fmt.Println(isInCache)
+	fmt.Println(cacheActivity)
+	assert.False(t, isInCache)
+}
+

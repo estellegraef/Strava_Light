@@ -6,12 +6,14 @@
 
 package activity
 
-import "fmt"
+import (
+	"log"
+)
+//inspired by https://medium.com/hackernoon/build-a-go-cache-in-10-minutes-c908a8255568
 
 const SIZE = 10 // size of cache
 
-//Node contains a activity and neighbor nodes
-//TODO adjust so Node can be taken by ID
+//Node contains am id, an activity and its neighbor nodes
 type Node struct {
 	ActivityId	string
 	Val   Activity
@@ -34,10 +36,12 @@ type Cache struct {
 	Hash  Hash
 }
 
+//create a new cache
 func NewCache() Cache {
 	return Cache{Queue: NewQueue(), Hash: Hash{}}
 }
 
+//create a new queue
 func NewQueue() Queue {
 	head := &Node{}
 	tail := &Node{}
@@ -47,20 +51,24 @@ func NewQueue() Queue {
 	return Queue{Head: head, Tail: tail}
 }
 
+//checkin and verify a new activity to checkin the cache
 func (c *Cache) Check(id string, activity Activity) Activity {
 	node := &Node{}
-	if val, ok := c.Hash[id]; ok {
-		node = c.Remove(val)
+	isInCache, cacheNode := c.GetNode(id)
+
+	if isInCache {
+		node = c.Remove(cacheNode)
 	} else {
-		node = &Node{Val: activity}
+		node = &Node{ActivityId: id, Val: activity}
 	}
 
-	c.Add(node)
+	c.AddNode(node)
 	c.Hash[id] = node
 	return node.Val
 }
 
-func (c *Cache) GetNode (id string) (activityInCache bool, activityFromCache Activity) {
+//get an activity saved in cache by its id
+func (c *Cache) GetActivity(id string) (activityInCache bool, activityFromCache Activity) {
 	var hasNode = false
 	var activity Activity
 	if val, ok := c.Hash[id]; ok {
@@ -68,6 +76,35 @@ func (c *Cache) GetNode (id string) (activityInCache bool, activityFromCache Act
 		hasNode = true
 	}
 	return hasNode, activity
+}
+
+//get a node from cache by its id
+func (c *Cache) GetNode(id string) (activityInCache bool, nodeFromCache *Node) {
+	var hasNode = false
+	var node *Node
+	if val, ok := c.Hash[id]; ok {
+		node = val
+		hasNode = true
+	}
+	return hasNode, node
+}
+
+//remove a node by its id
+func (c *Cache) RemoveById(id string) {
+	hasNode, node := c.GetNode(id)
+	if hasNode {
+		//reassign neighbors
+		left := node.Left
+		right := node.Right
+		left.Right = right
+		right.Left = left
+		//shorten queue length by one
+		c.Queue.Length -= 1
+		//remove node
+		delete(c.Hash, node.ActivityId)
+	} else {
+		log.Println("Cannot retrieve node from cache")
+	}
 }
 
 //remove node from cache
@@ -84,8 +121,8 @@ func (c *Cache) Remove(n *Node) *Node {
 	return n
 }
 
-func (c *Cache) Add(n *Node) {
-	//fmt.Printf("add: %v\n", n.Val)
+//add a node to cache
+func (c *Cache) AddNode(n *Node) {
 	tmp := c.Queue.Head.Right
 	c.Queue.Head.Right = n
 	n.Left = c.Queue.Head
@@ -96,21 +133,4 @@ func (c *Cache) Add(n *Node) {
 	if c.Queue.Length > SIZE {
 		c.Remove(c.Queue.Tail.Left)
 	}
-}
-
-func (c *Cache) Display() {
-	c.Queue.Display()
-}
-
-func (q *Queue) Display() {
-	node := q.Head.Right
-	fmt.Printf("%d - [", q.Length)
-	for i := 0; i < q.Length; i++ {
-		fmt.Printf("{%v}", node.Val)
-		if i < q.Length-1 {
-			fmt.Printf(" <--> ")
-		}
-		node = node.Right
-	}
-	fmt.Println("]")
 }

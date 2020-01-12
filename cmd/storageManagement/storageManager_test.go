@@ -6,6 +6,7 @@
 package filemanagement
 
 import (
+	"fmt"
 	"github.com/estellegraef/Strava_Light/resources"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
@@ -59,9 +60,15 @@ func TestGetAllFiles(t *testing.T) {
 	assert.Equal(t, expectedDirs, actualDirs)
 }
 
+func TestGetSingleFileFromDir(t *testing.T) {
+	actualDir := resources.GetUserDir("user1")
+	expected := GetSingleFileFromDir(actualDir, "1", ".json")
+	fmt.Print(expected)
+}
+
 func TestReadFileContent(t *testing.T) {
 	gpxFile := resources.GetShortTestGpx()
-	actualBytes := ReadFile(gpxFile)
+	actualBytes, _ := ReadFile(gpxFile)
 	assert.Equal(t, bytes, actualBytes)
 }
 
@@ -98,7 +105,7 @@ func TestUpdateFile(t *testing.T) {
 func TestGetAllFilesFromDir(t *testing.T) {
 	dir := resources.GetUserDir("user2")
 	actual := GetAllFilesFromDir(dir)
-	expected := []string {filepath.Join(dir, "2019-09-21_15-54.gpx"), filepath.Join(dir, "3.json")}
+	expected := []string {filepath.Join(dir, ".gpx"), filepath.Join(dir, "3.json")}
 	assert.Equal(t, expected, actual)
 }
 

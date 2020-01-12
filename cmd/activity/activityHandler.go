@@ -19,7 +19,6 @@ import (
 )
 
 var cache Cache
-//TODO implement cache after tests
 
 func Setup(){
 	cache = NewCache()
@@ -49,7 +48,7 @@ func SortActivities(activities []Activity) []Activity{
 
 func GetActivity(user string, id string) Activity {
 	var activity Activity
-	inCache, cachedActivity := cache.GetNode(id)
+	inCache, cachedActivity := cache.GetActivity(id)
 	if inCache {
 		activity = cachedActivity
 	} else {
@@ -59,7 +58,7 @@ func GetActivity(user string, id string) Activity {
 		for _, file := range files {
 			searchedFile := id + ".json"
 			if filepath.Base(file) == searchedFile {
-				content := filemanagement.ReadFile(file)
+				content, _ := filemanagement.ReadFile(file)
 				activity = UnmarshalJSON(content)
 			}
 		}
@@ -106,20 +105,32 @@ func UpdateActivity(user string, id string, sportType string, comment string) bo
 	activity.Comment = comment
 	content := MarshalJSON(activity)
 	dir := resources.GetUserDir(user)
-	isUpdated := filemanagement.UpdateFile(dir, id, content)
+	isUpdated := filemanagement.UpdateFile(dir, id + ".json", content)
 	return isUpdated
 }
 
 func DeleteActivity(user string, id string) bool {
 	var success = true
-	//cache.Remove(id)
-	//activity := GetActivity(user, id)
+	cache.RemoveById(id)
 	dir := resources.GetUserDir(user)
 	jsonFile := id + ".json"
 	originalFile := id + ".zip"
 	success = filemanagement.DeleteFile(dir, jsonFile)
 	success = filemanagement.DeleteFile(dir, originalFile)
 	return success
+}
+
+func ReturnFileForDownload(userName string, id string) (content []byte, fileName string){
+	var file string
+	gpxSearch := filemanagement.GetSingleFileFromDir(resources.GetUserDir(userName), id, ".gpx")
+	zipSearch := filemanagement.GetSingleFileFromDir(resources.GetUserDir(userName), id, ".zip")
+	if gpxSearch == "" {
+		file = zipSearch
+	} else {
+		file = gpxSearch
+	}
+	fileContent, fileBase := filemanagement.ReadFile(file)
+	return fileContent, fileBase
 }
 
 func MarshalJSON(activity Activity) []byte {
