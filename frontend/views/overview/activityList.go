@@ -8,6 +8,7 @@ package overview
 
 import (
 	"github.com/estellegraef/Strava_Light/backend/activity"
+	"github.com/estellegraef/Strava_Light/frontend/parameter"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
 	"log"
@@ -20,11 +21,7 @@ var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/items.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	username, ok := r.Context().Value("username").(string)
-
-	if !ok {
-		username = "unknown"
-	}
+	username := parameter.GetUser(r)
 
 	data := struct {
 		Page    pages.Page
