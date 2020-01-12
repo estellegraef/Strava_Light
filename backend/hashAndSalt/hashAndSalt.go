@@ -15,7 +15,7 @@ import (
 	"os"
 )
 
-// Aus: https://socketloop.com/tutorials/golang-securing-password-with-salt
+// inspired by: https://socketloop.com/tutorials/golang-securing-password-with-salt
 
 const saltSize = 8
 

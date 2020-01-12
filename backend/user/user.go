@@ -23,7 +23,9 @@ type User struct {
 	storagePath string
 }
 
-var users []User
+var (
+	users []User
+)
 
 func NewUser(name string, password []byte, salt []byte, storagePath string) User {
 	return User{name, password, salt, storagePath}
@@ -83,12 +85,12 @@ func GetUsers() *[]User {
 	return &users
 }
 
-// Create the user storage location
+// Create the user storage location and return the actual basePath
 func CreateStorageForUsers(basePath string) {
 	userSlice := GetUsers()
-	basePath2 := filepath.Join(basePath, "storage")
-	//if filepath.IsAbs(basePath2)
-	absPath, err := filepath.Abs(basePath2)
+	actualBasePath := filepath.Join(basePath, "storage")
+	resources.SetBasePathStorage(actualBasePath)
+	absPath, err := filepath.Abs(actualBasePath)
 	if err != nil {
 		fmt.Println("Can't get absolute Path: ", err)
 	}
