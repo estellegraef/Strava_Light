@@ -10,10 +10,13 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/estellegraef/Strava_Light/backend/auth"
+	"github.com/estellegraef/Strava_Light/backend/user"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -142,4 +145,31 @@ func TestHTTPSServer(t *testing.T) {
 	expected := []byte("Hello World")
 
 	assert.Equal(t, expected, body)
+}
+
+func TestCheckAndHandleStoragePathWithNonExistPath(t *testing.T) {
+	defaultDir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	baseDir := filepath.Join(defaultDir, "test1") // <- Path does not exist
+
+	checkAndHandleStoragePath(baseDir, defaultDir)
+
+	expectedPath := filepath.Join(defaultDir, "storage", "user1")
+
+	users := user.GetUsers()
+
+	assert.Equal(t, expectedPath, (*users)[0].GetStoragePath())
+}
+
+func TestCheckAndHandleStoragePathWithExistPath(t *testing.T) {
+	defaultDir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	checkAndHandleStoragePath(defaultDir, defaultDir)
+
+	expectedPath := filepath.Join(defaultDir, "storage", "user1")
+	users := user.GetUsers()
+
+	assert.Equal(t, expectedPath, (*users)[0].GetStoragePath())
 }
