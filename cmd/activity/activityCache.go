@@ -6,11 +6,14 @@
 
 package activity
 
+import "fmt"
+
 const SIZE = 10 // size of cache
 
 //Node contains a activity and neighbor nodes
 //TODO adjust so Node can be taken by ID
 type Node struct {
+	ActivityId	string
 	Val   Activity
 	Left  *Node
 	Right *Node
@@ -24,7 +27,7 @@ type Queue struct {
 }
 
 // maps activity to node in Queue
-type Hash map[Activity]*Node
+type Hash map[string]*Node
 
 type Cache struct {
 	Queue Queue
@@ -44,17 +47,27 @@ func NewQueue() Queue {
 	return Queue{Head: head, Tail: tail}
 }
 
-func (c *Cache) Check(activity Activity) Activity {
+func (c *Cache) Check(id string, activity Activity) Activity {
 	node := &Node{}
-	if val, ok := c.Hash[activity]; ok {
+	if val, ok := c.Hash[id]; ok {
 		node = c.Remove(val)
 	} else {
 		node = &Node{Val: activity}
 	}
 
 	c.Add(node)
-	c.Hash[activity] = node
+	c.Hash[id] = node
 	return node.Val
+}
+
+func (c *Cache) GetNode (id string) (activityInCache bool, activityFromCache Activity) {
+	var hasNode = false
+	var activity Activity
+	if val, ok := c.Hash[id]; ok {
+		activity = val.Val
+		hasNode = true
+	}
+	return hasNode, activity
 }
 
 //remove node from cache
@@ -67,7 +80,7 @@ func (c *Cache) Remove(n *Node) *Node {
 	//shorten queue length by one
 	c.Queue.Length -= 1
 	//remove node
-	delete(c.Hash, n.Val)
+	delete(c.Hash, n.ActivityId)
 	return n
 }
 
@@ -90,7 +103,7 @@ func (c *Cache) Display() {
 }
 
 func (q *Queue) Display() {
-	/*node := q.Head.Right
+	node := q.Head.Right
 	fmt.Printf("%d - [", q.Length)
 	for i := 0; i < q.Length; i++ {
 		fmt.Printf("{%v}", node.Val)
@@ -99,5 +112,5 @@ func (q *Queue) Display() {
 		}
 		node = node.Right
 	}
-	fmt.Println("]")*/
+	fmt.Println("]")
 }

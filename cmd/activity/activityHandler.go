@@ -20,7 +20,6 @@ import (
 
 var cache Cache
 //TODO implement cache after tests
-//TODO CAUTION! GETIDBYNAME AND GETNAMEBYID HANDLED JSON EXT
 
 func Setup(){
 	cache = NewCache()
@@ -35,7 +34,7 @@ func GetActivities(userName string) []Activity {
 			title := strings.TrimSuffix(filepath.Base(fileName), ".json")
 			var activity = GetActivity(userName, title)
 			activities = append(activities, activity)
-			cache.Check(activity)
+			cache.Check(activity.Id, activity)
 		}
 	}
 	return SortActivities(activities)
@@ -49,14 +48,20 @@ func SortActivities(activities []Activity) []Activity{
 }
 
 func GetActivity(user string, id string) Activity {
-	userDir := resources.GetUserDir(user)
-	files := filemanagement.GetAllFilesFromDir(userDir)
 	var activity Activity
-	for _, file := range files {
-		searchedFile := id + ".json"
-		if filepath.Base(file) == searchedFile {
-			content := filemanagement.ReadFile(file)
-			activity = UnmarshalJSON(content)
+	inCache, cachedActivity := cache.GetNode(id)
+	if inCache {
+		activity = cachedActivity
+	} else {
+		userDir := resources.GetUserDir(user)
+		files := filemanagement.GetAllFilesFromDir(userDir)
+
+		for _, file := range files {
+			searchedFile := id + ".json"
+			if filepath.Base(file) == searchedFile {
+				content := filemanagement.ReadFile(file)
+				activity = UnmarshalJSON(content)
+			}
 		}
 	}
 	return activity
@@ -84,11 +89,10 @@ func AddActivity(userName string, sportType string, file multipart.File, header 
 			id := filemanagement.GenerateId(fileName)
 			activity := New(id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
 			content := MarshalJSON(activity)
-			//TODO create File with ending json
 			jsonTitle := fileName + ".json"
 			activityIsCreated, _ := filemanagement.CreateFile(resources.GetUserDir(userName), jsonTitle, content)
 			if activityIsCreated {
-				//TODO push to cache
+				cache.Check(activity.Id, activity)
 				success = true
 			}
 		}
@@ -108,7 +112,7 @@ func UpdateActivity(user string, id string, sportType string, comment string) bo
 
 func DeleteActivity(user string, id string) bool {
 	var success = true
-	//TODO delete from cache
+	//cache.Remove(id)
 	//activity := GetActivity(user, id)
 	dir := resources.GetUserDir(user)
 	jsonFile := id + ".json"

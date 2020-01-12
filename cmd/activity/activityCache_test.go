@@ -51,6 +51,7 @@ func TestNewCache(t *testing.T) {
 	cache := NewCache()
 
 	for _, word := range activities{
-		cache.Check(word)
+		cache.Check(word.Id, word)
+		cache.Display()
 	}
 }
