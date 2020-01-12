@@ -9,6 +9,7 @@ package edit
 import (
 	"github.com/estellegraef/Strava_Light/backend/activity"
 	"github.com/estellegraef/Strava_Light/frontend/parameter"
+	"github.com/estellegraef/Strava_Light/frontend/templates/html"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"github.com/estellegraef/Strava_Light/frontend/views/detail"
 	"html/template"
@@ -17,8 +18,8 @@ import (
 )
 
 var tmpl = template.Must(template.ParseFiles(
-	"frontend/templates/html/layout.html",
-	"frontend/templates/html/edit.html"))
+	html.GetLayoutPath(),
+	html.GetEditPath()))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username, id := parameter.GetUserAndID(r)

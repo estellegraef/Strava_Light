@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"github.com/estellegraef/Strava_Light/backend/auth"
 	"github.com/estellegraef/Strava_Light/backend/user"
+	"github.com/estellegraef/Strava_Light/resources"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
@@ -122,7 +123,7 @@ func urlFor(scheme string, serverPort string, path string) string {
 
 func TestHTTPSServer(t *testing.T) {
 	srv := NewServer(httpsPort)
-	go srv.ListenAndServeTLS("resources/cert.pem", "resources/key.pem")
+	go srv.ListenAndServeTLS(resources.GetCertPath(), resources.GetKeyPath())
 	defer srv.Close()
 	time.Sleep(100 * time.Millisecond)
 

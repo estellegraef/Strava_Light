@@ -36,3 +36,11 @@ func GetTestInvalidPath() string {
 func GetUserCredsPath() string {
 	return filepath.Join(GetBasePath(), "user_credentials", "users.txt")
 }
+
+func GetCertPath() string {
+	return filepath.Join(GetBasePath(), "cert.pem")
+}
+
+func GetKeyPath() string {
+	return filepath.Join(GetBasePath(), "key.pem")
+}
