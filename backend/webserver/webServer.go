@@ -19,6 +19,7 @@ import (
 	"github.com/estellegraef/Strava_Light/frontend/views/overview"
 	"github.com/estellegraef/Strava_Light/frontend/views/search"
 	"github.com/estellegraef/Strava_Light/frontend/views/upload"
+	"github.com/estellegraef/Strava_Light/resources"
 	"log"
 	"net/http"
 	"os"
@@ -61,7 +62,7 @@ func CreateWebServer() {
 	fmt.Println("Start Server on Port: ", *portPtr)
 
 	// Start web server
-	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*portPtr), "./resources/cert.pem", "./resources/key.pem", nil))
+	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*portPtr), resources.GetCertPath(), resources.GetKeyPath(), nil))
 }
 
 // Is responsible for querying the login information and checks the specified login data
