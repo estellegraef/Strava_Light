@@ -13,7 +13,11 @@ import (
 	"time"
 )
 
+var testDir = resources.GetResourcesPath()
+
 func TestReadGpx(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
+
 	//generate GpxFile object  from path
 	var actualFile = ReadGpx(resources.GetTestShortGpx())
 
@@ -45,29 +49,34 @@ func TestReadGpx(t *testing.T) {
 }
 
 func TestReadZip(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	files := ReadZip(resources.GetTestZipPath())
 	assert.True(t, len(files) == 1)
 }
 
 func TestReadFileWithGpx(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	files := ReadFile(resources.GetTestGpxPath())
 	assert.True(t, len(files) == 1)
 }
 
 func TestReadFileWithZip(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	files := ReadFile(resources.GetTestZipPath())
 	assert.True(t, len(files) == 1)
 }
 
 func TestReadFileInvalidPath(t *testing.T) {
-	actualFiles := ReadFile(resources.GetTestInvalidPath())
+	resources.SetBasePathStorage(testDir)
+	actualFiles := ReadFile(resources.GetInvalidPath())
 	//since the path is invalid, an empty GpxFile array is expected
 	expectedFiles := []GpxFile(nil)
 	assert.Equal(t, expectedFiles, actualFiles)
 }
 
 func TestCheckFileNonExistentPositive(t *testing.T) {
-	nonExistent := CheckFileNonExistent(resources.GetTestInvalidPath())
+	resources.SetBasePathStorage(testDir)
+	nonExistent := CheckFileNonExistent(resources.GetInvalidPath())
 	assert.True(t, nonExistent)
 }
 
