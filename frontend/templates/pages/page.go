@@ -53,6 +53,13 @@ func NewEdit() Page {
 	}
 }
 
+func NewDownload() Page {
+	return Page{
+		title:    "Download",
+		headLine: "Download einer Aktivität",
+	}
+}
+
 func (a Page) GetTitle() string {
 	return a.title
 }
