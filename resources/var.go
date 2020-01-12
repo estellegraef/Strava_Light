@@ -50,7 +50,7 @@ func GetTestInvalidPath() string {
 	return filepath.Join(GetResourcesPath(), "gpx", "test.zip")
 }
 
-func GetTestUserCredsPath() string {
+func GetUserCredsPath() string {
 	return filepath.Join(GetResourcesPath(), "user_credentials", "users.txt")
 }
 
@@ -62,10 +62,10 @@ func GetTestUserDir(user string) string {
 	return filepath.Join(GetTestUserActivitiesPath(), user)
 }
 
-func GetTestCertPath() string {
+func GetCertPath() string {
 	return filepath.Join(GetResourcesPath(), "cert.pem")
 }
 
-func GetTestKeyPath() string {
+func GetKeyPath() string {
 	return filepath.Join(GetResourcesPath(), "key.pem")
 }
