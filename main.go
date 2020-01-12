@@ -7,7 +7,7 @@
 package main
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/webserver"
+	"github.com/estellegraef/Strava_Light/backend/webserver"
 )
 
 func main() {

@@ -7,7 +7,7 @@
 package activity
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/storageManagement"
+	"github.com/estellegraef/Strava_Light/backend/storageManagement"
 	"github.com/estellegraef/Strava_Light/resources"
 	"github.com/stretchr/testify/assert"
 	"testing"

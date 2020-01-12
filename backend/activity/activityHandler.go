@@ -8,8 +8,8 @@ package activity
 
 import (
 	"encoding/json"
-	"github.com/estellegraef/Strava_Light/cmd/gpxProcessing"
-	"github.com/estellegraef/Strava_Light/cmd/storageManagement"
+	"github.com/estellegraef/Strava_Light/backend/gpxProcessing"
+	"github.com/estellegraef/Strava_Light/backend/storageManagement"
 	"github.com/estellegraef/Strava_Light/resources"
 	"log"
 	"mime/multipart"

@@ -7,11 +7,12 @@
 package detail
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/activity"
+	"github.com/estellegraef/Strava_Light/backend/activity"
+	"github.com/estellegraef/Strava_Light/frontend/parameter"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
+	"log"
 	"net/http"
-	"strconv"
 )
 
 var tmpl = template.Must(template.ParseFiles(
@@ -19,21 +20,23 @@ var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/detail.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	username, ok := r.Context().Value("username").(string)
-
-	if !ok {
-		username = "unknown"
-	}
+	username, id := parameter.GetUserAndID(r)
 
 	var data = struct {
 		Page    pages.Page
-		Content activity.Activity
+		Content struct {
+			IsDelete bool
+			Activity activity.Activity
+		}
 	}{}
 
-	urlValue := r.URL.Query().Get("id")
-	id, _ := strconv.ParseUint(urlValue, 32, 32)
-	data.Content = activity.GetActivity(username, uint32(id))
-	data.Page = pages.NewDetail(data.Content.GetSportType())
+	data.Content.IsDelete = r.Method == http.MethodPost
+	data.Content.Activity = activity.GetActivity(username, id)
+	data.Page = pages.NewDetail(data.Content.Activity.GetSportType())
 
-	_ = tmpl.Execute(w, data)
+	err := tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		log.Println("Template execution failed! \n", err)
+	}
 }

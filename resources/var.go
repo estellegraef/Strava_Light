@@ -15,8 +15,8 @@ import (
 func GetBasePath() string {
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
-			panic("No caller information")
-		}
+		panic("No caller information")
+	}
 	return path.Dir(filename)
 }
 
@@ -29,11 +29,15 @@ func GetTestGpxPath() string {
 }
 
 func GetTestZipPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\1.gpx.zip")
+	return filepath.Join(GetBasePath(), "gpx", "2019-09-14_15-14.gpx.zip")
 }
 
 func GetTestInvalidPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\test.zip")
+	return filepath.Join(GetBasePath(), "gpx", "test.zip")
+}
+
+func GetUserCredsPath() string {
+	return filepath.Join(GetBasePath(), "user_credentials", "users.txt")
 }
 
 func GetUserActivitiesPath() string {

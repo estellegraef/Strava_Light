@@ -7,9 +7,11 @@
 package upload
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/activity"
+	"github.com/estellegraef/Strava_Light/backend/activity"
+	"github.com/estellegraef/Strava_Light/frontend/parameter"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -18,11 +20,7 @@ var tmpl = template.Must(template.ParseFiles(
 	"frontend/templates/html/upload.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
-	username, ok := r.Context().Value("username").(string)
-
-	if !ok {
-		username = "unknown"
-	}
+	username := parameter.GetUser(r)
 
 	var data = struct {
 		Page    pages.Page
@@ -37,10 +35,8 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		sportType := r.FormValue("sportType")
 		file, fileHeader, _ := r.FormFile("file")
 		comment := r.FormValue("comment")
-
 		//backend call
 		success := activity.AddActivity(username, sportType, file, fileHeader, comment)
-
 		if success {
 			data.Content = 1
 		} else {
@@ -48,5 +44,9 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	_ = tmpl.Execute(w, data)
+	err := tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		log.Println("Template execution failed! \n", err)
+	}
 }

@@ -46,7 +46,6 @@ var activities = []Activity{
 	},
 }
 
-//TODO test cache
 func TestNewCache(t *testing.T) {
 	cache := NewCache()
 
