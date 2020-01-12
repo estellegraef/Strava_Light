@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"github.com/estellegraef/Strava_Light/backend/auth"
 	"github.com/estellegraef/Strava_Light/backend/user"
+	"github.com/estellegraef/Strava_Light/frontend/views/delete"
 	"github.com/estellegraef/Strava_Light/frontend/views/detail"
 	"github.com/estellegraef/Strava_Light/frontend/views/download"
 	"github.com/estellegraef/Strava_Light/frontend/views/edit"
@@ -37,6 +38,7 @@ func CreateWebServer() {
 	http.HandleFunc("/search/", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), search.NewHandler))
 	http.HandleFunc("/edit", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), edit.NewHandler))
 	http.HandleFunc("/download", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), download.NewHandler))
+	http.HandleFunc("/delete", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), delete.NewHandler))
 	http.Handle("/assets/", http.StripPrefix(strings.TrimRight("/assets/", "/"), http.FileServer(http.Dir("frontend/templates/assets"))))
 	http.Handle("/images/", http.StripPrefix(strings.TrimRight("/images/", "/"), http.FileServer(http.Dir("resources/img"))))
 

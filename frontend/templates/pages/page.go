@@ -17,7 +17,7 @@ func NewIndex() Page {
 	return Page{
 		title:            "Strava",
 		customStyleSheet: "../assets/css/items.css",
-		jsFile:           "../assets/js/items.js",
+		jsFile:           "../assets/js/custom.js",
 		headLine:         "Deine Aktivitäten",
 	}
 }
@@ -26,7 +26,7 @@ func NewSearch() Page {
 	return Page{
 		title:            "Suche",
 		customStyleSheet: "../assets/css/items.css",
-		jsFile:           "../assets/js/items.js",
+		jsFile:           "../assets/js/custom.js",
 		headLine:         "Suche",
 	}
 }
@@ -42,6 +42,7 @@ func NewDetail(heading string) Page {
 	return Page{
 		title:            "Detail",
 		customStyleSheet: "../assets/css/detail.css",
+		jsFile:           "../assets/js/custom.js",
 		headLine:         heading,
 	}
 }
@@ -50,13 +51,6 @@ func NewEdit() Page {
 	return Page{
 		title:    "Bearbeiten",
 		headLine: "Bearbeiten einer Aktivität",
-	}
-}
-
-func NewDownload() Page {
-	return Page{
-		title:    "Download",
-		headLine: "Download einer Aktivität",
 	}
 }
 

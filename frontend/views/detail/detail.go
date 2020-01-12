@@ -24,19 +24,23 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 	if !ok {
 		username = "unknown"
 	}
+	id := r.URL.Query().Get("id")
 
 	var data = struct {
 		Page    pages.Page
-		Content activity.Activity
+		Content struct {
+			IsDelete bool
+			Activity activity.Activity
+		}
 	}{}
 
-	id := r.URL.Query().Get("id")
-	data.Content = activity.GetActivity(username, id)
-	data.Page = pages.NewDetail(data.Content.GetSportType())
+	data.Content.IsDelete = r.Method == http.MethodPost
+	data.Content.Activity = activity.GetActivity(username, id)
+	data.Page = pages.NewDetail(data.Content.Activity.GetSportType())
 
 	err := tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		log.Println("Template execution failed! \n %w", err)
+		log.Println("Template execution failed! \n", err)
 	}
 }

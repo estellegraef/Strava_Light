@@ -2,33 +2,38 @@
     <div class="row justify-content-center">
         <div class="col-5 itemCard marginBottom">
             <div class="row ">
-                <p>Tag: {{ .GetWeekDay }}, den {{ .GetLongDate }}</p>
+                <p>Tag: {{ .Activity.GetWeekDay }}, den {{ .Activity.GetLongDate }}</p>
             </div>
             <div class="row">
-                <p>Uhrzeit: {{ .GetTime }}</p>
+                <p>Uhrzeit: {{ .Activity.GetTime }}</p>
             </div>
             <div class="row">
-                <p>Strecke: {{ .GetLength }} km</p>
+                <p>Strecke: {{ .Activity.GetLength }} km</p>
             </div>
             <div class="row">
-                <p>Durschn. Geschwindigkeit: {{ .GetAvgSpeed }} km/h</p>
+                <p>Durschn. Geschwindigkeit: {{ .Activity.GetAvgSpeed }} km/h</p>
             </div>
             <div class="row">
-                <p>Max. Geschwindigkeit: {{ .GetMaxSpeed }} km/h</p>
+                <p>Max. Geschwindigkeit: {{ .Activity.GetMaxSpeed }} km/h</p>
             </div>
             <div class="row">
-                <p>Standzeit: {{ .GetWaitingTime }} min</p>
+                <p>Standzeit: {{ .Activity.GetWaitingTime }} min</p>
             </div>
             <div class="row">
-                <p class="comment">Kommentar: {{ .GetComment }}</p>
+                <p class="comment">Kommentar: {{ .Activity.GetComment }}</p>
             </div>
         </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-4 centerContent marginBottom">
-            <a href="/edit?id={{.GetID}}"><input type="button" value="&#x270e;"></a>
-            <a href="/download?id={{.GetID}}"><input type="button" value="&#11015;"></a>
-            <input type="button" value="&#x2716;">
+            <a href="/edit?id={{.Activity.GetID}}"><input class="buttonInline" type="button" value="&#x270e;"></a>
+            <a href="/download?id={{.Activity.GetID}}"><input class="buttonInline" type="button" value="&#11015;"></a>
+            <form method="post" class="buttonInline">
+                <input type="submit" value="&#x2716;">
+            </form>
         </div>
     </div>
+    {{ if .IsDelete }}
+        <script>deleteActivity({{.Activity.GetID}})</script>
+    {{ end }}
 {{ end }}
