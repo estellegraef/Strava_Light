@@ -14,8 +14,7 @@ import (
 
 var activities = []Activity{
 	{
-		Name:        "first",
-		Id:          1,
+		Id:          "2",
 		SportType:   "Laufen",
 		Comment:     "Let's go for a run!",
 		Length:      24.6,
@@ -25,8 +24,7 @@ var activities = []Activity{
 		DateTime:    time.Date(2018, 9, 22, 12, 42, 31, 0, time.UTC),
 	},
 	{
-		Name:        "second",
-		Id:          2,
+		Id:          "2",
 		SportType:   "Laufen",
 		Comment:     "Let's go for a run!",
 		Length:      24.6,
@@ -36,8 +34,7 @@ var activities = []Activity{
 		DateTime:     time.Date(2018, 9, 22, 12, 42, 31, 0, time.UTC),
 	},
 	{
-		Name:        "third",
-		Id:          3,
+		Id:          "3",
 		SportType:   "Laufen",
 		Comment:     "Let's go for a run!",
 		Length:      24.6,

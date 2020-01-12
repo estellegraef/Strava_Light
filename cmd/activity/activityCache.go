@@ -6,13 +6,10 @@
 
 package activity
 
-import (
-	"fmt"
-)
-
 const SIZE = 10 // size of cache
 
 //Node contains a activity and neighbor nodes
+//TODO adjust so Node can be taken by ID
 type Node struct {
 	Val   Activity
 	Left  *Node
@@ -75,7 +72,7 @@ func (c *Cache) Remove(n *Node) *Node {
 }
 
 func (c *Cache) Add(n *Node) {
-	fmt.Printf("add: %v\n", n.Val)
+	//fmt.Printf("add: %v\n", n.Val)
 	tmp := c.Queue.Head.Right
 	c.Queue.Head.Right = n
 	n.Left = c.Queue.Head
@@ -93,7 +90,7 @@ func (c *Cache) Display() {
 }
 
 func (q *Queue) Display() {
-	node := q.Head.Right
+	/*node := q.Head.Right
 	fmt.Printf("%d - [", q.Length)
 	for i := 0; i < q.Length; i++ {
 		fmt.Printf("{%v}", node.Val)
@@ -102,5 +99,5 @@ func (q *Queue) Display() {
 		}
 		node = node.Right
 	}
-	fmt.Println("]")
+	fmt.Println("]")*/
 }

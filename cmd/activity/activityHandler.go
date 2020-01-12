@@ -8,7 +8,6 @@ package activity
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/estellegraef/Strava_Light/cmd/gpxProcessing"
 	"github.com/estellegraef/Strava_Light/cmd/storageManagement"
 	"github.com/estellegraef/Strava_Light/resources"
@@ -16,25 +15,27 @@ import (
 	"mime/multipart"
 	"path/filepath"
 	"sort"
-	"strconv"
 	"strings"
 )
 
-var list []Activity
 var cache Cache
 //TODO implement cache after tests
+//TODO CAUTION! GETIDBYNAME AND GETNAMEBYID HANDLED JSON EXT
 
 func Setup(){
 	cache = NewCache()
 }
 
-func GetActivities(user string) []Activity {
-	userDir := resources.GetUserDir(user)
+func GetActivities(userName string) []Activity {
+	userDir := resources.GetUserDir(userName)
 	files := filemanagement.GetAllFilesFromDir(userDir)
 	var activities []Activity
-	for _, file := range files {
-		if filepath.Ext(file) == ".json" {
-			activities = append(activities, GetActivity(user, GetIdByName(file)))
+	for _, fileName := range files {
+		if filepath.Ext(fileName) == ".json" {
+			title := strings.TrimSuffix(filepath.Base(fileName), ".json")
+			var activity = GetActivity(userName, title)
+			activities = append(activities, activity)
+			cache.Check(activity)
 		}
 	}
 	return SortActivities(activities)
@@ -46,13 +47,13 @@ func SortActivities(activities []Activity) []Activity{
 	})
 	return activities
 }
-//TODO request change to id string from uint32
-func GetActivity(user string, id uint32) Activity {
+
+func GetActivity(user string, id string) Activity {
 	userDir := resources.GetUserDir(user)
 	files := filemanagement.GetAllFilesFromDir(userDir)
 	var activity Activity
 	for _, file := range files {
-		searchedFile := GetNameById(id)
+		searchedFile := id + ".json"
 		if filepath.Base(file) == searchedFile {
 			content := filemanagement.ReadFile(file)
 			activity = UnmarshalJSON(content)
@@ -72,22 +73,22 @@ func SearchActivities(username string, keyword string) []Activity {
 	return matchingActivities
 }
 
-func AddActivity(username string, sportType string, file multipart.File, header *multipart.FileHeader, comment string) bool {
+func AddActivity(userName string, sportType string, file multipart.File, header *multipart.FileHeader, comment string) bool {
 	var success = false
 	content := filemanagement.ReadReceiveFile(file)
-	filename := header.Filename
-	baseIsCreated, createdFile := filemanagement.CreateFile(resources.GetUserDir(username), filename, content)
+	fileName := header.Filename
+	baseIsCreated, createdFile := filemanagement.CreateFile(resources.GetUserDir(userName), fileName, content)
 	if baseIsCreated {
 		gpxFiles := gpxProcessing.ReadFile(createdFile)
 		for _, file := range gpxFiles {
-			id := filemanagement.GenerateId()
-			activity := New(string(id), id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
+			id := filemanagement.GenerateId(fileName)
+			activity := New(id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
 			content := MarshalJSON(activity)
 			//TODO create File with ending json
-			jsonTitle := filename + ".json"
-			activityIsCreated, _ := filemanagement.CreateFile(resources.GetUserDir(username), jsonTitle, content)
+			jsonTitle := fileName + ".json"
+			activityIsCreated, _ := filemanagement.CreateFile(resources.GetUserDir(userName), jsonTitle, content)
 			if activityIsCreated {
-				cache.Check(activity)
+				//TODO push to cache
 				success = true
 			}
 		}
@@ -95,13 +96,13 @@ func AddActivity(username string, sportType string, file multipart.File, header 
 	return success
 }
 
-func UpdateActivity(user string, id uint32, sportType string, comment string) bool {
+func UpdateActivity(user string, id string, sportType string, comment string) bool {
 	activity := GetActivity(user, id)
 	activity.SportType = sportType
 	activity.Comment = comment
 	content := MarshalJSON(activity)
 	dir := resources.GetUserDir(user)
-	isUpdated := filemanagement.UpdateFile(dir, GetNameById(id), content)
+	isUpdated := filemanagement.UpdateFile(dir, id, content)
 	return isUpdated
 }
 
@@ -132,14 +133,4 @@ func UnmarshalJSON(data []byte) Activity {
 		log.Println(err)
 	}
 	return activity
-}
-
-func GetNameById(id uint32) string {
-	return fmt.Sprint(id) + ".json"
-}
-
-func GetIdByName(name string) uint32 {
-	filename := strings.TrimSuffix(filepath.Base(name), ".json")
-	val, _ := strconv.Atoi(filename)
-	return uint32(val)
 }

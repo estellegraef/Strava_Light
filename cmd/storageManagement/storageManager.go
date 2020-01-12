@@ -8,9 +8,11 @@ package filemanagement
 import (
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"mime/multipart"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type Closer interface {
@@ -72,7 +74,7 @@ func UpdateFile(dir string, filename string, newContent []byte) bool {
 	}
 	defer CheckCloser(file)
 
-	_, err = file.Write(newContent) // Write at 0 beginning
+	_, err = file.Write(newContent)
 	if err != nil {
 		success = false
 		log.Println(err)
@@ -92,9 +94,17 @@ func GetAllFilesFromDir(directory string) []string {
 	return dirNames
 }
 
-//TODO implement UUID generation
-func GenerateId() uint32 {
-	return 1
+func GenerateId(fileName string) string {
+	letters := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	b := make([]byte, 5)
+	for i := range b {
+		b[i] = letters[rand.Int63() % int64(len(letters))]
+	}
+	var values []string
+	values = append(values, string(b))
+	values = append(values, fileName)
+	id := strings.Join(values, "-")
+	return id
 }
 
 func CheckCloser(closer Closer) {
