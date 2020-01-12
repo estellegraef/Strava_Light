@@ -18,7 +18,7 @@ import (
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username, id := parameter.GetUserAndID(r)
 
-	downloadBytes, fileName := activity.GetFile(username, id)
+	downloadBytes, fileName := activity.ReturnFileForDownload(username, id)
 	mime := http.DetectContentType(downloadBytes)
 	fileSize := len(string(downloadBytes))
 

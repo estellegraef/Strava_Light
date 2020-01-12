@@ -39,7 +39,7 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		sportType := r.FormValue("sportType")
 		comment := r.FormValue("comment")
-		activity.EditActivity(username, id, sportType, comment)
+		activity.UpdateActivity(username, id, sportType, comment)
 
 		r.Method = http.MethodGet
 		detail.NewHandler(w, r)

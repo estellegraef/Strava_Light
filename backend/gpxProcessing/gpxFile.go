@@ -4,7 +4,7 @@
  * 3861852
  */
 
-package gpx_info
+package gpxProcessing
 
 import (
 	"time"
@@ -43,16 +43,16 @@ type TrackPointExtension struct {
 	Speed float64 `xml:"speed"`
 }
 
-func (g GpxFile) GetCreator() string {
-	return g.Creator
-}
-
 func (g GpxFile) GetMeta() Metadata {
 	return g.Meta
 }
 
 func (g GpxFile) GetTracks() []Track {
 	return g.Tracks
+}
+
+func (g GpxFile) GetTrackPoints() []TrackPoint {
+	return GetAllTrackPoints(g)
 }
 
 func (m Metadata) GetTime() time.Time {
@@ -89,4 +89,20 @@ func (e Extension) GetTrackPointExtension() TrackPointExtension {
 
 func (t TrackPointExtension) GetSpeed() float64 {
 	return t.Speed
+}
+
+func (g GpxFile) GetDistanceInKilometers() float64 {
+	return CalculateDistanceInKilometers(g.GetTrackPoints())
+}
+
+func (g GpxFile) GetWaitingTime() float64 {
+	return CalculateStandbyTimeInSec(g.GetTrackPoints())
+}
+
+func (g GpxFile) GetAvgSpeed() float64 {
+	return GetAvgSpeed(g.GetTrackPoints())
+}
+
+func (g GpxFile) GetMaxSpeed() float64 {
+	return GetMaxSpeed(g.GetTrackPoints())
 }
