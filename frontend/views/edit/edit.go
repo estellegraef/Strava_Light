@@ -11,7 +11,6 @@ import (
 	"github.com/estellegraef/Strava_Light/frontend/parameter"
 	"github.com/estellegraef/Strava_Light/frontend/templates/html"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
-	"github.com/estellegraef/Strava_Light/frontend/views/detail"
 	"html/template"
 	"log"
 	"net/http"
@@ -46,7 +45,8 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 
 		//Redirect to detail view
 		r.Method = http.MethodGet
-		detail.NewHandler(w, r)
+		http.Redirect(w, r, "/detail?id="+id, http.StatusSeeOther)
+
 	} else {
 		//Display the sportType and comment of the activity (Get by id)
 		var act = activity.GetActivity(username, id)
