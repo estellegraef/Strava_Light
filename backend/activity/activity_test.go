@@ -13,7 +13,7 @@ import (
 )
 
 var activity = Activity{
-	id:          "2",
+	Id:          "2",
 	SportType:   "Radfahren",
 	Comment:     "Let's go for a ride!",
 	Length:      60.1,
@@ -24,7 +24,7 @@ var activity = Activity{
 }
 
 func TestNew(t *testing.T) {
-	actualActivity := New("2", "Radfahren", "Let's go for a ride!",  60.1, 700, 24.3, 40.3, time.Date(2018, 9, 19, 12, 42, 31, 0000000, time.UTC))
+	actualActivity := New("2", "Radfahren", "Let's go for a ride!", 60.1, 700, 24.3, 40.3, time.Date(2018, 9, 19, 12, 42, 31, 0000000, time.UTC))
 	assert.Equal(t, activity, actualActivity)
 }
 
