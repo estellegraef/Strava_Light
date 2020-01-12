@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+//calculated activity from gpx file
 type Activity struct {
 	Id          string
 	SportType   string
@@ -74,6 +75,7 @@ func (a Activity) GetID() string {
 }
 
 //from: https://yourbasic.org/golang/round-float-2-decimal-places/
+//function to round calculated values to last 2 digits
 func RoundToNearest(value float64) float64 {
 	return math.Round(value*100) / 100
 }

@@ -35,7 +35,6 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 	}{
 		Page: pages.NewEdit(),
 	}
-
 	if r.Method == http.MethodPost {
 		sportType := r.FormValue("sportType")
 		comment := r.FormValue("comment")
