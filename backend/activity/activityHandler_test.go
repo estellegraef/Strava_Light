@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-var sortedActivities = []Activity{
+var unsortedActivities = []Activity{
 	{
 		Id:          "2",
 		SportType:   "Radfahren",
@@ -37,7 +37,7 @@ var sortedActivities = []Activity{
 	},
 }
 
-var unsortedActivities = []Activity{
+var sortedActivities = []Activity{
 	{
 		Id:          "1",
 		SportType:   "Laufen",

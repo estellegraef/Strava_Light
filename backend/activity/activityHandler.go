@@ -41,7 +41,7 @@ func GetActivities(userName string) []Activity {
 
 func SortActivities(activities []Activity) []Activity{
 	sort.Slice(activities, func(i, j int) bool {
-		return activities[i].DateTime.Before(activities[j].DateTime)
+		return activities[i].DateTime.After(activities[j].DateTime)
 	})
 	return activities
 }
@@ -88,7 +88,7 @@ func AddActivity(userName string, sportType string, file multipart.File, header 
 			id := filemanagement.GenerateId(fileName)
 			activity := New(id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
 			content := MarshalJSON(activity)
-			jsonTitle := fileName + ".json"
+			jsonTitle := id + ".json"
 			activityIsCreated, _ := filemanagement.CreateFile(resources.GetUserDir(userName), jsonTitle, content)
 			if activityIsCreated {
 				cache.Check(activity.Id, activity)
@@ -101,22 +101,27 @@ func AddActivity(userName string, sportType string, file multipart.File, header 
 
 func UpdateActivity(user string, id string, sportType string, comment string) bool {
 	activity := GetActivity(user, id)
+	cache.RemoveById(id)
 	activity.SportType = sportType
 	activity.Comment = comment
 	content := MarshalJSON(activity)
 	dir := resources.GetUserDir(user)
 	isUpdated := filemanagement.UpdateFile(dir, id + ".json", content)
+	cache.Check(id, activity)
 	return isUpdated
 }
 
 func DeleteActivity(user string, id string) bool {
-	var success = true
+	var success = false
 	cache.RemoveById(id)
 	dir := resources.GetUserDir(user)
-	jsonFile := id + ".json"
-	originalFile := id + ".zip"
-	success = filemanagement.DeleteFile(dir, jsonFile)
-	success = filemanagement.DeleteFile(dir, originalFile)
+	files := filemanagement.GetAllFilesFromDir(dir)
+	originalName := filemanagement.GetOriginal(id)
+	for _, file := range files {
+		if strings.Contains(file, originalName){
+			success = filemanagement.DeleteFile(dir, filepath.Base(file))
+		}
+	}
 	return success
 }
 

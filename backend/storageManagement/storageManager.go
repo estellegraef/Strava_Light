@@ -113,9 +113,23 @@ func GenerateId(fileName string) string {
 	}
 	var values []string
 	values = append(values, string(b))
-	values = append(values, fileName)
-	id := strings.Join(values, "-")
+	ext := filepath.Ext(fileName)
+	trimmed := strings.TrimSuffix(fileName, ext)
+	values = append(values, trimmed)
+	id := strings.Join(values, "§")
 	return id
+}
+
+func GetOriginal(id string) string {
+	pos := strings.LastIndex(id, "§")
+	if pos == -1 {
+		return ""
+	}
+	adjustedPos := pos + len("§")
+	if adjustedPos >= len(id) {
+		return ""
+	}
+	return id[adjustedPos:len(id)]
 }
 
 func CheckCloser(closer Closer) {
