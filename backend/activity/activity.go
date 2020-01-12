@@ -9,7 +9,6 @@ package activity
 import (
 	"time"
 )
-
 type Activity struct {
 	Id          string
 	SportType   string
@@ -25,14 +24,47 @@ func New(id string, sportType string, comment string, length float64, waitingTim
 	return Activity{Id: id, SportType: sportType, Comment: comment, Length: length, WaitingTime: waitingTime, AvgSpeed: avgSpeed, MaxSpeed: maxSpeed, DateTime: dateTime}
 }
 
-func (a Activity) GetID() string {
-	return a.Id
-}
-
 func (a Activity) GetSportType() string {
 	return a.SportType
+}
+
+func (a Activity) GetWeekDay() time.Weekday {
+	return a.DateTime.Weekday()
+}
+
+func (a Activity) GetLongDate() string {
+	return a.DateTime.Format("02.January 2006")
+}
+
+func (a Activity) GetShortDate() string {
+	return a.DateTime.Format("02.01.2006")
+}
+
+func (a Activity) GetTime() string {
+	return a.DateTime.Format("15:04")
+}
+
+func (a Activity) GetLength() float64 {
+	return a.Length
 }
 
 func (a Activity) GetComment() string {
 	return a.Comment
 }
+
+func (a Activity) GetAvgSpeed() float64 {
+	return a.AvgSpeed
+}
+
+func (a Activity) GetMaxSpeed() float64 {
+	return a.MaxSpeed
+}
+
+func (a Activity) GetWaitingTime() float64 {
+	return a.WaitingTime
+}
+
+func (a Activity) GetID() string {
+	return a.Id
+}
+

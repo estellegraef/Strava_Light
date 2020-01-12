@@ -13,7 +13,7 @@ import (
 )
 
 var activity = Activity{
-	Id:          "2",
+	id:          "2",
 	SportType:   "Radfahren",
 	Comment:     "Let's go for a ride!",
 	Length:      60.1,
