@@ -6,7 +6,6 @@
 package filemanagement
 
 import (
-	"fmt"
 	"github.com/estellegraef/Strava_Light/resources"
 	"github.com/stretchr/testify/assert"
 	"path/filepath"
@@ -50,30 +49,37 @@ var bytes = []byte {60, 63, 120, 109, 108, 32, 118, 101, 114, 115, 105, 111, 110
 	101, 100, 62, 53, 46, 53, 52, 60, 47, 103, 112, 120, 116, 112, 120, 58, 115, 112, 101, 101, 100, 62, 60, 47, 103, 112, 120, 116, 112, 120, 58, 84, 114,
 	97, 99, 107, 80, 111, 105, 110, 116, 69, 120, 116, 101, 110, 115, 105, 111, 110, 62, 60, 47, 101, 120, 116, 101, 110, 115, 105, 111, 110, 115, 62, 60, 47,
 	116, 114, 107, 112, 116, 62, 13, 10, 60, 47, 116, 114, 107, 115, 101, 103, 62, 13, 10, 60, 47, 116, 114, 107, 62, 13, 10, 60, 47, 103, 112, 120, 62, 13, 10}
+var testDir = resources.GetResourcesPath()
+
 
 func TestGetAllFiles(t *testing.T) {
-	actualDirs := GetAllFilesFromDir(resources.GetTestUserActivitiesPath())
+	resources.SetBasePathStorage(testDir)
+	actualDirs := GetAllFilesFromDir(resources.GetUserActivitiesPath())
 	expectedDirs := []string{
-		filepath.Join(resources.GetTestUserActivitiesPath(), "user1"),
-		filepath.Join(resources.GetTestUserActivitiesPath(), "user2"),
+		filepath.Join(resources.GetUserActivitiesPath(), "user1"),
+		filepath.Join(resources.GetUserActivitiesPath(), "user2"),
 	}
 	assert.Equal(t, expectedDirs, actualDirs)
 }
 
 func TestGetSingleFileFromDir(t *testing.T) {
-	actualDir := resources.GetTestUserDir("user1")
-	expected := GetSingleFileFromDir(actualDir, "1", ".json")
-	fmt.Print(expected)
+	resources.SetBasePathStorage(testDir)
+	dir := resources.GetUserDir("user1")
+	actualFile := GetSingleFileFromDir(dir, "1", ".json")
+	expectedFile := filepath.Join(resources.GetUserDir("user1") , "1.json")
+	assert.Equal(t, expectedFile, actualFile)
 }
 
 func TestReadFileContent(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	gpxFile := resources.GetTestShortGpx()
 	actualBytes, _ := ReadFile(gpxFile)
 	assert.Equal(t, bytes, actualBytes)
 }
 
 func TestCreateFile(t *testing.T) {
-	dir := resources.GetTestUserDir("user1")
+	resources.SetBasePathStorage(testDir)
+	dir := resources.GetUserDir("user1")
 	fileName := "TestCreateFile.txt"
 	content := []byte("Hello")
 	isCreated, createdFile := CreateFile(dir, fileName, content)
@@ -82,7 +88,8 @@ func TestCreateFile(t *testing.T) {
 }
 
 func TestDeleteFile(t *testing.T) {
-	dir := resources.GetTestUserDir("user1")
+	resources.SetBasePathStorage(testDir)
+	dir := resources.GetUserDir("user1")
 	fileName := "TestCreateFile.txt"
 	content := []byte("TestDelete")
 	CreateFile(dir, fileName, content)
@@ -91,7 +98,8 @@ func TestDeleteFile(t *testing.T) {
 }
 
 func TestUpdateFile(t *testing.T) {
-	dir := resources.GetTestUserDir("user1")
+	resources.SetBasePathStorage(testDir)
+	dir := resources.GetUserDir("user1")
 	fileName := "TestCreateFile.txt"
 	content := []byte("Hello")
 	newContent := []byte("Goodbye")
@@ -103,17 +111,15 @@ func TestUpdateFile(t *testing.T) {
 }
 
 func TestGetAllFilesFromDir(t *testing.T) {
-	dir := resources.GetTestUserDir("user2")
+	resources.SetBasePathStorage(testDir)
+	dir := resources.GetUserDir("user2")
 	actual := GetAllFilesFromDir(dir)
-	expected := []string {filepath.Join(dir, ".gpx"), filepath.Join(dir, "3.json")}
+	expected := []string {filepath.Join(dir, "1.json"), filepath.Join(dir, "2.json")}
 	assert.Equal(t, expected, actual)
 }
 
-func TestReadReceiveFile(t *testing.T) {
-	//TODO do when merged with frontend -- read multi file
-}
-
 func TestGenerateId(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	name := "originalFileName"
 	actual := GenerateId(name)
 	assert.True(t, strings.Contains(actual, name))

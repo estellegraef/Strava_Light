@@ -121,6 +121,8 @@ func GenerateId(fileName string) string {
 }
 
 func GetOriginal(id string) string {
+	var original = id
+	if strings.Contains(id, "§"){
 	pos := strings.LastIndex(id, "§")
 	if pos == -1 {
 		return ""
@@ -129,7 +131,9 @@ func GetOriginal(id string) string {
 	if adjustedPos >= len(id) {
 		return ""
 	}
-	return id[adjustedPos:len(id)]
+	original = id[adjustedPos:len(id)]
+	}
+	return original
 }
 
 func CheckCloser(closer Closer) {

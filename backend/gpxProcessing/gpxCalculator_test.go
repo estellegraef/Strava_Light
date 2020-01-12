@@ -13,12 +13,14 @@ import (
 )
 
 func TestGetAllTrackPoints(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	var file = ReadGpx(resources.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	assert.Equal(t, 1755, len(actualTrackPoints))
 }
 
 func TestGetMaxSpeed(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	var file = ReadGpx(resources.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	var maxSpeed = GetMaxSpeed(actualTrackPoints)
@@ -26,6 +28,7 @@ func TestGetMaxSpeed(t *testing.T) {
 }
 
 func TestGetAvgSpeed(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	var file = ReadGpx(resources.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	var avgSpeed = GetAvgSpeed(actualTrackPoints)
@@ -34,6 +37,7 @@ func TestGetAvgSpeed(t *testing.T) {
 
 //approximate result oriented on https://opensourceconnections.com/blog/uploads/2009/02/clientsidehaversinecalculation.html
 func TestCalculateDistance2Points(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	var file = ReadGpx(resources.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	var distance = CalculateDistance2Points(actualTrackPoints[0].GetLatitude(), actualTrackPoints[0].GetLongitude(),
@@ -43,6 +47,7 @@ func TestCalculateDistance2Points(t *testing.T) {
 
 //approximate result oriented on https://www.sportdistancecalculator.com/import-gpx.php#map
 func TestCalculateDistanceInKilometers(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	var file = ReadGpx(resources.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	var distance = CalculateDistanceInKilometers(actualTrackPoints)
@@ -50,10 +55,11 @@ func TestCalculateDistanceInKilometers(t *testing.T) {
 }
 
 func TestCalculateStandbyTimeInSec(t *testing.T) {
+	resources.SetBasePathStorage(testDir)
 	var file = ReadGpx(resources.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
 	var totalStandbyTime = CalculateStandbyTimeInMins(actualTrackPoints)
-	assert.Equal(t, 196.288, totalStandbyTime)
+	assert.Equal(t, 3.27, totalStandbyTime)
 }
 
 func TestVerifySportType(t *testing.T) {
