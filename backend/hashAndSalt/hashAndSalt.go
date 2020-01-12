@@ -10,8 +10,8 @@ import (
 	"bytes"
 	"crypto/rand"
 	"crypto/sha512"
-	"fmt"
 	"io"
+	"log"
 	"os"
 )
 
@@ -24,7 +24,7 @@ func GenerateSalt(secret []byte) []byte {
 	_, err := io.ReadFull(rand.Reader, buf)
 
 	if err != nil {
-		fmt.Printf("random read failed: %v", err)
+		log.Printf("random read failed: %v", err)
 		os.Exit(1)
 	}
 
@@ -39,7 +39,7 @@ func GeneratePasswordAndSaltHash(salt, password []byte) []byte { // generate pas
 	passwordHash := sha512.New()
 	_, err := io.WriteString(passwordHash, combination)
 	if err != nil {
-		fmt.Printf("passwordHash could not be generated: %v", err)
+		log.Printf("passwordHash could not be generated: %v", err)
 	}
 	return passwordHash.Sum(nil)
 }

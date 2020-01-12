@@ -7,7 +7,7 @@
 package edit
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/activity"
+	"github.com/estellegraef/Strava_Light/backend/activity"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
 	"log"

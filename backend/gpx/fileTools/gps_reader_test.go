@@ -7,7 +7,7 @@
 package fileTools
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/gpx/gpx_info"
+	"github.com/estellegraef/Strava_Light/backend/gpx/gpx_info"
 	"github.com/estellegraef/Strava_Light/resources"
 	"github.com/stretchr/testify/assert"
 	"testing"
