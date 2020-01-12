@@ -68,7 +68,7 @@ func TestReadFileWithZip(t *testing.T) {
 
 func TestReadFileInvalidPath(t *testing.T) {
 	resources.SetBasePathStorage(testDir)
-	actualFiles := ReadFile(resources.GetTestInvalidPath())
+	actualFiles := ReadFile(resources.GetInvalidPath())
 	//since the path is invalid, an empty GpxFile array is expected
 	expectedFiles := []GpxFile(nil)
 	assert.Equal(t, expectedFiles, actualFiles)
@@ -76,7 +76,7 @@ func TestReadFileInvalidPath(t *testing.T) {
 
 func TestCheckFileNonExistentPositive(t *testing.T) {
 	resources.SetBasePathStorage(testDir)
-	nonExistent := CheckFileNonExistent(resources.GetTestInvalidPath())
+	nonExistent := CheckFileNonExistent(resources.GetInvalidPath())
 	assert.True(t, nonExistent)
 }
 
