@@ -12,6 +12,16 @@ import (
 	"runtime"
 )
 
+var basePathStorage string
+
+func SetBasePathStorage(path string) {
+	basePathStorage = path
+}
+
+func GetBasePathStorage() string {
+	return basePathStorage
+}
+
 func GetBasePath() string {
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
@@ -21,11 +31,11 @@ func GetBasePath() string {
 }
 
 func GetShortTestGpx() string {
-	return filepath.Join(GetBasePath(), "gpx\\1.gpx")
+	return filepath.Join(GetBasePath(), "gpx", "1.gpx")
 }
 
 func GetTestGpxPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\1.gpx")
+	return filepath.Join(GetBasePath(), "gpx", "1.gpx")
 }
 
 func GetTestZipPath() string {
@@ -55,4 +65,3 @@ func GetCertPath() string {
 func GetKeyPath() string {
 	return filepath.Join(GetBasePath(), "key.pem")
 }
-
