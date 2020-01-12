@@ -27,6 +27,10 @@ import (
 	"strings"
 )
 
+var (
+	defaultPort = 443
+)
+
 func CreateWebServer() {
 	http.HandleFunc("/", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), overview.NewHandler))
 	http.HandleFunc("/upload/", basicAuth(auth.AuthenticatorFunc(auth.CheckUserIsValid), upload.NewHandler))
@@ -40,13 +44,26 @@ func CreateWebServer() {
 
 	// Command-line-flag for port
 	// the default value is 443
-	portPtr := flag.Int("port", 443, "Webserver Port")
-	handleStorage()
+	portPtr := flag.Int("port", defaultPort, "Webserver Port")
+
+	// Command-line-flag for storage location
+	// the default value is the home directory
+	u, err := osUser.Current()
+	if err != nil {
+		log.Println("Can't find current user directory", err)
+	}
+	defaultDir := u.HomeDir
+	baseDir := flag.String("basedir", defaultDir, "base storage location for the web server")
+	flag.Parse()
+
+	checkAndHandleStoragePath(*baseDir, defaultDir)
 	fmt.Println("Start Server on Port: ", *portPtr)
-	//fmt.Println(http.ListenAndServe(":"+strconv.Itoa(*portPtr), nil))
+
+	// Start web server
 	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*portPtr), "./resources/cert.pem", "./resources/key.pem", nil))
 }
 
+// Is responsible for querying the login information and checks the specified login data
 func basicAuth(authenticator auth.Authenticator, hf http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		user, pwd, ok := r.BasicAuth()
@@ -62,19 +79,13 @@ func basicAuth(authenticator auth.Authenticator, hf http.HandlerFunc) http.Handl
 	}
 }
 
-func handleStorage() {
-	u, err := osUser.Current()
-	if err != nil {
-		log.Println("Can't find current user directory", err)
-	}
-	defaultDir := u.HomeDir
-	baseDir := flag.String("basedir", defaultDir, "base storage location for the web server")
-	flag.Parse()
-	if *baseDir != defaultDir {
-		if _, err := os.Stat(*baseDir); os.IsNotExist(err) {
+// Checks the specified path and generates the user storage path
+func checkAndHandleStoragePath(baseDir, defaultDir string) {
+	if baseDir != defaultDir {
+		if _, err := os.Stat(baseDir); os.IsNotExist(err) {
 			log.Printf("The specified path does not exist. The storage location is moved to: %s", defaultDir)
-			*baseDir = defaultDir
+			baseDir = defaultDir
 		}
 	}
-	user.CreateStorageForUsers(*baseDir)
+	user.CreateStorageForUsers(baseDir)
 }
