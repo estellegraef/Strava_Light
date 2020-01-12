@@ -47,3 +47,12 @@ func GetUserActivitiesPath() string {
 func GetUserDir(user string) string {
 	return filepath.Join(GetUserActivitiesPath(), user)
 }
+
+func GetCertPath() string {
+	return filepath.Join(GetBasePath(), "cert.pem")
+}
+
+func GetKeyPath() string {
+	return filepath.Join(GetBasePath(), "key.pem")
+}
+
