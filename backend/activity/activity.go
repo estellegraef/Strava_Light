@@ -10,6 +10,7 @@ import (
 	"math"
 	"time"
 )
+
 type Activity struct {
 	Id          string
 	SportType   string
@@ -75,10 +76,10 @@ func (a Activity) GetID() string {
 
 //from: https://yourbasic.org/golang/round-float-2-decimal-places/
 func RoundToNearest(value float64) float64 {
-	return math.Round(value * 100) / 100
+	return math.Round(value*100) / 100
 }
 
 func SecondsToMinutes(seconds float64) float64 {
-	mins := seconds/60
+	mins := seconds / 60
 	return RoundToNearest(mins)
 }
