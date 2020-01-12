@@ -70,6 +70,6 @@ func CreateActivity(username string, sportType string, file multipart.File, file
 	return true
 }
 
-func GetFile(username string, id string) string {
-	return "/home/rico/go/src/Strava_Light/resources/gpx/2019-09-14_15-14.gpx"
+func GetFile(username string, id string) (fileBytes []byte, fileName string) {
+	return nil, "2019-09-14_15-14.gpx"
 }
