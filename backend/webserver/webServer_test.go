@@ -96,7 +96,7 @@ func TestWithCorrectPW(t *testing.T) {
 	assert.Equal(t, "Hello client\n", string(body), "wrong message")
 }
 
-// aus: https://blog.dnsimple.com/2017/08/how-to-test-golang-https-services/
+// inspired by: https://blog.dnsimple.com/2017/08/how-to-test-golang-https-services/
 func NewServer(port string) *http.Server {
 	addr := fmt.Sprintf(":%s", port)
 
