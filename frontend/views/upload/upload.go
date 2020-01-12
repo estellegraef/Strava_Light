@@ -9,7 +9,6 @@ package upload
 import (
 	"github.com/estellegraef/Strava_Light/backend/activity"
 	"github.com/estellegraef/Strava_Light/frontend/parameter"
-	"github.com/estellegraef/Strava_Light/frontend/templates/html"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
 	"log"
@@ -17,8 +16,8 @@ import (
 )
 
 var tmpl = template.Must(template.ParseFiles(
-	html.GetLayoutPath(),
-	html.GetUploadPath()))
+	"frontend/templates/html/layout.html",
+	"frontend/templates/html/upload.html"))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username := parameter.GetUser(r)

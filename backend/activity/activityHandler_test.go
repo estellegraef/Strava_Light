@@ -110,7 +110,7 @@ func TestAddActivity(t *testing.T) {
 func TestUpdateActivity(t *testing.T) {
 	Setup()
 	user := "user1"
-	dir := resources.GetUserDir(user)
+	dir := resources.GetTestUserDir(user)
 	id := "3"
 	jsonFile := id + ".json"
 	filemanagement.CreateFile(dir, jsonFile, firstActivityByte)
@@ -121,7 +121,7 @@ func TestUpdateActivity(t *testing.T) {
 func TestDeleteActivity(t *testing.T) {
 	Setup()
 	user := "user1"
-	dir := resources.GetUserDir(user)
+	dir := resources.GetTestUserDir(user)
 	id := "3"
 	jsonFile := id + ".json"
 	zipFile := id + ".zip"

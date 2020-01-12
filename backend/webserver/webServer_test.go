@@ -123,7 +123,7 @@ func urlFor(scheme string, serverPort string, path string) string {
 
 func TestHTTPSServer(t *testing.T) {
 	srv := NewServer(httpsPort)
-	go srv.ListenAndServeTLS(resources.GetCertPath(), resources.GetKeyPath())
+	go srv.ListenAndServeTLS("resources/cert.pem", "resources/key.pem")
 	defer srv.Close()
 	time.Sleep(100 * time.Millisecond)
 

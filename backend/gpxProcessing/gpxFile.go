@@ -96,7 +96,7 @@ func (g GpxFile) GetDistanceInKilometers() float64 {
 }
 
 func (g GpxFile) GetWaitingTime() float64 {
-	return CalculateStandbyTimeInSec(g.GetTrackPoints())
+	return CalculateStandbyTimeInMins(g.GetTrackPoints())
 }
 
 func (g GpxFile) GetAvgSpeed() float64 {

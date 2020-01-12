@@ -22,7 +22,11 @@ func GetBasePathStorage() string {
 	return basePathStorage
 }
 
-func GetBasePath() string {
+func GetUserDir(user string) string {
+	return filepath.Join(GetBasePathStorage(), user)
+}
+
+func GetResourcesPath() string {
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
 		panic("No caller information")
@@ -30,38 +34,38 @@ func GetBasePath() string {
 	return path.Dir(filename)
 }
 
-func GetShortTestGpx() string {
-	return filepath.Join(GetBasePath(), "gpx", "1.gpx")
+func GetTestShortGpx() string {
+	return filepath.Join(GetResourcesPath(), "gpx", "1.gpx")
 }
 
 func GetTestGpxPath() string {
-	return filepath.Join(GetBasePath(), "gpx", "1.gpx")
+	return filepath.Join(GetResourcesPath(), "gpx", "1.gpx")
 }
 
 func GetTestZipPath() string {
-	return filepath.Join(GetBasePath(), "gpx", "2019-09-14_15-14.gpx.zip")
+	return filepath.Join(GetResourcesPath(), "gpx", "2019-09-14_15-14.gpx.zip")
 }
 
 func GetTestInvalidPath() string {
-	return filepath.Join(GetBasePath(), "gpx", "test.zip")
+	return filepath.Join(GetResourcesPath(), "gpx", "test.zip")
 }
 
 func GetUserCredsPath() string {
-	return filepath.Join(GetBasePath(), "user_credentials", "users.txt")
+	return filepath.Join(GetResourcesPath(), "user_credentials", "users.txt")
 }
 
-func GetUserActivitiesPath() string {
-	return filepath.Join(GetBasePath(), "useractivities")
+func GetTestUserActivitiesPath() string {
+	return filepath.Join(GetResourcesPath(), "useractivities")
 }
 
-func GetUserDir(user string) string {
-	return filepath.Join(GetUserActivitiesPath(), user)
+func GetTestUserDir(user string) string {
+	return filepath.Join(GetTestUserActivitiesPath(), user)
 }
 
 func GetCertPath() string {
-	return filepath.Join(GetBasePath(), "cert.pem")
+	return filepath.Join(GetResourcesPath(), "cert.pem")
 }
 
 func GetKeyPath() string {
-	return filepath.Join(GetBasePath(), "key.pem")
+	return filepath.Join(GetResourcesPath(), "key.pem")
 }
