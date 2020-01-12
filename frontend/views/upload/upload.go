@@ -7,7 +7,7 @@
 package upload
 
 import (
-	"github.com/estellegraef/Strava_Light/cmd/activity"
+	"github.com/estellegraef/Strava_Light/backend/activity"
 	"github.com/estellegraef/Strava_Light/frontend/templates/pages"
 	"html/template"
 	"log"
@@ -39,7 +39,6 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		file, fileHeader, _ := r.FormFile("file")
 		comment := r.FormValue("comment")
 
-		//backend call
 		success := activity.CreateActivity(username, sportType, file, fileHeader, comment)
 
 		if success {
