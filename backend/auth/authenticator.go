@@ -23,9 +23,6 @@ func (af AuthenticatorFunc) Authenticate(user, password string) bool {
 }
 
 func CheckUserIsValid(username, password string) bool {
-	//return username == "Rico" && password == "1234"
-	//user1: go!Project?2020
-	//user2: user2Password
 	return checkUserIsValidWrapper(username, password, user.GetUsers)
 }
 
