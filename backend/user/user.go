@@ -53,8 +53,7 @@ func (u *User) ChangeStoragePath(path string) {
 
 // Reads the user credentials from the file and saves them in the variable "users"
 func getUsersFromFile() {
-	data, err := ioutil.ReadFile("resources/user_credentials/users.txt")
-	//data, err := ioutil.ReadFile(resources.GetUserCredsPath())
+	data, err := ioutil.ReadFile(resources.GetUserCredsPath())
 	if err != nil {
 		fmt.Println("File reading error: ", err)
 	}
