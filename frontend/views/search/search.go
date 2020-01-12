@@ -43,6 +43,6 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 	err := tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		log.Fatalf("Template execution failed! \n %w", err)
+		log.Println("Template execution failed! \n %w", err)
 	}
 }

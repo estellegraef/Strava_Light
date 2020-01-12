@@ -11,7 +11,7 @@ import (
 )
 
 type Activity struct {
-	id          uint32
+	id          string
 	sportType   string
 	comment     string
 	length      float64
@@ -21,7 +21,7 @@ type Activity struct {
 	dateTime    time.Time
 }
 
-func New(id uint32, sportType string, comment string, length float64, waitingTime float64, avgSpeed float64, maxSpeed float64, dateTime time.Time) Activity {
+func New(id string, sportType string, comment string, length float64, waitingTime float64, avgSpeed float64, maxSpeed float64, dateTime time.Time) Activity {
 	return Activity{id: id, sportType: sportType, comment: comment, length: length, waitingTime: waitingTime, avgSpeed: avgSpeed, maxSpeed: maxSpeed, dateTime: dateTime}
 }
 
@@ -65,6 +65,6 @@ func (a Activity) GetWaitingTime() float64 {
 	return a.waitingTime
 }
 
-func (a Activity) GetID() uint32 {
+func (a Activity) GetID() string {
 	return a.id
 }

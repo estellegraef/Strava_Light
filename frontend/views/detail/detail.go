@@ -12,7 +12,6 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 var tmpl = template.Must(template.ParseFiles(
@@ -31,14 +30,13 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		Content activity.Activity
 	}{}
 
-	urlValue := r.URL.Query().Get("id")
-	id, _ := strconv.ParseUint(urlValue, 32, 32)
-	data.Content = activity.GetActivity(username, uint32(id))
+	id := r.URL.Query().Get("id")
+	data.Content = activity.GetActivity(username, id)
 	data.Page = pages.NewDetail(data.Content.GetSportType())
 
 	err := tmpl.Execute(w, data)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		log.Fatalf("Template execution failed! \n %w", err)
+		log.Println("Template execution failed! \n %w", err)
 	}
 }
