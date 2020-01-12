@@ -39,7 +39,7 @@ func ReadReceiveFile(file multipart.File) []byte {
 	if err != nil {
 		log.Println(err)
 	}
- 	return fileBytes
+	return fileBytes
 }
 
 func CreateFile(dir string, filename string, content []byte) (isCreated bool, file string) {
@@ -81,7 +81,8 @@ func UpdateFile(dir string, filename string, newContent []byte) bool {
 	}
 	return success
 }
-func GetSingleFileFromDir(directory string, fileName string, extension string) string {
+
+/*func GetSingleFileFromDir(directory string, fileName string, extension string) string {
 	files := GetAllFilesFromDir(directory)
 	var searchedFile = ""
 	for _, file := range files {
@@ -91,7 +92,7 @@ func GetSingleFileFromDir(directory string, fileName string, extension string) s
 		}
 	}
 	return searchedFile
-}
+}*/
 
 func GetAllFilesFromDir(directory string) []string {
 	var dirNames []string
@@ -99,7 +100,7 @@ func GetAllFilesFromDir(directory string) []string {
 	if err != nil {
 		log.Println(err)
 	}
-	for _, file := range files{
+	for _, file := range files {
 		dirNames = append(dirNames, filepath.Join(directory, file.Name()))
 	}
 	return dirNames
@@ -109,7 +110,7 @@ func GenerateId(fileName string) string {
 	letters := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	b := make([]byte, 5)
 	for i := range b {
-		b[i] = letters[rand.Int63() % int64(len(letters))]
+		b[i] = letters[rand.Int63()%int64(len(letters))]
 	}
 	var values []string
 	values = append(values, string(b))
@@ -122,16 +123,16 @@ func GenerateId(fileName string) string {
 
 func GetOriginal(id string) string {
 	var original = id
-	if strings.Contains(id, "§"){
-	pos := strings.LastIndex(id, "§")
-	if pos == -1 {
-		return ""
-	}
-	adjustedPos := pos + len("§")
-	if adjustedPos >= len(id) {
-		return ""
-	}
-	original = id[adjustedPos:len(id)]
+	if strings.Contains(id, "§") {
+		pos := strings.LastIndex(id, "§")
+		if pos == -1 {
+			return ""
+		}
+		adjustedPos := pos + len("§")
+		if adjustedPos >= len(id) {
+			return ""
+		}
+		original = id[adjustedPos:len(id)]
 	}
 	return original
 }
