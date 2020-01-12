@@ -12,11 +12,11 @@ import (
 	"github.com/estellegraef/Strava_Light/backend/auth"
 	"github.com/estellegraef/Strava_Light/backend/user"
 	"github.com/estellegraef/Strava_Light/resources"
-	"github.com/estellegraef/Strava_Light/testStorage"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -149,7 +149,11 @@ func TestHTTPSServer(t *testing.T) {
 }
 
 func TestCheckAndHandleStoragePathWithNonExistPath(t *testing.T) {
-	defaultDir := testStorage.GetBasePathTestStorage()
+	defaultDir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	path := filepath.Join(defaultDir, "storage")
+	defer os.RemoveAll(path)
 
 	baseDir := filepath.Join(defaultDir, "test1") // <- Path does not exist
 
@@ -163,7 +167,10 @@ func TestCheckAndHandleStoragePathWithNonExistPath(t *testing.T) {
 }
 
 func TestCheckAndHandleStoragePathWithExistPath(t *testing.T) {
-	defaultDir := testStorage.GetBasePathTestStorage()
+	defaultDir, err := os.Getwd()
+	assert.NoError(t, err)
+	path := filepath.Join(defaultDir, "storage")
+	defer os.RemoveAll(path)
 
 	checkAndHandleStoragePath(defaultDir, defaultDir)
 
