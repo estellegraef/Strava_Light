@@ -34,5 +34,5 @@ func GetTestInvalidPath() string {
 }
 
 func GetUserCredsPath() string {
-	return filepath.Join(GetBasePath(), "user_credentials\\users.txt")
+	return filepath.Join(GetBasePath(), "user_credentials", "users.txt")
 }

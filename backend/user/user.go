@@ -101,6 +101,5 @@ func CreateStorageForUsers(basePath string) {
 		} else {
 			(*userSlice)[i].ChangeStoragePath(path)
 		}
-
 	}
 }

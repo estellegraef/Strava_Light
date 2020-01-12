@@ -81,3 +81,7 @@ func TestGetUsersFromFile(t *testing.T) {
 	users := GetUsers()
 	assert.Equal(t, user1, (*users)[0])
 }
+
+func TestCreateStorageForUsers(t *testing.T) {
+
+}
