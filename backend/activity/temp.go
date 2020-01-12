@@ -19,7 +19,7 @@ func GetActivities(username string) []Activity {
 
 	for i := 0; i < 5; i++ {
 		list[i] = Activity{
-			uint32(i),
+			"1",
 			"Radfahren",
 			"test",
 			12.3,
@@ -30,7 +30,7 @@ func GetActivities(username string) []Activity {
 		}
 		for i := 5; i < 10; i++ {
 			list[i] = Activity{
-				uint32(i),
+				"2",
 				"Laufen",
 				"turbo",
 				12.3,
@@ -57,7 +57,7 @@ func SearchActivities(username string, search string) []Activity {
 	return result
 }
 
-func GetActivity(username string, id uint32) Activity {
+func GetActivity(username string, id string) Activity {
 	for _, elem := range list {
 		if elem.id == id {
 			return elem
@@ -68,4 +68,8 @@ func GetActivity(username string, id uint32) Activity {
 
 func CreateActivity(username string, sportType string, file multipart.File, fileHeader *multipart.FileHeader, comment string) bool {
 	return true
+}
+
+func GetFile(username string, id string) (fileBytes []byte, fileName string) {
+	return nil, "2019-09-14_15-14.gpx"
 }
