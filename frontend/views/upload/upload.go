@@ -36,9 +36,8 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		sportType := r.FormValue("sportType")
 		file, fileHeader, _ := r.FormFile("file")
 		comment := r.FormValue("comment")
-
-		success := activity.CreateActivity(username, sportType, file, fileHeader, comment)
-
+		//backend call
+		success := activity.AddActivity(username, sportType, file, fileHeader, comment)
 		if success {
 			data.Content = 1
 		} else {
