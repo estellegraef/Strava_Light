@@ -52,7 +52,7 @@ func TestCalculateDistanceInKilometers(t *testing.T) {
 func TestCalculateStandbyTimeInSec(t *testing.T) {
 	var file = ReadGpx(resources.GetTestGpxPath())
 	var actualTrackPoints = GetAllTrackPoints(file)
-	var totalStandbyTime = CalculateStandbyTimeInSec(actualTrackPoints)
+	var totalStandbyTime = CalculateStandbyTimeInMins(actualTrackPoints)
 	assert.Equal(t, 196.288, totalStandbyTime)
 }
 

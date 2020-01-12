@@ -25,7 +25,7 @@ func Setup(){
 }
 
 func GetActivities(userName string) []Activity {
-	userDir := resources.GetUserDir(userName)
+	userDir := resources.GetTestUserDir(userName) //TODO
 	files := filemanagement.GetAllFilesFromDir(userDir)
 	var activities []Activity
 	for _, fileName := range files {
@@ -52,7 +52,7 @@ func GetActivity(user string, id string) Activity {
 	if inCache {
 		activity = cachedActivity
 	} else {
-		userDir := resources.GetUserDir(user)
+		userDir := resources.GetTestUserDir(user)
 		files := filemanagement.GetAllFilesFromDir(userDir)
 
 		for _, file := range files {
@@ -81,7 +81,7 @@ func AddActivity(userName string, sportType string, file multipart.File, header 
 	var success = false
 	content := filemanagement.ReadReceiveFile(file)
 	fileName := header.Filename
-	baseIsCreated, createdFile := filemanagement.CreateFile(resources.GetUserDir(userName), fileName, content)
+	baseIsCreated, createdFile := filemanagement.CreateFile(resources.GetTestUserDir(userName), fileName, content)
 	if baseIsCreated {
 		gpxFiles := gpxProcessing.ReadFile(createdFile)
 		for _, file := range gpxFiles {
@@ -89,7 +89,7 @@ func AddActivity(userName string, sportType string, file multipart.File, header 
 			activity := New(id, sportType, comment, file.GetDistanceInKilometers(), file.GetWaitingTime(), file.GetAvgSpeed(), file.GetMaxSpeed(), file.GetMeta().GetTime())
 			content := MarshalJSON(activity)
 			jsonTitle := id + ".json"
-			activityIsCreated, _ := filemanagement.CreateFile(resources.GetUserDir(userName), jsonTitle, content)
+			activityIsCreated, _ := filemanagement.CreateFile(resources.GetTestUserDir(userName), jsonTitle, content)
 			if activityIsCreated {
 				cache.Check(activity.Id, activity)
 				success = true
@@ -105,7 +105,7 @@ func UpdateActivity(user string, id string, sportType string, comment string) bo
 	activity.SportType = sportType
 	activity.Comment = comment
 	content := MarshalJSON(activity)
-	dir := resources.GetUserDir(user)
+	dir := resources.GetTestUserDir(user)
 	isUpdated := filemanagement.UpdateFile(dir, id + ".json", content)
 	cache.Check(id, activity)
 	return isUpdated
@@ -114,7 +114,7 @@ func UpdateActivity(user string, id string, sportType string, comment string) bo
 func DeleteActivity(user string, id string) bool {
 	var success = false
 	cache.RemoveById(id)
-	dir := resources.GetUserDir(user)
+	dir := resources.GetTestUserDir(user)
 	files := filemanagement.GetAllFilesFromDir(dir)
 	originalName := filemanagement.GetOriginal(id)
 	for _, file := range files {
@@ -126,7 +126,7 @@ func DeleteActivity(user string, id string) bool {
 }
 
 func ReturnFileForDownload(userName string, id string) (content []byte, name string){
-	dir := resources.GetUserDir(userName)
+	dir := resources.GetTestUserDir(userName)
 	originalName := filemanagement.GetOriginal(id)
 	var fileContent []byte
 	var fileBase string

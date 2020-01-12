@@ -8,6 +8,7 @@ package user
 
 import (
 	"encoding/base64"
+	"github.com/estellegraef/Strava_Light/testStorage"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
@@ -85,8 +86,8 @@ func TestGetUsersFromFile(t *testing.T) {
 }
 
 func TestCreateStorageForUsersFilePathNotExists(t *testing.T) {
-	path, err := os.Getwd()
-	assert.NoError(t, err)
+	path := testStorage.GetBasePathTestStorage()
+
 	CreateStorageForUsers(path)
 	users := GetUsers()
 	expectedPath := filepath.Join(path, "storage", "user1")
@@ -94,8 +95,7 @@ func TestCreateStorageForUsersFilePathNotExists(t *testing.T) {
 }
 
 func TestCreateStorageForUsersFilePathExists(t *testing.T) {
-	path, err1 := os.Getwd()
-	assert.NoError(t, err1)
+	path := testStorage.GetBasePathTestStorage()
 
 	existingPath := filepath.Join(path, "test", "storage", "user1")
 
