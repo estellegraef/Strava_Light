@@ -7,6 +7,7 @@
 package activity
 
 import (
+	"math"
 	"time"
 )
 type Activity struct {
@@ -21,7 +22,11 @@ type Activity struct {
 }
 
 func New(id string, sportType string, comment string, length float64, waitingTime float64, avgSpeed float64, maxSpeed float64, dateTime time.Time) Activity {
-	return Activity{Id: id, SportType: sportType, Comment: comment, Length: length, WaitingTime: waitingTime, AvgSpeed: avgSpeed, MaxSpeed: maxSpeed, DateTime: dateTime}
+	roundedLength := RoundToNearest(length)
+	roundedAvg := RoundToNearest(avgSpeed)
+	roundedMax := RoundToNearest(maxSpeed)
+	roundedWaitingTime := SecondsToMinutes(waitingTime)
+	return Activity{Id: id, SportType: sportType, Comment: comment, Length: roundedLength, WaitingTime: roundedWaitingTime, AvgSpeed: roundedAvg, MaxSpeed: roundedMax, DateTime: dateTime}
 }
 
 func (a Activity) GetSportType() string {
@@ -68,3 +73,12 @@ func (a Activity) GetID() string {
 	return a.Id
 }
 
+//from: https://yourbasic.org/golang/round-float-2-decimal-places/
+func RoundToNearest(value float64) float64 {
+	return math.Round(value * 100) / 100
+}
+
+func SecondsToMinutes(seconds float64) float64 {
+	mins := seconds/60
+	return RoundToNearest(mins)
+}
