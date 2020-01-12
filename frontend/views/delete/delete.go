@@ -13,9 +13,12 @@ import (
 	"net/http"
 )
 
+//Delete Handler
+//Calls Delete Function from backend with given id (from url)
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username, id := parameter.GetUserAndID(r)
 	activity.DeleteActivity(username, id)
 
+	//Redirect to overview
 	overview.NewHandler(w, r)
 }

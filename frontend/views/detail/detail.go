@@ -20,6 +20,9 @@ var tmpl = template.Must(template.ParseFiles(
 	html.GetLayoutPath(),
 	html.GetDetailPath()))
 
+//Detail Handler
+//Shows all details for an activity (get by id)
+//If called with method post, the delete alert is triggered
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username, id := parameter.GetUserAndID(r)
 
@@ -31,6 +34,8 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}{}
 
+	//if IsDelete == true then trigger delete question alert
+	//display activity in both cases
 	data.Content.IsDelete = r.Method == http.MethodPost
 	data.Content.Activity = activity.GetActivity(username, id)
 	data.Page = pages.NewDetail(data.Content.Activity.GetSportType())

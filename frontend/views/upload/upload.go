@@ -20,6 +20,8 @@ var tmpl = template.Must(template.ParseFiles(
 	html.GetLayoutPath(),
 	html.GetUploadPath()))
 
+//Upload Handler
+//Provides user with an form to upload files and add them to their activities
 func NewHandler(w http.ResponseWriter, r *http.Request) {
 	username := parameter.GetUser(r)
 
@@ -30,6 +32,9 @@ func NewHandler(w http.ResponseWriter, r *http.Request) {
 		Page: pages.NewUpload(),
 	}
 
+	//if request method isn't post, then present a clear form
+	//else read form parameter and call AddActivity to create the Activity
+	//show message afterwards if the action was successfull or not
 	if r.Method != http.MethodPost {
 		data.Content = 0
 	} else {
