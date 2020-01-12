@@ -17,7 +17,9 @@ import (
 )
 
 var tmpl = template.Must(template.ParseFiles(
-	html.GetLayoutPath(), html.GetIndexPath(), html.GetItemsPath(),
+	html.GetLayoutPath(),
+	html.GetIndexPath(),
+	html.GetItemsPath(),
 ))
 
 func NewHandler(w http.ResponseWriter, r *http.Request) {
