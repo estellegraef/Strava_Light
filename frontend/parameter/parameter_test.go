@@ -21,15 +21,15 @@ func createServer() *httptest.Server {
 	}))
 }
 
-func createRequest(t *testing.T, username string) *http.Request {
-	server := createServer()
-	defer server.Close()
+func createRequest(t *testing.T, username string) (req *http.Request, server *httptest.Server) {
+	server = createServer()
 
 	request, err := http.NewRequest("GET", server.URL, nil)
 	assert.NoError(t, err)
 
 	ctx := context.WithValue(request.Context(), "username", username)
-	return request.WithContext(ctx)
+	req = request.WithContext(ctx)
+	return req, server
 }
 
 func executeRequest(t *testing.T, r *http.Request) *http.Response {
@@ -43,8 +43,9 @@ func executeRequest(t *testing.T, r *http.Request) *http.Response {
 func TestGetUserWithUsername(t *testing.T) {
 	expectedUser := "user"
 
-	request := createRequest(t, expectedUser)
+	request, server := createRequest(t, expectedUser)
 	response := executeRequest(t, request)
+	defer server.Close()
 
 	actualUser := GetUser(response.Request)
 	assert.Equal(t, expectedUser, actualUser)
@@ -53,8 +54,9 @@ func TestGetUserWithUsername(t *testing.T) {
 func TestGetUserWithEmptyUsername(t *testing.T) {
 	expectedUser := "user"
 
-	request := createRequest(t, "")
+	request, server := createRequest(t, "")
 	response := executeRequest(t, request)
+	defer server.Close()
 
 	actualUser := GetUser(response.Request)
 	assert.NotEqual(t, expectedUser, actualUser)
@@ -62,11 +64,14 @@ func TestGetUserWithEmptyUsername(t *testing.T) {
 
 func TestGetUserAndIDWithID(t *testing.T) {
 	expectedUser := "user"
-	expectedID := 1
+	expectedID := "1"
 
-	request := createRequest(t, expectedUser)
-	request.URL.Query().Set("id", string(expectedID))
+	request, server := createRequest(t, expectedUser)
+	url := request.URL.Query()
+	url.Add("id", expectedID)
+	request.URL.RawQuery = url.Encode()
 	response := executeRequest(t, request)
+	defer server.Close()
 
 	actualUser, actualID := GetUserAndID(response.Request)
 	assert.Equal(t, expectedUser, actualUser)
@@ -75,10 +80,14 @@ func TestGetUserAndIDWithID(t *testing.T) {
 
 func TestGetUserAndIDWithEmptyID(t *testing.T) {
 	expectedUser := "user"
-	expectedID := 1
+	expectedID := "1"
 
-	request := createRequest(t, expectedUser)
-	request.URL.Query().Set("id", "")
+	request, server := createRequest(t, expectedUser)
+	url := request.URL.Query()
+	url.Add("id", "")
+	request.URL.RawQuery = url.Encode()
+	defer server.Close()
+
 	response := executeRequest(t, request)
 
 	actualUser, actualID := GetUserAndID(response.Request)
@@ -88,10 +97,11 @@ func TestGetUserAndIDWithEmptyID(t *testing.T) {
 
 func TestGetUserAndIDWithoutID(t *testing.T) {
 	expectedUser := "user"
-	expectedID := 1
+	expectedID := "1"
 
-	request := createRequest(t, expectedUser)
+	request, server := createRequest(t, expectedUser)
 	response := executeRequest(t, request)
+	defer server.Close()
 
 	actualUser, actualID := GetUserAndID(response.Request)
 	assert.Equal(t, expectedUser, actualUser)
