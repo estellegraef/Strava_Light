@@ -22,15 +22,15 @@ func GetBasePath() string {
 }
 
 func GetTestGpxPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx")
+	return filepath.Join(GetBasePath(), "gpx", "2019-09-14_15-14.gpx")
 }
 
 func GetTestZipPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\2019-09-14_15-14.gpx.zip")
+	return filepath.Join(GetBasePath(), "gpx", "2019-09-14_15-14.gpx.zip")
 }
 
 func GetTestInvalidPath() string {
-	return filepath.Join(GetBasePath(), "gpx\\test.zip")
+	return filepath.Join(GetBasePath(), "gpx", "test.zip")
 }
 
 func GetUserCredsPath() string {
