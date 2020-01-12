@@ -58,13 +58,12 @@ func CreateWebServer() {
 
 	checkAndHandleStoragePath(*baseDir, defaultDir)
 	fmt.Println("Start Server on Port: ", *portPtr)
-	//fmt.Println(http.ListenAndServe(":"+strconv.Itoa(*portPtr), nil))
 
 	// Start web server
 	log.Fatalln(http.ListenAndServeTLS(":"+strconv.Itoa(*portPtr), "./resources/cert.pem", "./resources/key.pem", nil))
 }
 
-// Is responsible for querying the login information
+// Is responsible for querying the login information and checks the specified login data
 func basicAuth(authenticator auth.Authenticator, hf http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		user, pwd, ok := r.BasicAuth()
@@ -80,6 +79,7 @@ func basicAuth(authenticator auth.Authenticator, hf http.HandlerFunc) http.Handl
 	}
 }
 
+// Checks the specified path and generates the user storage path
 func checkAndHandleStoragePath(baseDir, defaultDir string) {
 	if baseDir != defaultDir {
 		if _, err := os.Stat(baseDir); os.IsNotExist(err) {

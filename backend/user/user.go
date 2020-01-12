@@ -48,6 +48,7 @@ func (u *User) ChangeStoragePath(path string) {
 	u.storagePath = path
 }
 
+// Reads the user credentials from the file and saves them in the variable "users"
 func getUsersFromFile() {
 	data, err := ioutil.ReadFile("resources/user_credentials/users.txt")
 	//data, err := ioutil.ReadFile(resources.GetUserCredsPath())
@@ -73,6 +74,7 @@ func getUsersFromFile() {
 	}
 }
 
+// returns the user information in the form of a variable, so that the user file does not have to be read out every time
 func GetUsers() *[]User {
 	if len(users) == 0 {
 		getUsersFromFile()
@@ -80,6 +82,7 @@ func GetUsers() *[]User {
 	return &users
 }
 
+// Create the user storage location
 func CreateStorageForUsers(basePath string) {
 	userSlice := GetUsers()
 	basePath2 := filepath.Join(basePath, "storage")
